@@ -1,13 +1,14 @@
-import React from "react";
+import React , {useState} from "react";
 import PropTypes from "prop-types";
 import Head from "next/head";
 import { ThemeProvider } from "@material-ui/core/styles";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import theme from "../src/theme";
 import MainNavbar from "../components/MainNavbar";
+import AuthLayout from "../components/AuthLayout";
 export default function MyApp(props) {
-  const { Component, pageProps } = props;
 
+const [islogin, setLogin] = useState(true)
   React.useEffect(() => {
     // Remove the server-side injected CSS.
     const jssStyles = document.querySelector("#jss-server-side");
@@ -26,10 +27,9 @@ export default function MyApp(props) {
         />
       </Head>
       <ThemeProvider theme={theme}>
-        <MainNavbar />
-        {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
-        <CssBaseline />
-        <Component {...pageProps} />
+        {islogin ? 
+        <MainNavbar  {...props}/>
+        : <AuthLayout {...props}/>}
       </ThemeProvider>
     </React.Fragment>
   );
