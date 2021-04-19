@@ -193,11 +193,6 @@ export default function MiniDrawer(props) {
             icon={FolderIcon}
           ></MenuItem>
 
-          <MenuItem
-            link="/utilities/"
-            label={"Utilities"}
-            icon={FolderIcon}
-          ></MenuItem>
 
           <MenuItem
             link="/system-administration/"

@@ -20,7 +20,7 @@ const useStyles = makeStyles((theme) => ({
     textAlign: "center",
     color: theme.palette.text.secondary,
     height: 150,
-    width: 100,
+    width: 110,
     bottom: 0,
     left: 0,
   },
@@ -47,7 +47,7 @@ export default function index() {
             <Link color="inherit" href="/warehouse-management/customer/">
               <Paper className={classes.paper}>
                 <Image
-                  src="/images/icons8-customer-50.png"
+                  src="/images/icons8-check-for-payment-50.png"
                   alt="me"
                   width="50"
                   height="50"
@@ -60,7 +60,7 @@ export default function index() {
             <Paper className={classes.paper}>
               {" "}
               <Image
-                src="/images/icons8-full-tool-storage-box-50.png"
+                src="/images/icons8-report-file-50.png"
                 alt="me"
                 width="50"
                 height="50"
@@ -68,7 +68,6 @@ export default function index() {
               Data Report
             </Paper>
           </Grid>
-         
         </Grid>
       </Grid>
     </div>

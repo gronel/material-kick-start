@@ -20,11 +20,11 @@ const useStyles = makeStyles((theme) => ({
     textAlign: "center",
     color: theme.palette.text.secondary,
     height: 140,
-    width: 100,
+    width: 110,
     bottom: 0,
     left: 0,
   },
- 
+
   control: {
     padding: theme.spacing(2),
   },
@@ -43,7 +43,7 @@ export default function index() {
       </Breadcrumbs>
       <Grid item xs={12} className={classes.gridmain}>
         <Grid container justify="center" spacing={spacing}>
-          <Grid item >
+          <Grid item>
             <Link color="inherit" href="/warehouse-management/customer/">
               <Paper className={classes.paper}>
                 <Image
@@ -60,7 +60,7 @@ export default function index() {
             <Paper className={classes.paper}>
               {" "}
               <Image
-                src="/images/icons8-full-tool-storage-box-50.png"
+                src="/images/icons8-fast-moving-consumer-goods-50.png"
                 alt="me"
                 width="50"
                 height="50"
@@ -70,25 +70,23 @@ export default function index() {
           </Grid>
           <Grid item>
             <Paper className={classes.paper}>
-              {" "}
               <Image
-                src="/images/icons8-customer-50.png"
+                src="/images/icons8-van-50.png"
                 alt="me"
                 width="50"
                 height="50"
-              />
+              />{" "}
               Trucker Master
             </Paper>
           </Grid>
           <Grid item>
             <Paper className={classes.paper}>
-              {" "}
               <Image
                 src="/images/icons8-tape-measure-50.png"
                 alt="me"
                 width="50"
                 height="50"
-              />
+              />{" "}
               Unit of Measures
             </Paper>
           </Grid>

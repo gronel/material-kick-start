@@ -20,7 +20,7 @@ const useStyles = makeStyles((theme) => ({
     textAlign: "center",
     color: theme.palette.text.secondary,
     height: 150,
-    width: 100,
+    width: 110,
     bottom: 0,
     left: 0,
   },

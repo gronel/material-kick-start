@@ -20,7 +20,7 @@ const useStyles = makeStyles((theme) => ({
     textAlign: "center",
     color: theme.palette.text.secondary,
     height: 150,
-    width: 100,
+    width: 110,
     bottom: 0,
     left: 0,
   },
@@ -52,6 +52,7 @@ export default function index() {
                   width="50"
                   height="50"
                 />
+              <br/>
                 My Window Color Preference
               </Paper>
             </Link>
@@ -60,7 +61,7 @@ export default function index() {
             <Paper className={classes.paper}>
               {" "}
               <Image
-                src="/images/icons8-full-tool-storage-box-50.png"
+                src="/images/icons8-page-properties-report-50.png"
                 alt="me"
                 width="50"
                 height="50"
@@ -72,7 +73,7 @@ export default function index() {
             <Paper className={classes.paper}>
               {" "}
               <Image
-                src="/images/icons8-customer-50.png"
+                src="/images/icons8-grand-master-key-50.png"
                 alt="me"
                 width="50"
                 height="50"
@@ -84,7 +85,7 @@ export default function index() {
             <Paper className={classes.paper}>
               {" "}
               <Image
-                src="/images/icons8-tape-measure-50.png"
+                src="/images/icons8-customer-50.png"
                 alt="me"
                 width="50"
                 height="50"
@@ -96,7 +97,7 @@ export default function index() {
             <Paper className={classes.paper}>
               {" "}
               <Image
-                src="/images/icons8-warehouse-50.png"
+                src="/images/icons8-warehouse-50-3.png"
                 alt="me"
                 width="50"
                 height="50"
@@ -104,7 +105,6 @@ export default function index() {
               Change Warehouse
             </Paper>
           </Grid>
-          
         </Grid>
       </Grid>
     </div>

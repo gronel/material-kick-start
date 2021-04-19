@@ -20,9 +20,10 @@ const useStyles = makeStyles((theme) => ({
     textAlign: "center",
     color: theme.palette.text.secondary,
     height: 150,
-    width: 100,
+    width: 110,
     bottom: 0,
     left: 0,
+    cursor:"curor"
   },
 
   control: {
@@ -51,7 +52,7 @@ export default function index() {
                   alt="me"
                   width="50"
                   height="50"
-                />
+                />{" "}
                 Put-Away
               </Paper>
             </Link>
@@ -72,7 +73,7 @@ export default function index() {
             <Paper className={classes.paper}>
               {" "}
               <Image
-                src="/images/icons8-customer-50.png"
+                src="/images/icons8-remove-delivery-50.png"
                 alt="me"
                 width="50"
                 height="50"
@@ -84,7 +85,7 @@ export default function index() {
             <Paper className={classes.paper}>
               {" "}
               <Image
-                src="/images/icons8-tape-measure-50.png"
+                src="/images/icons8-delivery-50-2.png"
                 alt="me"
                 width="50"
                 height="50"
@@ -108,7 +109,7 @@ export default function index() {
             <Paper className={classes.paper}>
               {" "}
               <Image
-                src="/images/icons8-automative-storage-system-50.png"
+                src="/images/icons8-reuse-50.png"
                 alt="me"
                 width="50"
                 height="50"
@@ -144,7 +145,7 @@ export default function index() {
             <Paper className={classes.paper}>
               {" "}
               <Image
-                src="/images/icons8-supplier-50-2.png"
+                src="/images/icons8-warehouse-50-2.png"
                 alt="me"
                 width="50"
                 height="50"
@@ -156,7 +157,7 @@ export default function index() {
             <Paper className={classes.paper}>
               {" "}
               <Image
-                src="/images/icons8-supplier-50-2.png"
+                src="/images/icons8-automative-storage-system-50.png"
                 alt="me"
                 width="50"
                 height="50"
