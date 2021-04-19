@@ -19,12 +19,12 @@ const useStyles = makeStyles((theme) => ({
     padding: theme.spacing(2),
     textAlign: "center",
     color: theme.palette.text.secondary,
-    height: 140,
+    height: 150,
     width: 100,
     bottom: 0,
     left: 0,
   },
- 
+
   control: {
     padding: theme.spacing(2),
   },
@@ -39,11 +39,11 @@ export default function index() {
         <Link color="inherit" href="/">
           Home
         </Link>
-        <Typography color="textPrimary">Warehouse Management</Typography>
+        <Typography color="textPrimary">Stock Issuance</Typography>
       </Breadcrumbs>
       <Grid item xs={12} className={classes.gridmain}>
         <Grid container justify="center" spacing={spacing}>
-          <Grid item >
+          <Grid item>
             <Link color="inherit" href="/warehouse-management/customer/">
               <Paper className={classes.paper}>
                 <Image
@@ -52,7 +52,7 @@ export default function index() {
                   width="50"
                   height="50"
                 />
-                Customer Master
+                Inventory OUT
               </Paper>
             </Link>
           </Grid>
@@ -65,7 +65,7 @@ export default function index() {
                 width="50"
                 height="50"
               />
-              Supplier Master
+              Issuance Request
             </Paper>
           </Grid>
           <Grid item>
@@ -77,7 +77,7 @@ export default function index() {
                 width="50"
                 height="50"
               />
-              Trucker Master
+              Allocated Stocks
             </Paper>
           </Grid>
           <Grid item>
@@ -89,7 +89,7 @@ export default function index() {
                 width="50"
                 height="50"
               />
-              Unit of Measures
+              Cancel Issuance
             </Paper>
           </Grid>
           <Grid item>
@@ -101,7 +101,7 @@ export default function index() {
                 width="50"
                 height="50"
               />
-              Warehouse Location
+              Issuance Pick Confirmation
             </Paper>
           </Grid>
           <Grid item>
@@ -113,7 +113,7 @@ export default function index() {
                 width="50"
                 height="50"
               />
-              Storage Location
+              Cancel Issuance Pick
             </Paper>
           </Grid>
           <Grid item>
@@ -125,7 +125,7 @@ export default function index() {
                 width="50"
                 height="50"
               />
-              Truck Types
+              Issuance Ship-out Confirmation
             </Paper>
           </Grid>
           <Grid item>
@@ -137,7 +137,7 @@ export default function index() {
                 width="50"
                 height="50"
               />
-              Item Master
+              Dispatch Plan
             </Paper>
           </Grid>
           <Grid item>
@@ -149,7 +149,7 @@ export default function index() {
                 width="50"
                 height="50"
               />
-              Warehouse Users
+              Dispatch Confirmation
             </Paper>
           </Grid>
         </Grid>

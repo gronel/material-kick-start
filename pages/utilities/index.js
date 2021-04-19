@@ -19,12 +19,12 @@ const useStyles = makeStyles((theme) => ({
     padding: theme.spacing(2),
     textAlign: "center",
     color: theme.palette.text.secondary,
-    height: 140,
+    height: 150,
     width: 100,
     bottom: 0,
     left: 0,
   },
- 
+
   control: {
     padding: theme.spacing(2),
   },
@@ -39,11 +39,11 @@ export default function index() {
         <Link color="inherit" href="/">
           Home
         </Link>
-        <Typography color="textPrimary">Warehouse Management</Typography>
+        <Typography color="textPrimary">Utilities</Typography>
       </Breadcrumbs>
       <Grid item xs={12} className={classes.gridmain}>
         <Grid container justify="center" spacing={spacing}>
-          <Grid item >
+          <Grid item>
             <Link color="inherit" href="/warehouse-management/customer/">
               <Paper className={classes.paper}>
                 <Image
@@ -52,7 +52,7 @@ export default function index() {
                   width="50"
                   height="50"
                 />
-                Customer Master
+                Close All Open
               </Paper>
             </Link>
           </Grid>
@@ -65,7 +65,7 @@ export default function index() {
                 width="50"
                 height="50"
               />
-              Supplier Master
+              Set Default Printer
             </Paper>
           </Grid>
           <Grid item>
@@ -77,7 +77,7 @@ export default function index() {
                 width="50"
                 height="50"
               />
-              Trucker Master
+              Meaning of Life
             </Paper>
           </Grid>
           <Grid item>
@@ -89,69 +89,10 @@ export default function index() {
                 width="50"
                 height="50"
               />
-              Unit of Measures
+              Snake Game
             </Paper>
           </Grid>
-          <Grid item>
-            <Paper className={classes.paper}>
-              {" "}
-              <Image
-                src="/images/icons8-warehouse-50.png"
-                alt="me"
-                width="50"
-                height="50"
-              />
-              Warehouse Location
-            </Paper>
-          </Grid>
-          <Grid item>
-            <Paper className={classes.paper}>
-              {" "}
-              <Image
-                src="/images/icons8-automative-storage-system-50.png"
-                alt="me"
-                width="50"
-                height="50"
-              />
-              Storage Location
-            </Paper>
-          </Grid>
-          <Grid item>
-            <Paper className={classes.paper}>
-              {" "}
-              <Image
-                src="/images/icons8-delivery-truck-50.png"
-                alt="me"
-                width="50"
-                height="50"
-              />
-              Truck Types
-            </Paper>
-          </Grid>
-          <Grid item>
-            <Paper className={classes.paper}>
-              {" "}
-              <Image
-                src="/images/icons8-master-50.png"
-                alt="me"
-                width="50"
-                height="50"
-              />
-              Item Master
-            </Paper>
-          </Grid>
-          <Grid item>
-            <Paper className={classes.paper}>
-              {" "}
-              <Image
-                src="/images/icons8-supplier-50-2.png"
-                alt="me"
-                width="50"
-                height="50"
-              />
-              Warehouse Users
-            </Paper>
-          </Grid>
+          
         </Grid>
       </Grid>
     </div>

@@ -137,21 +137,81 @@ export default function MiniDrawer(props) {
       >
         <div className={classes.toolbar}>
           <IconButton onClick={handleDrawerClose}>
-            {theme.direction === 'rtl' ? <ChevronRightIcon /> : <ChevronLeftIcon />}
+            {theme.direction === "rtl" ? (
+              <ChevronRightIcon />
+            ) : (
+              <ChevronLeftIcon />
+            )}
           </IconButton>
         </div>
         <Divider />
         <List>
-         
-        <MenuItem link="/warehouse-management/" label={'Warehouse Management'} icon={FolderIcon}></MenuItem>
+          <MenuItem
+            link="/warehouse-management/"
+            label={"Warehouse Management"}
+            icon={FolderIcon}
+          ></MenuItem>
+          <MenuItem
+            link="/stock-receipts/"
+            label={"Stock Receipts"}
+            icon={FolderIcon}
+          ></MenuItem>
 
-     
+          <MenuItem
+            link="/stock-management/"
+            label={"Stock Management"}
+            icon={FolderIcon}
+          ></MenuItem>
+
+          <MenuItem
+            link="/stock-Issuance/"
+            label={"Stock Issuance"}
+            icon={FolderIcon}
+          ></MenuItem>
+
+          <MenuItem
+            link="/printing/"
+            label={"Printing"}
+            icon={FolderIcon}
+          ></MenuItem>
+
+          <MenuItem
+            link="/reports-and-Inquiry/"
+            label={"Reports and Inquiry"}
+            icon={FolderIcon}
+          ></MenuItem>
+
+          <MenuItem
+            link="/user-defined-reports/"
+            label={"User defined reports"}
+            icon={FolderIcon}
+          ></MenuItem>
+
+          <MenuItem
+            link="/data-maintenace/"
+            label={"Data Maintenace"}
+            icon={FolderIcon}
+          ></MenuItem>
+
+          <MenuItem
+            link="/utilities/"
+            label={"Utilities"}
+            icon={FolderIcon}
+          ></MenuItem>
+
+          <MenuItem
+            link="/system-administration/"
+            label={"System Adminstration"}
+            icon={FolderIcon}
+          ></MenuItem>
         </List>
         <Divider />
         <List>
-          {['All mail', 'Trash', 'Spam'].map((text, index) => (
+          {["All mail", "Trash", "Spam"].map((text, index) => (
             <ListItem button key={text}>
-              <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
+              <ListItemIcon>
+                {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
+              </ListItemIcon>
               <ListItemText primary={text} />
             </ListItem>
           ))}
