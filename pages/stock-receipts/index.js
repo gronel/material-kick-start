@@ -44,65 +44,79 @@ export default function index() {
       <Grid item xs={12} className={classes.gridmain}>
         <Grid container justify="center" spacing={spacing}>
           <Grid item>
-            <Link color="inherit" href="/warehouse-management/customer/">
+            <Link color="inherit" href="/stock-receipts/receive-shipments/">
               <Paper className={classes.paper}>
                 <Image
-                  src="/images/icons8-supplier-50.png"
+                  src="/images/icons8-delivery-person-50.png"
                   alt="me"
                   width="50"
                   height="50"
                 />
-                Recieive Shipments
+                Receive Shipments
               </Paper>
             </Link>
           </Grid>
           <Grid item>
-            <Paper className={classes.paper}>
-              {" "}
-              <Image
-                src="/images/icons8-full-tool-storage-box-50.png"
-                alt="me"
-                width="50"
-                height="50"
-              />
-              Inventory IN
-            </Paper>
+            <Link color="inherit" href="/stock-receipts/inventory-in/">
+              <Paper className={classes.paper}>
+                {" "}
+                <Image
+                  src="/images/flow_chart_50px.png"
+                  alt="me"
+                  width="50"
+                  height="50"
+                />
+                Inventory IN
+              </Paper>
+            </Link>
           </Grid>
           <Grid item>
-            <Paper className={classes.paper}>
-              {" "}
-              <Image
-                src="/images/icons8-customer-50.png"
-                alt="me"
-                width="50"
-                height="50"
-              />
-              Batch Labeling
-            </Paper>
+            <Link color="inherit" href="/stock-receipts/batch-labeling/">
+              <Paper className={classes.paper}>
+                {" "}
+                <Image
+                  src="/images/new_document_50px.png"
+                  alt="me"
+                  width="50"
+                  height="50"
+                />
+                Batch Labeling
+              </Paper>
+            </Link>
           </Grid>
           <Grid item>
-            <Paper className={classes.paper}>
-              {" "}
-              <Image
-                src="/images/icons8-tape-measure-50.png"
-                alt="me"
-                width="50"
-                height="50"
-              />
-              Batch Label Confirmation
-            </Paper>
+            <Link
+              color="inherit"
+              href="/stock-receipts/batch-label-confirmation/"
+            >
+              <Paper className={classes.paper}>
+                {" "}
+                <Image
+                  src="/images/new_document_50px.png"
+                  alt="me"
+                  width="50"
+                  height="50"
+                />
+                Batch Label Confirmation
+              </Paper>
+            </Link>
           </Grid>
           <Grid item>
-            <Paper className={classes.paper}>
-              {" "}
-              <Image
-                src="/images/icons8-warehouse-50.png"
-                alt="me"
-                width="50"
-                height="50"
-              />
-              Batch Label Cancellation
-            </Paper>
+            <Link
+              color="inherit"
+              href="/stock-receipts/batch-label-cancellation/"
+            >
+              <Paper className={classes.paper}>
+                {" "}
+                <Image
+                  src="/images/new_document_50px.png"
+                  alt="me"
+                  width="50"
+                  height="50"
+                />
+                Batch Label Cancellation
+              </Paper>
+            </Link>
           </Grid>
         </Grid>
       </Grid>

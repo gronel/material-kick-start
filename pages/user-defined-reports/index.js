@@ -44,7 +44,7 @@ export default function index() {
       <Grid item xs={12} className={classes.gridmain}>
         <Grid container justify="center" spacing={spacing}>
           <Grid item>
-            <Link color="inherit" href="/warehouse-management/customer/">
+            <Link color="inherit" href="/user-defined-reports/external-report/">
               <Paper className={classes.paper}>
                 <Image
                   src="/images/icons8-check-for-payment-50.png"
@@ -57,7 +57,8 @@ export default function index() {
             </Link>
           </Grid>
           <Grid item>
-            <Paper className={classes.paper}>
+            <Link color="inherit" href="/user-defined-reports/data-report/">
+                <Paper className={classes.paper}>
               {" "}
               <Image
                 src="/images/icons8-report-file-50.png"
@@ -67,6 +68,8 @@ export default function index() {
               />
               Data Report
             </Paper>
+             </Link>
+          
           </Grid>
         </Grid>
       </Grid>

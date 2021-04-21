@@ -44,7 +44,7 @@ export default function index() {
       <Grid item xs={12} className={classes.gridmain}>
         <Grid container justify="center" spacing={spacing}>
           <Grid item>
-            <Link color="inherit" href="/warehouse-management/customer/">
+            <Link color="inherit" href="/reports-and-Inquiry/good-received/">
               <Paper className={classes.paper}>
                 <Image
                   src="/images/icons8-customer-50.png"
@@ -57,90 +57,112 @@ export default function index() {
             </Link>
           </Grid>
           <Grid item>
-            <Paper className={classes.paper}>
-              {" "}
-              <Image
-                src="/images/icons8-full-tool-storage-box-50.png"
-                alt="me"
-                width="50"
-                height="50"
-              />
-              Good Issued
-            </Paper>
+            <Link color="inherit" href="/reports-and-Inquiry/good-issued/">
+              <Paper className={classes.paper}>
+                {" "}
+                <Image
+                  src="/images/icons8-full-tool-storage-box-50.png"
+                  alt="me"
+                  width="50"
+                  height="50"
+                />
+                Good Issued
+              </Paper>
+            </Link>
           </Grid>
           <Grid item>
-            <Paper className={classes.paper}>
-              {" "}
-              <Image
-                src="/images/icons8-customer-50.png"
-                alt="me"
-                width="50"
-                height="50"
-              />
-              Item Inventory Pivot
-            </Paper>
+            <Link
+              color="inherit"
+              href="/reports-and-Inquiry/item-inventory-pivot/"
+            >
+              <Paper className={classes.paper}>
+                {" "}
+                <Image
+                  src="/images/icons8-customer-50.png"
+                  alt="me"
+                  width="50"
+                  height="50"
+                />
+                Item Inventory Pivot
+              </Paper>
+            </Link>
           </Grid>
           <Grid item>
-            <Paper className={classes.paper}>
-              {" "}
-              <Image
-                src="/images/icons8-tape-measure-50.png"
-                alt="me"
-                width="50"
-                height="50"
-              />
-              Item Inventory
-            </Paper>
+            <Link color="inherit" href="/reports-and-Inquiry/item-inventory/">
+              <Paper className={classes.paper}>
+                {" "}
+                <Image
+                  src="/images/icons8-tape-measure-50.png"
+                  alt="me"
+                  width="50"
+                  height="50"
+                />
+                Item Inventory
+              </Paper>
+            </Link>
           </Grid>
           <Grid item>
-            <Paper className={classes.paper}>
-              {" "}
-              <Image
-                src="/images/icons8-warehouse-50.png"
-                alt="me"
-                width="50"
-                height="50"
-              />
-              Monthly Inventory
-            </Paper>
+            <Link
+              color="inherit"
+              href="/reports-and-Inquiry/monthly-inventory/"
+            >
+              <Paper className={classes.paper}>
+                {" "}
+                <Image
+                  src="/images/icons8-warehouse-50.png"
+                  alt="me"
+                  width="50"
+                  height="50"
+                />
+                Monthly Inventory
+              </Paper>
+            </Link>
           </Grid>
           <Grid item>
-            <Paper className={classes.paper}>
-              {" "}
-              <Image
-                src="/images/icons8-automative-storage-system-50.png"
-                alt="me"
-                width="50"
-                height="50"
-              />
-              Batch Inventory
-            </Paper>
+            <Link color="inherit" href="/reports-and-Inquiry/batch-inventory/">
+              <Paper className={classes.paper}>
+                {" "}
+                <Image
+                  src="/images/icons8-automative-storage-system-50.png"
+                  alt="me"
+                  width="50"
+                  height="50"
+                />
+                Batch Inventory
+              </Paper>
+            </Link>
           </Grid>
           <Grid item>
-            <Paper className={classes.paper}>
-              {" "}
-              <Image
-                src="/images/icons8-delivery-truck-50.png"
-                alt="me"
-                width="50"
-                height="50"
-              />
-              Movements Pending
-            </Paper>
+            <Link
+              color="inherit"
+              href="/reports-and-Inquiry/movements-pending/"
+            >
+              <Paper className={classes.paper}>
+                {" "}
+                <Image
+                  src="/images/icons8-delivery-truck-50.png"
+                  alt="me"
+                  width="50"
+                  height="50"
+                />
+                Movements Pending
+              </Paper>
+            </Link>
           </Grid>
           <Grid item>
-            <Paper className={classes.paper}>
-              {" "}
-              <Image
-                src="/images/icons8-master-50.png"
-                alt="me"
-                width="50"
-                height="50"
-              />
-              Stock Movements
-            </Paper>
+            <Link color="inherit" href="/reports-and-Inquiry/stock-movements/">
+              <Paper className={classes.paper}>
+                {" "}
+                <Image
+                  src="/images/icons8-master-50.png"
+                  alt="me"
+                  width="50"
+                  height="50"
+                />
+                Stock Movements
+              </Paper>
+            </Link>
           </Grid>
-          
         </Grid>
       </Grid>
     </div>

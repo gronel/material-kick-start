@@ -44,10 +44,10 @@ export default function index() {
       <Grid item xs={12} className={classes.gridmain}>
         <Grid container justify="center" spacing={spacing}>
           <Grid item>
-            <Link color="inherit" href="/warehouse-management/customer/">
+            <Link color="inherit" href="/stock-Issuance/inventory-out/">
               <Paper className={classes.paper}>
                 <Image
-                  src="/images/icons8-customer-50.png"
+                  src="/images/trolley_50px.png"
                   alt="me"
                   width="50"
                   height="50"
@@ -57,100 +57,125 @@ export default function index() {
             </Link>
           </Grid>
           <Grid item>
-            <Paper className={classes.paper}>
-              {" "}
-              <Image
-                src="/images/icons8-full-tool-storage-box-50.png"
-                alt="me"
-                width="50"
-                height="50"
-              />
-              Issuance Request
-            </Paper>
+            <Link color="inherit" href="/stock-Issuance/issuance-request/">
+              <Paper className={classes.paper}>
+                {" "}
+                <Image
+                  src="/images/print_address_label_50px.png"
+                  alt="me"
+                  width="50"
+                  height="50"
+                />
+                Issuance Request
+              </Paper>
+            </Link>
           </Grid>
           <Grid item>
-            <Paper className={classes.paper}>
-              {" "}
-              <Image
-                src="/images/icons8-customer-50.png"
-                alt="me"
-                width="50"
-                height="50"
-              />
-              Allocated Stocks
-            </Paper>
+            <Link color="inherit" href="/stock-Issuance/allocated-stocks/">
+              <Paper className={classes.paper}>
+                {" "}
+                <Image
+                  src="/images/open_box_50px.png"
+                  alt="me"
+                  width="50"
+                  height="50"
+                />
+                Allocated Stocks
+              </Paper>
+            </Link>
           </Grid>
           <Grid item>
-            <Paper className={classes.paper}>
-              {" "}
-              <Image
-                src="/images/icons8-tape-measure-50.png"
-                alt="me"
-                width="50"
-                height="50"
-              />
-              Cancel Issuance
-            </Paper>
+            <Link color="inherit" href="/stock-Issuance/cancel-issuance/">
+              <Paper className={classes.paper}>
+                {" "}
+                <Image
+                  src="/images/icons8-remove-delivery-50.png"
+                  alt="me"
+                  width="50"
+                  height="50"
+                />
+                Cancel Issuance
+              </Paper>
+            </Link>
           </Grid>
           <Grid item>
-            <Paper className={classes.paper}>
-              {" "}
-              <Image
-                src="/images/icons8-warehouse-50.png"
-                alt="me"
-                width="50"
-                height="50"
-              />
-              Issuance Pick Confirmation
-            </Paper>
+            <Link
+              color="inherit"
+              href="/stock-Issuance/Issuance-pick-confirmation/"
+            >
+              <Paper className={classes.paper}>
+                {" "}
+                <Image
+                  src="/images/icons8-warehouse-50.png"
+                  alt="me"
+                  width="50"
+                  height="50"
+                />
+                Issuance Pick Confirmation
+              </Paper>
+            </Link>
           </Grid>
           <Grid item>
-            <Paper className={classes.paper}>
-              {" "}
-              <Image
-                src="/images/icons8-automative-storage-system-50.png"
-                alt="me"
-                width="50"
-                height="50"
-              />
-              Cancel Issuance Pick
-            </Paper>
+            <Link color="inherit" href="/stock-Issuance/cancel-issuance-pick/">
+              <Paper className={classes.paper}>
+                {" "}
+                <Image
+                  src="/images/icons8-remove-delivery-50.png"
+                  alt="me"
+                  width="50"
+                  height="50"
+                />
+                Cancel Issuance Pick
+              </Paper>
+            </Link>
           </Grid>
           <Grid item>
-            <Paper className={classes.paper}>
-              {" "}
-              <Image
-                src="/images/icons8-delivery-truck-50.png"
-                alt="me"
-                width="50"
-                height="50"
-              />
-              Issuance Ship-out Confirmation
-            </Paper>
+            <Link
+              color="inherit"
+              href="/stock-Issuance/issuance-shipout-confirmation/"
+            >
+              <Paper className={classes.paper}>
+                {" "}
+                <Image
+                  src="/images/boat_leaving_port_50px.png"
+                  alt="me"
+                  width="50"
+                  height="50"
+                />
+                Issuance Ship-out Confirmation
+              </Paper>
+            </Link>
           </Grid>
           <Grid item>
-            <Paper className={classes.paper}>
-              {" "}
-              <Image
-                src="/images/icons8-master-50.png"
-                alt="me"
-                width="50"
-                height="50"
-              />
-              Dispatch Plan
-            </Paper>
+            <Link color="inherit" href="/stock-Issuance/dispatch-plan/">
+              <Paper className={classes.paper}>
+                {" "}
+                <Image
+                  src="/images/magazine_50px.png"
+                  alt="me"
+                  width="50"
+                  height="50"
+                />
+                Dispatch Plan
+              </Paper>
+            </Link>
           </Grid>
           <Grid item>
-            <Paper className={classes.paper}>
-              {" "}
-              <Image
-                src="/images/icons8-supplier-50-2.png"
-                alt="me"
-                width="50"
-                height="50"
-              />
-              Dispatch Confirmation
-            </Paper>
+            <Link
+              color="inherit"
+              href="/stock-Issuance/dishpatch-confirmation/"
+            >
+              <Paper className={classes.paper}>
+                {" "}
+                <Image
+                  src="/images/icons8-in-transit-50.png"
+                  alt="me"
+                  width="50"
+                  height="50"
+                />
+                Dispatch Confirmation
+              </Paper>
+            </Link>
           </Grid>
         </Grid>
       </Grid>

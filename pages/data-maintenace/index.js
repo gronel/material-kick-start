@@ -20,7 +20,7 @@ const useStyles = makeStyles((theme) => ({
     textAlign: "center",
     color: theme.palette.text.secondary,
     height: 150,
-    width:110,
+    width: 110,
     bottom: 0,
     left: 0,
   },
@@ -44,7 +44,10 @@ export default function index() {
       <Grid item xs={12} className={classes.gridmain}>
         <Grid container justify="center" spacing={spacing}>
           <Grid item>
-            <Link color="inherit" href="/warehouse-management/customer/">
+            <Link
+              color="inherit"
+              href="/data-maintenace/change-dispatch-status/"
+            >
               <Paper className={classes.paper}>
                 <Image
                   src="/images/icons8-deployment-50.png"

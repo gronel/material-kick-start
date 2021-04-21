@@ -44,7 +44,7 @@ export default function index() {
       <Grid item xs={12} className={classes.gridmain}>
         <Grid container justify="center" spacing={spacing}>
           <Grid item>
-            <Link color="inherit" href="/warehouse-management/customer/">
+            <Link color="inherit" href="/printing/received-batch-labels/">
               <Paper className={classes.paper}>
                 <Image
                   src="/images/icons8-file-delivery-50.png"
@@ -57,64 +57,74 @@ export default function index() {
             </Link>
           </Grid>
           <Grid item>
-            <Paper className={classes.paper}>
-              {" "}
-              <Image
-                src="/images/icons8-full-tool-storage-box-50.png"
-                alt="me"
-                width="50"
-                height="50"
-              />
-              Existing Batch Labels
-            </Paper>
+            <Link color="inherit" href="/printing/existing-batch-labels/">
+              <Paper className={classes.paper}>
+                {" "}
+                <Image
+                  src="/images/icons8-full-tool-storage-box-50.png"
+                  alt="me"
+                  width="50"
+                  height="50"
+                />
+                Existing Batch Labels
+              </Paper>
+            </Link>
           </Grid>
           <Grid item>
-            <Paper className={classes.paper}>
-              {" "}
-              <Image
-                src="/images/icons8-customer-50.png"
-                alt="me"
-                width="50"
-                height="50"
-              />
-              Putaway Picklist
-            </Paper>
+            <Link color="inherit" href="/printing/putaway-picklist/">
+              <Paper className={classes.paper}>
+                {" "}
+                <Image
+                  src="/images/new_document_50px.png"
+                  alt="me"
+                  width="50"
+                  height="50"
+                />
+                Putaway Picklist
+              </Paper>
+            </Link>
           </Grid>
           <Grid item>
-            <Paper className={classes.paper}>
-              {" "}
-              <Image
-                src="/images/icons8-warehouse-50-2.png"
-                alt="me"
-                width="50"
-                height="50"
-              />
-              Stock Transfer Picklist
-            </Paper>
+            <Link color="inherit" href="/printing/stock-transfer-picklist/">
+              <Paper className={classes.paper}>
+                {" "}
+                <Image
+                  src="/images/icons8-delivery-person-50.png"
+                  alt="me"
+                  width="50"
+                  height="50"
+                />
+                Stock Transfer Picklist
+              </Paper>
+            </Link>
           </Grid>
           <Grid item>
-            <Paper className={classes.paper}>
-              {" "}
-              <Image
-                src="/images/icons8-warehouse-50.png"
-                alt="me"
-                width="50"
-                height="50"
-              />
-              Stock Replerishment
-            </Paper>
+            <Link color="inherit" href="/printing/stock-replenishment/">
+              <Paper className={classes.paper}>
+                {" "}
+                <Image
+                  src="/images/icons8-warehouse-50.png"
+                  alt="me"
+                  width="50"
+                  height="50"
+                />
+                Stock Replenishment
+              </Paper>
+            </Link>
           </Grid>
           <Grid item>
-            <Paper className={classes.paper}>
-              {" "}
-              <Image
-                src="/images/icons8-automative-storage-system-50.png"
-                alt="me"
-                width="50"
-                height="50"
-              />
-              Issuance Picklist
-            </Paper>
+            <Link color="inherit" href="/printing/issuance-picklist/">
+              <Paper className={classes.paper}>
+                {" "}
+                <Image
+                  src="/images/new_document_50px.png"
+                  alt="me"
+                  width="50"
+                  height="50"
+                />
+                Issuance Picklist
+              </Paper>
+            </Link>
           </Grid>
         </Grid>
       </Grid>

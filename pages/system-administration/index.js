@@ -44,7 +44,10 @@ export default function index() {
       <Grid item xs={12} className={classes.gridmain}>
         <Grid container justify="center" spacing={spacing}>
           <Grid item>
-            <Link color="inherit" href="/warehouse-management/customer/">
+            <Link
+              color="inherit"
+              href="/system-administration/my-window-color-preference/"
+            >
               <Paper className={classes.paper}>
                 <Image
                   src="/images/icons8-customer-50.png"
@@ -52,58 +55,75 @@ export default function index() {
                   width="50"
                   height="50"
                 />
-              <br/>
+                <br />
                 My Window Color Preference
               </Paper>
             </Link>
           </Grid>
           <Grid item>
-            <Paper className={classes.paper}>
-              {" "}
-              <Image
-                src="/images/icons8-page-properties-report-50.png"
-                alt="me"
-                width="50"
-                height="50"
-              />
-              Create Date Reports Menu
-            </Paper>
+            <Link
+              color="inherit"
+              href="/system-administration/create-date-reports-menu/"
+            >
+              <Paper className={classes.paper}>
+                {" "}
+                <Image
+                  src="/images/icons8-page-properties-report-50.png"
+                  alt="me"
+                  width="50"
+                  height="50"
+                />
+                Create Date Reports Menu
+              </Paper>
+            </Link>
           </Grid>
           <Grid item>
-            <Paper className={classes.paper}>
-              {" "}
-              <Image
-                src="/images/icons8-grand-master-key-50.png"
-                alt="me"
-                width="50"
-                height="50"
-              />
-              Change User Password
-            </Paper>
+            <Link
+              color="inherit"
+              href="/system-administration/change-user-password/"
+            >
+              <Paper className={classes.paper}>
+                {" "}
+                <Image
+                  src="/images/icons8-grand-master-key-50.png"
+                  alt="me"
+                  width="50"
+                  height="50"
+                />
+                Change User Password
+              </Paper>
+            </Link>
           </Grid>
           <Grid item>
-            <Paper className={classes.paper}>
-              {" "}
-              <Image
-                src="/images/icons8-customer-50.png"
-                alt="me"
-                width="50"
-                height="50"
-              />
-              User Profile
-            </Paper>
+            <Link color="inherit" href="/system-administration/user-profile/">
+              <Paper className={classes.paper}>
+                {" "}
+                <Image
+                  src="/images/icons8-customer-50.png"
+                  alt="me"
+                  width="50"
+                  height="50"
+                />
+                User Profile
+              </Paper>
+            </Link>
           </Grid>
           <Grid item>
-            <Paper className={classes.paper}>
-              {" "}
-              <Image
-                src="/images/icons8-warehouse-50-3.png"
-                alt="me"
-                width="50"
-                height="50"
-              />
-              Change Warehouse
-            </Paper>
+            <Link
+              color="inherit"
+              href="/system-administration/change-warehouse/"
+            >
+              <Paper className={classes.paper}>
+                {" "}
+                <Image
+                  src="/images/icons8-warehouse-50-3.png"
+                  alt="me"
+                  width="50"
+                  height="50"
+                />
+                Change Warehouse
+              </Paper>
+            </Link>
           </Grid>
         </Grid>
       </Grid>

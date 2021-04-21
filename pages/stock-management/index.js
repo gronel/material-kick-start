@@ -45,7 +45,7 @@ export default function index() {
       <Grid item xs={12} className={classes.gridmain}>
         <Grid container justify="center" spacing={spacing}>
           <Grid item>
-            <Link color="inherit" href="/warehouse-management/customer/">
+            <Link color="inherit" href="/stock-management/putaway/">
               <Paper className={classes.paper}>
                 <Image
                   src="/images/icons8-customer-50.png"
@@ -58,7 +58,8 @@ export default function index() {
             </Link>
           </Grid>
           <Grid item>
-            <Paper className={classes.paper}>
+            <Link color="inherit" href="/stock-management/putaway-confirmation/">
+               <Paper className={classes.paper}>
               {" "}
               <Image
                 src="/images/icons8-full-tool-storage-box-50.png"
@@ -68,9 +69,12 @@ export default function index() {
               />
               Putaway Confirmation
             </Paper>
+            </Link>
+           
           </Grid>
           <Grid item>
-            <Paper className={classes.paper}>
+            <Link color="inherit" href="/stock-management/putaway-cancellation/">
+              <Paper className={classes.paper}>
               {" "}
               <Image
                 src="/images/icons8-remove-delivery-50.png"
@@ -80,9 +84,12 @@ export default function index() {
               />
               Putaway Cancellation
             </Paper>
+            </Link>
+            
           </Grid>
           <Grid item>
-            <Paper className={classes.paper}>
+            <Link color="inherit" href="/stock-management/stock-transfer/">
+              <Paper className={classes.paper}>
               {" "}
               <Image
                 src="/images/icons8-delivery-50-2.png"
@@ -92,9 +99,12 @@ export default function index() {
               />
               Stock Transfer
             </Paper>
+            </Link>
+            
           </Grid>
           <Grid item>
-            <Paper className={classes.paper}>
+            <Link color="inherit" href="/stock-management/stock-transfer-confirmation/">
+              <Paper className={classes.paper}>
               {" "}
               <Image
                 src="/images/icons8-warehouse-50.png"
@@ -104,9 +114,12 @@ export default function index() {
               />
               Stock Transfer Confirmation
             </Paper>
+            </Link>
+            
           </Grid>
           <Grid item>
-            <Paper className={classes.paper}>
+            <Link color="inherit" href="/stock-management/stock-transfer-cancellation/">
+                 <Paper className={classes.paper}>
               {" "}
               <Image
                 src="/images/icons8-reuse-50.png"
@@ -116,9 +129,12 @@ export default function index() {
               />
               Stock Transfer Cancellation
             </Paper>
+            </Link>
+         
           </Grid>
           <Grid item>
-            <Paper className={classes.paper}>
+            <Link color="inherit" href="/stock-management/case-pick-replenishment/">
+               <Paper className={classes.paper}>
               {" "}
               <Image
                 src="/images/icons8-delivery-truck-50.png"
@@ -126,11 +142,14 @@ export default function index() {
                 width="50"
                 height="50"
               />
-              Case Pick Replerishment
+              Case Pick Replenishment
             </Paper>
+            </Link>
+           
           </Grid>
           <Grid item>
-            <Paper className={classes.paper}>
+            <Link color="inherit" href="/stock-management/piece-pick-replenishment/">
+              <Paper className={classes.paper}>
               {" "}
               <Image
                 src="/images/icons8-master-50.png"
@@ -138,11 +157,14 @@ export default function index() {
                 width="50"
                 height="50"
               />
-              Piece Pick Replerishment
+              Piece Pick Replenishment
             </Paper>
+            </Link>
+            
           </Grid>
           <Grid item>
-            <Paper className={classes.paper}>
+            <Link color="inherit" href="/stock-management/stock-replenishment-confirmation/">
+                 <Paper className={classes.paper}>
               {" "}
               <Image
                 src="/images/icons8-warehouse-50-2.png"
@@ -150,11 +172,14 @@ export default function index() {
                 width="50"
                 height="50"
               />
-              Stock Replerishment Confirmation
+              Stock Replenishment Confirmation
             </Paper>
+            </Link>
+         
           </Grid>
           <Grid item>
-            <Paper className={classes.paper}>
+            <Link color="inherit" href="/stock-management/stock-replenishment-cancellation/">
+              <Paper className={classes.paper}>
               {" "}
               <Image
                 src="/images/icons8-automative-storage-system-50.png"
@@ -162,8 +187,10 @@ export default function index() {
                 width="50"
                 height="50"
               />
-              Stock Replerishment Cancellation
+              Stock Replenishment Cancellation
             </Paper>
+            </Link>
+            
           </Grid>
         </Grid>
       </Grid>

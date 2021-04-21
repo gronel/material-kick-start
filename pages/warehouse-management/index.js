@@ -57,98 +57,114 @@ export default function index() {
             </Link>
           </Grid>
           <Grid item>
-            <Paper className={classes.paper}>
-              {" "}
-              <Image
-                src="/images/icons8-fast-moving-consumer-goods-50.png"
-                alt="me"
-                width="50"
-                height="50"
-              />
-              Supplier Master
-            </Paper>
+            <Link color="inherit" href="/warehouse-management/supplier-master/">
+              <Paper className={classes.paper}>
+                {" "}
+                <Image
+                  src="/images/icons8-fast-moving-consumer-goods-50.png"
+                  alt="me"
+                  width="50"
+                  height="50"
+                />
+                Supplier Master
+              </Paper>
+            </Link>
           </Grid>
           <Grid item>
-            <Paper className={classes.paper}>
-              <Image
-                src="/images/icons8-van-50.png"
-                alt="me"
-                width="50"
-                height="50"
-              />{" "}
-              Trucker Master
-            </Paper>
+            <Link color="inherit" href="/warehouse-management/trucker-master/">
+              <Paper className={classes.paper}>
+                <Image
+                  src="/images/icons8-van-50.png"
+                  alt="me"
+                  width="50"
+                  height="50"
+                />{" "}
+                Trucker Master
+              </Paper>
+            </Link>
           </Grid>
           <Grid item>
-            <Paper className={classes.paper}>
-              <Image
-                src="/images/icons8-tape-measure-50.png"
-                alt="me"
-                width="50"
-                height="50"
-              />{" "}
-              Unit of Measures
-            </Paper>
+            <Link color="inherit" href="/warehouse-management/unit-of-measures/">
+              <Paper className={classes.paper}>
+                <Image
+                  src="/images/icons8-tape-measure-50.png"
+                  alt="me"
+                  width="50"
+                  height="50"
+                />{" "}
+                Unit of Measures
+              </Paper>
+            </Link>
           </Grid>
           <Grid item>
-            <Paper className={classes.paper}>
-              {" "}
-              <Image
-                src="/images/icons8-warehouse-50.png"
-                alt="me"
-                width="50"
-                height="50"
-              />
-              Warehouse Location
-            </Paper>
+            <Link color="inherit" href="/warehouse-management/warehouse-location/">
+              <Paper className={classes.paper}>
+                {" "}
+                <Image
+                  src="/images/icons8-warehouse-50.png"
+                  alt="me"
+                  width="50"
+                  height="50"
+                />
+                Warehouse Location
+              </Paper>
+            </Link>
           </Grid>
           <Grid item>
-            <Paper className={classes.paper}>
-              {" "}
-              <Image
-                src="/images/icons8-automative-storage-system-50.png"
-                alt="me"
-                width="50"
-                height="50"
-              />
-              Storage Location
-            </Paper>
+            <Link color="inherit" href="/warehouse-management/storage-location/">
+              <Paper className={classes.paper}>
+                {" "}
+                <Image
+                  src="/images/icons8-automative-storage-system-50.png"
+                  alt="me"
+                  width="50"
+                  height="50"
+                />
+                Storage Location
+              </Paper>
+            </Link>
           </Grid>
           <Grid item>
-            <Paper className={classes.paper}>
-              {" "}
-              <Image
-                src="/images/icons8-delivery-truck-50.png"
-                alt="me"
-                width="50"
-                height="50"
-              />
-              Truck Types
-            </Paper>
+            <Link color="inherit" href="/warehouse-management/truck-types/">
+              <Paper className={classes.paper}>
+                {" "}
+                <Image
+                  src="/images/icons8-delivery-truck-50.png"
+                  alt="me"
+                  width="50"
+                  height="50"
+                />
+                Truck Types
+              </Paper>
+            </Link>
           </Grid>
           <Grid item>
-            <Paper className={classes.paper}>
-              {" "}
-              <Image
-                src="/images/icons8-master-50.png"
-                alt="me"
-                width="50"
-                height="50"
-              />
-              Item Master
-            </Paper>
+            <Link color="inherit" href="/warehouse-management/item-master/">
+              <Paper className={classes.paper}>
+                {" "}
+                <Image
+                  src="/images/icons8-master-50.png"
+                  alt="me"
+                  width="50"
+                  height="50"
+                />
+                Item Master
+              </Paper>
+            </Link>
           </Grid>
           <Grid item>
-            <Paper className={classes.paper}>
-              {" "}
-              <Image
-                src="/images/icons8-supplier-50-2.png"
-                alt="me"
-                width="50"
-                height="50"
-              />
-              Warehouse Users
-            </Paper>
+            <Link color="inherit" href="/warehouse-management/warehouse-users/">
+              <Paper className={classes.paper}>
+                {" "}
+                <Image
+                  src="/images/icons8-supplier-50-2.png"
+                  alt="me"
+                  width="50"
+                  height="50"
+                />
+                Warehouse Users
+              </Paper>
+            </Link>
           </Grid>
         </Grid>
       </Grid>
