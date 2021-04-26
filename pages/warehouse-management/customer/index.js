@@ -1,57 +1,176 @@
-import * as React from 'react';
-import { DataGrid } from '@material-ui/data-grid';
-import Typography from '@material-ui/core/Typography';
-import Breadcrumbs from '@material-ui/core/Breadcrumbs';
-import Link from '@material-ui/core/Link';
-const columns = [
-  { field: 'id', headerName: 'ID', width: 70 },
-  { field: 'firstName', headerName: 'First name', width: 130 },
-  { field: 'lastName', headerName: 'Last name', width: 130 },
-  {
-    field: 'age',
-    headerName: 'Age',
-    type: 'number',
-    width: 90,
+import React, { useState, useEffect } from "react";
+import { DataGrid } from "@material-ui/data-grid";
+import Typography from "@material-ui/core/Typography";
+import Breadcrumbs from "@material-ui/core/Breadcrumbs";
+import Link from "@material-ui/core/Link";
+import {
+  Paper,
+  makeStyles,
+  TableBody,
+  TableRow,
+  TableCell,
+  Toolbar,
+  InputAdornment,
+} from "@material-ui/core";
+import Button from "@material-ui/core/Button";
+import Popup from "../../../components/Popup";
+import PageHeader from "../../../components/PageHeader";
+import PeopleOutlineTwoToneIcon from "@material-ui/icons/PeopleOutlineTwoTone";
+import CustomerForm from "./CustomerForm";
+import EditOutlinedIcon from "@material-ui/icons/EditOutlined";
+import CloseIcon from "@material-ui/icons/Close";
+import Controls from "../../../components/controls/Controls";
+import useTable from "../../../components/useTable";
+import { Search } from "@material-ui/icons";
+import AddIcon from "@material-ui/icons/Add";
+import axios from "axios";
+const useStyles = makeStyles((theme) => ({
+  pageContent: {
+    margin: theme.spacing(5),
+    padding: theme.spacing(3),
   },
-  {
-    field: 'fullName',
-    headerName: 'Full name',
-    description: 'This column has a value getter and is not sortable.',
-    sortable: false,
-    width: 160,
-    valueGetter: (params) =>
-      `${params.getValue('firstName') || ''} ${params.getValue('lastName') || ''}`,
+  searchInput: {
+    width: "75%",
   },
-];
-
-const rows = [
-  { id: 1, lastName: 'Snow', firstName: 'Jon', age: 35 },
-  { id: 2, lastName: 'Lannister', firstName: 'Cersei', age: 42 },
-  { id: 3, lastName: 'Lannister', firstName: 'Jaime', age: 45 },
-  { id: 4, lastName: 'Stark', firstName: 'Arya', age: 16 },
-  { id: 5, lastName: 'Targaryen', firstName: 'Daenerys', age: null },
-  { id: 6, lastName: 'Melisandre', firstName: null, age: 150 },
-  { id: 7, lastName: 'Clifford', firstName: 'Ferrara', age: 44 },
-  { id: 8, lastName: 'Frances', firstName: 'Rossini', age: 36 },
-  { id: 9, lastName: 'Roxie', firstName: 'Harvey', age: 65 },
-];
+  newButton: {
+    position: "absolute",
+    right: "10px",
+  },
+}));
 
 export default function index() {
+  const classes = useStyles();
+
+  const [customer, setCustomer] = useState([]);
+  const [filterFn, setFilterFn] = useState({
+    fn: (items) => {
+      return items;
+    },
+  });
+  const [records, setRecords] = useState(customer);
+  const [openPopup, setOpenPopup] = useState(false);
+
+  const headCells = [
+    { id: "lastName", label: "Last Name" },
+    { id: "firstName", label: "First Name" },
+    { id: "age", label: "Age" },
+    { id: "actions", label: "Actions", disableSorting: true },
+  ];
+  const {
+    TblContainer,
+    TblHead,
+    TblPagination,
+    recordsAfterPagingAndSorting,
+  } = useTable(records, headCells, filterFn);
+
+  const handleSearch = (e) => {
+    let target = e.target;
+    setFilterFn({
+      fn: (items) => {
+        if (target.value == "") return items;
+        else
+          return items.filter((x) =>
+            x.firstName.toLowerCase().includes(target.value)
+          );
+      },
+    });
+  };
+  const openInPopup = () => {
+    setOpenPopup(true);
+  };
+  const _isrefreshList = () => {
+    axios
+      .get("http://codesafe.org/api/wms/customer/customer-list")
+      .then((resp) => {
+        setCustomer(resp);
+        console.log(resp);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+  useEffect(() => {
+    setCustomer();
+  }, []);
   return (
-      <>
+    <>
       <Breadcrumbs aria-label="breadcrumb">
-      <Link color="inherit" href="/" >
-       Home
-      </Link>
-      <Link color="inherit" href="/warehouse-management/" >
-       Warehouse Management
-      </Link>
-      <Typography color="textPrimary">Customer List</Typography>
-    </Breadcrumbs>
-       <div style={{ height: 400, width: '100%' }}>
-      <DataGrid rows={rows} columns={columns} pageSize={5} checkboxSelection />
-    </div>
-      </>
-   
+        <Link color="inherit" href="/">
+          Home
+        </Link>
+        <Link color="inherit" href="/warehouse-management/">
+          Warehouse Management
+        </Link>
+        <Typography color="textPrimary">Customer List</Typography>
+      </Breadcrumbs>
+      {/* <PageHeader
+        title="Customer List"
+        subTitle=""
+        icon={<PeopleOutlineTwoToneIcon fontSize="large" />}
+      /> */}
+      {/* <Button variant="contained" color="primary" onClick={openInPopup}>
+        Add New
+      </Button> */}
+
+      <Paper className={classes.pageContent}>
+        <Toolbar>
+          <Controls.Input
+            label="Search Customers"
+            className={classes.searchInput}
+            InputProps={{
+              startAdornment: (
+                <InputAdornment position="start">
+                  <Search />
+                </InputAdornment>
+              ),
+            }}
+            onChange={handleSearch}
+          />
+          <Controls.Button
+            text="Add New"
+            variant="outlined"
+            startIcon={<AddIcon />}
+            className={classes.newButton}
+            onClick={openInPopup}
+          />
+        </Toolbar>
+        <TblContainer>
+          <TblHead />
+          <TableBody>
+            {recordsAfterPagingAndSorting().map((item) => (
+              <TableRow key={item.id}>
+                <TableCell>{item.customer_code}</TableCell>
+                <TableCell>{item.customer_name}</TableCell>
+                <TableCell>{item.freshness_requirement}</TableCell>
+                <TableCell>{item.freshness_unit}</TableCell>
+                <TableCell>{item.status}</TableCell>
+                <TableCell>
+                  <Controls.ActionButton
+                    color="primary"
+                    onClick={() => {
+                      openInPopup(item);
+                    }}
+                  >
+                    <EditOutlinedIcon fontSize="small" />
+                  </Controls.ActionButton>
+                  <Controls.ActionButton color="secondary">
+                    <CloseIcon fontSize="small" />
+                  </Controls.ActionButton>
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </TblContainer>
+        <TblPagination />
+      </Paper>
+
+      <Popup
+        title="Customer Form"
+        openPopup={openPopup}
+        setOpenPopup={setOpenPopup}
+      >
+        <CustomerForm />
+      </Popup>
+    </>
   );
 }
