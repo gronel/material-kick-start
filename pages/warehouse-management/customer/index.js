@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { DataGrid } from "@material-ui/data-grid";
-import Typography from "@material-ui/core/Typography";
-import Breadcrumbs from "@material-ui/core/Breadcrumbs";
-import Link from "@material-ui/core/Link";
+
 import {
+  Typography,
+  Breadcrumbs,
+  Link,
   Paper,
   makeStyles,
   TableBody,
@@ -11,11 +12,12 @@ import {
   TableCell,
   Toolbar,
   InputAdornment,
+  Button,
 } from "@material-ui/core";
-import Button from "@material-ui/core/Button";
+
 import Popup from "../../../components/Popup";
 import PageHeader from "../../../components/PageHeader";
-import PeopleOutlineTwoToneIcon from "@material-ui/icons/PeopleOutlineTwoTone";
+import {PeopleOutlineTwoToneIcon} from "@material-ui/icons";
 import CustomerForm from "./CustomerForm";
 import EditOutlinedIcon from "@material-ui/icons/EditOutlined";
 import CloseIcon from "@material-ui/icons/Close";
@@ -47,13 +49,15 @@ export default function index() {
       return items;
     },
   });
-  const [records, setRecords] = useState(customer);
   const [openPopup, setOpenPopup] = useState(false);
 
   const headCells = [
-    { id: "lastName", label: "Last Name" },
-    { id: "firstName", label: "First Name" },
-    { id: "age", label: "Age" },
+    { id: "customer_code", label: "Customer Code" },
+    { id: "customer_name", label: "Customer Name" },
+    { id: "freshness_requirement", label: "Freshness requirement" },
+    { id: "freshness_unit", label: "Freshness Unit" },
+    { id: "customer_category", label: "Category" },
+    { id: "status", label: "Status" },
     { id: "actions", label: "Actions", disableSorting: true },
   ];
   const {
@@ -61,7 +65,7 @@ export default function index() {
     TblHead,
     TblPagination,
     recordsAfterPagingAndSorting,
-  } = useTable(records, headCells, filterFn);
+  } = useTable(customer, headCells, filterFn);
 
   const handleSearch = (e) => {
     let target = e.target;
@@ -78,19 +82,19 @@ export default function index() {
   const openInPopup = () => {
     setOpenPopup(true);
   };
-  const _isrefreshList = () => {
+  const refreshListData = () => {
     axios
       .get("http://codesafe.org/api/wms/customer/customer-list")
       .then((resp) => {
-        setCustomer(resp);
-        console.log(resp);
+        setCustomer(resp.data);
+        console.log(resp.data);
       })
       .catch((err) => {
-        console.log(err);
+        console.log(err.data);
       });
   };
   useEffect(() => {
-    setCustomer();
+    refreshListData();
   }, []);
   return (
     <>
@@ -103,14 +107,6 @@ export default function index() {
         </Link>
         <Typography color="textPrimary">Customer List</Typography>
       </Breadcrumbs>
-      {/* <PageHeader
-        title="Customer List"
-        subTitle=""
-        icon={<PeopleOutlineTwoToneIcon fontSize="large" />}
-      /> */}
-      {/* <Button variant="contained" color="primary" onClick={openInPopup}>
-        Add New
-      </Button> */}
 
       <Paper className={classes.pageContent}>
         <Toolbar>
@@ -143,7 +139,9 @@ export default function index() {
                 <TableCell>{item.customer_name}</TableCell>
                 <TableCell>{item.freshness_requirement}</TableCell>
                 <TableCell>{item.freshness_unit}</TableCell>
+                <TableCell>{item.customer_category}</TableCell>
                 <TableCell>{item.status}</TableCell>
+
                 <TableCell>
                   <Controls.ActionButton
                     color="primary"

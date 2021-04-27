@@ -3,22 +3,14 @@ import { Grid } from "@material-ui/core";
 import Controls from "../../../components/controls/Controls";
 import { useForm, Form } from "../../../components/useForm";
 
-const genderItems = [
-  { id: "male", title: "Male" },
-  { id: "female", title: "Female" },
-  { id: "other", title: "Other" },
-];
-
 const initialFValues = {
-  id: 0,
-  fullName: "",
-  email: "",
-  mobile: "",
-  city: "",
-  gender: "male",
-  departmentId: "",
-  hireDate: new Date(),
-  isPermanent: false,
+  id: "",
+  customer_code: "",
+  customer_name: "",
+  status: false,
+  freshness_requirementty: "",
+  freshness_unit: "",
+  customer_category: "",
 };
 
 export default function EmployeeForm(props) {
@@ -26,13 +18,27 @@ export default function EmployeeForm(props) {
 
   const validate = (fieldValues = values) => {
     let temp = { ...errors };
-    if ("firstName" in fieldValues)
-      temp.firstName = fieldValues.firstName ? "" : "This field is required.";
-    if ("lastName" in fieldValues)
-          temp.lastName = fieldValues.lastName ? "" : "This field is required.";
-      if ("age" in fieldValues)
-        temp.age = fieldValues.age ? "" : "This field is required.";
+    if ("customer_code" in fieldValues)
+      temp.customer_code = fieldValues.customer_code
+        ? ""
+        : "This field is required.";
+    if ("customer_name" in fieldValues)
+      temp.customer_name = fieldValues.customer_name
+        ? ""
+        : "This field is required.";
+    if ("freshness_requirement" in fieldValues)
+      temp.freshness_requirement = fieldValues.freshness_requirement
+        ? ""
+        : "This field is required.";
    
+    if ("freshness_unit" in fieldValues)
+      temp.freshness_unit = fieldValues.freshness_unit
+        ? ""
+        : "This field is required.";
+    if ("customer_category" in fieldValues)
+      temp.customer_category = fieldValues.customer_category
+        ? ""
+        : "This field is required.";
     setErrors({
       ...temp,
     });
@@ -68,56 +74,55 @@ export default function EmployeeForm(props) {
       <Grid container>
         <Grid item xs={6}>
           <Controls.Input
-            name="fullName"
-            label="Full Name"
-            value={values.fullName}
+            name="customer_code"
+            label="Customer Code"
+            value={values.customer_code}
             onChange={handleInputChange}
-            error={errors.fullName}
+            error={errors.customer_code}
           />
           <Controls.Input
-            label="Email"
-            name="email"
-            value={values.email}
+            name="customer_name"
+            label="Customer Name"
+            value={values.customer_name}
             onChange={handleInputChange}
-            error={errors.email}
+            error={errors.customer_name}
           />
           <Controls.Input
-            label="Mobile"
-            name="mobile"
-            value={values.mobile}
+            label="Freshness Requirement"
+            name="freshness_requirement"
+            value={values.freshness_requirement}
             onChange={handleInputChange}
-            error={errors.mobile}
-          />
-          <Controls.Input
-            label="City"
-            name="city"
-            value={values.city}
-            onChange={handleInputChange}
+            error={errors.freshness_requirement}
           />
         </Grid>
         <Grid item xs={6}>
-          <Controls.RadioGroup
-            name="gender"
-            label="Gender"
-            value={values.gender}
+          <Grid item xs={6}></Grid>
+          <Controls.Input
+            label="Freshness Unit"
+            name="freshness_unit"
+            value={values.freshness_unit}
             onChange={handleInputChange}
-            items={genderItems}
+            error={errors.freshness_unit}
           />
-        
-
+          <Controls.Input
+            label="Customer Category"
+            name="customer_category"
+            value={values.customer_category}
+            onChange={handleInputChange}
+            error={errors.customer_category}
+          />
           <Controls.Checkbox
-            name="isPermanent"
-            label="Permanent Customer"
-            value={values.isPermanent}
+            name="status"
+            label="Status"
+            value={values.status}
             onChange={handleInputChange}
           />
-
-          <div>
-            <Controls.Button type="submit" text="Submit" />
-            <Controls.Button text="Reset" color="default" onClick={resetForm} />
-          </div>
         </Grid>
       </Grid>
+      <div>
+        <Controls.Button type="submit" text="Submit" />
+        <Controls.Button text="Reset" color="default" onClick={resetForm} />
+      </div>
     </Form>
   );
 }
