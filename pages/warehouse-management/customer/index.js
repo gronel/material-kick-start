@@ -17,7 +17,7 @@ import {
 
 import Popup from "../../../components/Popup";
 import PageHeader from "../../../components/PageHeader";
-import {PeopleOutlineTwoToneIcon} from "@material-ui/icons";
+import { PeopleOutlineTwoToneIcon } from "@material-ui/icons";
 import CustomerForm from "./CustomerForm";
 import EditOutlinedIcon from "@material-ui/icons/EditOutlined";
 import CloseIcon from "@material-ui/icons/Close";
@@ -26,6 +26,7 @@ import useTable from "../../../components/useTable";
 import { Search } from "@material-ui/icons";
 import AddIcon from "@material-ui/icons/Add";
 import axios from "axios";
+import Api from "../../Services/api";
 const useStyles = makeStyles((theme) => ({
   pageContent: {
     margin: theme.spacing(5),
@@ -42,7 +43,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function index() {
   const classes = useStyles();
-
+  const [recordForEdit, setRecordForEdit] = useState(null);
   const [customer, setCustomer] = useState([]);
   const [filterFn, setFilterFn] = useState({
     fn: (items) => {
@@ -79,12 +80,41 @@ export default function index() {
       },
     });
   };
-  const openInPopup = () => {
+  const addOrEdit = (form, resetForm) => {
+    if (form.id == 0)
+      axios
+        .post(Api.baseURL + "/wms/customer/customer-store")
+        .then((resp) => {
+          console.log(resp.data);
+          refreshListData();
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    else
+      axios
+        .put(Api.baseURL + "/wms/customer/customer-update/" + form.id)
+        .then((resp) => {
+          console.log(resp.data);
+          refreshListData();
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    resetForm();
+    setRecordForEdit(null);
+    setOpenPopup(false);
+    setRecords(employeeService.getAllEmployees());
+  };
+
+  const openInPopup = (item) => {
+    setRecordForEdit(item);
     setOpenPopup(true);
   };
   const refreshListData = () => {
     axios
-      .get("http://codesafe.org/api/wms/customer/customer-list")
+      .get(Api.baseURL + "/wms/customer/customer-list")
+
       .then((resp) => {
         setCustomer(resp.data);
         console.log(resp.data);
@@ -167,7 +197,8 @@ export default function index() {
         openPopup={openPopup}
         setOpenPopup={setOpenPopup}
       >
-        <CustomerForm />
+        <CustomerForm recordForEdit={recordForEdit} addOrEdit={addOrEdit} />
+        />
       </Popup>
     </>
   );
