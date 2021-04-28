@@ -8,12 +8,12 @@ const initialFValues = {
   customer_code: "",
   customer_name: "",
   status: false,
-  freshness_requirementty: "",
+  freshness_requirement: "",
   freshness_unit: "",
   customer_category: "",
 };
 
-export default function EmployeeForm(props) {
+export default function CustomerForm(props) {
   const { addOrEdit, recordForEdit } = props;
 
   const validate = (fieldValues = values) => {
@@ -30,7 +30,7 @@ export default function EmployeeForm(props) {
       temp.freshness_requirement = fieldValues.freshness_requirement
         ? ""
         : "This field is required.";
-   
+
     if ("freshness_unit" in fieldValues)
       temp.freshness_unit = fieldValues.freshness_unit
         ? ""
