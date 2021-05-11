@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Grid } from "@material-ui/core";
 import Controls from "../../../components/controls/Controls";
 import { useForm, Form } from "../../../components/useForm";
+import api from "../../../Services/api";
 
 const initialFValues = {
   id: "",
@@ -14,8 +15,8 @@ const initialFValues = {
 };
 
 export default function CustomerForm(props) {
-  const { addOrEdit, recordForEdit } = props;
-
+  const { recordForEdit } = props;
+  // const { addOrEdit, recordForEdit } = props;
   const validate = (fieldValues = values) => {
     let temp = { ...errors };
     if ("customer_code" in fieldValues)
@@ -46,19 +47,33 @@ export default function CustomerForm(props) {
     if (fieldValues == values) return Object.values(temp).every((x) => x == "");
   };
 
-  const {
-    values,
-    setValues,
-    errors,
-    setErrors,
-    handleInputChange,
-    resetForm,
-  } = useForm(initialFValues, true, validate);
+  const { values, setValues, errors, setErrors, handleInputChange, resetForm } =
+    useForm(initialFValues, true, validate);
 
   const handleSubmit = (e) => {
     e.preventDefault();
     if (validate()) {
-      addOrEdit(resetForm);
+      // addOrEdit(resetForm);
+      if (recordForEdit != null) {
+         api.instance
+           .put("/wms/customer/customer-update/" + values.id)
+           .then((resp) => {
+             console.log(resp.data);
+             refreshListData();
+           })
+           .catch((err) => {
+             console.log(err);
+           });
+      } else {
+        api.instance
+          .post("/wms/customer/customer-store", values)
+          .then((resp) => {
+            console.log(resp.data);
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      }
     }
   };
 
@@ -96,7 +111,6 @@ export default function CustomerForm(props) {
           />
         </Grid>
         <Grid item xs={6}>
-          
           <Controls.Input
             label="Freshness Unit"
             name="freshness_unit"

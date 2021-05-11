@@ -16,11 +16,12 @@ import {
   TextField,
   Grid,
   Checkbox,
+  ListItemText,
 } from "@material-ui/core";
 
 import Popup from "../../../components/Popup";
 import PageHeader from "../../../components/PageHeader";
-import { PeopleOutlineTwoToneIcon } from "@material-ui/icons";
+import { InsertEmoticonOutlined, PeopleOutlineTwoToneIcon } from "@material-ui/icons";
 import CustomerForm from "./CustomerForm";
 import EditOutlinedIcon from "@material-ui/icons/EditOutlined";
 import CloseIcon from "@material-ui/icons/Close";
@@ -106,6 +107,17 @@ export default function index() {
       },
     });
   };
+  const removeItem =(item) =>{
+     api.instance
+       .delete("/wms/customer/customer-destroy/", item)
+       .then((resp) => {
+         console.log(resp.data);
+         refreshListData();
+       })
+       .catch((err) => {
+         console.log(err);
+       });
+  }
   const addOrEdit = () => {
     if (edit == false)
       api.instance
@@ -185,7 +197,10 @@ export default function index() {
             variant="outlined"
             startIcon={<AddIcon />}
             className={classes.newButton}
-            onClick={openInPopup}
+            onClick={() => {
+              setOpenPopup(true);
+              setRecordForEdit(null);
+            }}
           />
         </Toolbar>
         <TblContainer>
@@ -209,7 +224,10 @@ export default function index() {
                   >
                     <EditOutlinedIcon fontSize="small" />
                   </Controls.ActionButton>
-                  <Controls.ActionButton color="secondary">
+                  <Controls.ActionButton color="secondary"
+                    onClick={() => {
+                      removeItem(item.id);
+                  }}>
                     <CloseIcon fontSize="small" />
                   </Controls.ActionButton>
                 </TableCell>
@@ -225,9 +243,9 @@ export default function index() {
         openPopup={openPopup}
         setOpenPopup={setOpenPopup}
       >
+        <CustomerForm recordForEdit={recordForEdit} />
         {/* <CustomerForm recordForEdit={recordForEdit} addOrEdit={addOrEdit} /> */}
-
-        <Grid container>
+        {/* <Grid container>
           <Grid item xs={6}>
             <TextField
               variant="outlined"
@@ -311,7 +329,7 @@ export default function index() {
           <Button onClick={addOrEdit} variant="contained" color="primary">
             Submit
           </Button>
-        </div>
+        </div> */}
       </Popup>
     </>
   );
