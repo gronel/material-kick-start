@@ -58,7 +58,7 @@ export default function CustomerForm(props) {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (validate()) {
-      addOrEdit(values, resetForm);
+      addOrEdit(resetForm);
     }
   };
 
@@ -96,7 +96,7 @@ export default function CustomerForm(props) {
           />
         </Grid>
         <Grid item xs={6}>
-          <Grid item xs={6}></Grid>
+          
           <Controls.Input
             label="Freshness Unit"
             name="freshness_unit"

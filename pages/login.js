@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import Avatar from "@material-ui/core/Avatar";
 import Button from "@material-ui/core/Button";
 import CssBaseline from "@material-ui/core/CssBaseline";
@@ -13,6 +13,8 @@ import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import IconButton from "@material-ui/core/IconButton";
+import api from "../Services/api";
+import axios from "axios";
 
 function Copyright() {
   return (
@@ -63,6 +65,25 @@ const useStyles = makeStyles((theme) => ({
 export default function SignInSide() {
   const classes = useStyles();
 
+  const [form, setForm] = useState({
+    email: "",
+    password: "",
+  });
+
+  const login = () => {
+  
+    axios
+      .post(api.baseURL + "/login", form)
+      .then((response) => {
+        console.log(response.data);
+        let utoken = response.data.token
+        localStorage.setItem("token", JSON.stringify(utoken));
+   
+      })
+      .catch((err) => {
+        console.log(err.data);
+      });
+  };
   return (
     <Grid container component="main" className={classes.root}>
       <CssBaseline />
@@ -75,7 +96,7 @@ export default function SignInSide() {
           <Typography component="h1" variant="h5">
             Sign in
           </Typography>
-          <form className={classes.form} noValidate>
+          <form className={classes.form}>
             <TextField
               variant="outlined"
               margin="normal"
@@ -86,6 +107,13 @@ export default function SignInSide() {
               name="email"
               autoComplete="email"
               autoFocus
+              value={form.email}
+              onChange={(e) => {
+                setForm({
+                  ...form,
+                  email: e.target.value,
+                });
+              }}
             />
             <TextField
               variant="outlined"
@@ -95,23 +123,30 @@ export default function SignInSide() {
               name="password"
               label="Password"
               type="password"
-              id="password"
+              id="email"
               autoComplete="current-password"
+              value={form.password}
+              onChange={(e) => {
+                setForm({
+                  ...form,
+                  password: e.target.value,
+                });
+              }}
             />
             <FormControlLabel
               control={<Checkbox value="remember" color="primary" />}
               label="Remember me"
             />
             <Button
-              type="submit"
               fullWidth
               variant="contained"
               color="primary"
               className={classes.submit}
+              onClick={login}
             >
               Sign In
             </Button>
-           
+
             <Grid container>
               <Grid item xs>
                 <Link href="#" variant="body2">
