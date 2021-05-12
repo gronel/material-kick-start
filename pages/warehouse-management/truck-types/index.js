@@ -34,7 +34,7 @@ import RadioButtonUncheckedRoundedIcon from "@material-ui/icons/RadioButtonUnche
 import AddIcon from "@material-ui/icons/Add";
 import axios from "axios";
 import api from "../../../Services/api";
-import Dialog from "../../../components/PopDialog";
+import PopDialog from "../../../components/PopDialog";
 import TruckerForm from "./TruckerForm";
 import DeleteIcon from "@material-ui/icons/Delete";
 const useStyles = makeStyles((theme) => ({
@@ -248,7 +248,7 @@ export default function index() {
         </TblContainer>
         <TblPagination />
       </Paper>
-      <Dialog
+      <PopDialog
         title="Delete Supplier"
         description={
           "Are you sure do want to delete Supplier code " + captionDialog
@@ -261,7 +261,7 @@ export default function index() {
             Agree
           </Button>
         </DialogActions>
-      </Dialog>
+      </PopDialog>
 
       <Popup
         title="Supplier Form"

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { DataGrid } from "@material-ui/data-grid";
+
 
 import {
   Typography,
@@ -34,7 +34,7 @@ import RadioButtonUncheckedRoundedIcon from "@material-ui/icons/RadioButtonUnche
 import AddIcon from "@material-ui/icons/Add";
 import axios from "axios";
 import api from "../../../Services/api";
-import Dialog from "../../../components/PopDialog";
+import PopDialog from "../../../components/PopDialog";
 import TruckerMasterForm from "./TruckerMasterForm";
 import DeleteIcon from "@material-ui/icons/Delete";
 const useStyles = makeStyles((theme) => ({
@@ -241,10 +241,10 @@ export default function index() {
         </TblContainer>
         <TblPagination />
       </Paper>
-      <Dialog
-        title="Delete Supplier"
+      <PopDialog
+        title="Delete Trucker"
         description={
-          "Are you sure do want to delete Supplier code " + captionDialog
+          "Are you sure do want to delete Trucker code " + captionDialog
         }
         openDialog={openDialog}
         setOpenDialog={setOpenDialog}
@@ -254,7 +254,7 @@ export default function index() {
             Agree
           </Button>
         </DialogActions>
-      </Dialog>
+      </PopDialog>
 
       <Popup
         title="Supplier Form"

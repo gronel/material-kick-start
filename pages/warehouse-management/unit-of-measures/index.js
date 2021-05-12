@@ -34,7 +34,7 @@ import RadioButtonUncheckedRoundedIcon from "@material-ui/icons/RadioButtonUnche
 import AddIcon from "@material-ui/icons/Add";
 import axios from "axios";
 import api from "../../../Services/api";
-import Dialog from "../../../components/PopDialog";
+import PopDialog from "../../../components/PopDialog";
 import UnitofMeasuresForm from "./UnitofMeasuresForm";
 import DeleteIcon from "@material-ui/icons/Delete";
 const useStyles = makeStyles((theme) => ({
@@ -205,9 +205,6 @@ export default function index() {
               <TableRow key={item.id}>
                 <TableCell>{item.uom_code}</TableCell>
                 <TableCell>{item.description}</TableCell>
-             
-
-               
 
                 <TableCell>
                   <Controls.ActionButton
@@ -233,10 +230,10 @@ export default function index() {
         </TblContainer>
         <TblPagination />
       </Paper>
-      <Dialog
-        title="Delete Supplier"
+      <PopDialog
+        title="Delete UOM"
         description={
-          "Are you sure do want to delete Supplier code " + captionDialog
+          "Are you sure do want to delete UOM " + captionDialog
         }
         openDialog={openDialog}
         setOpenDialog={setOpenDialog}
@@ -246,7 +243,7 @@ export default function index() {
             Agree
           </Button>
         </DialogActions>
-      </Dialog>
+      </PopDialog>
 
       <Popup
         title="Unit of Measures Form"
