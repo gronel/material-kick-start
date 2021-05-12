@@ -17,20 +17,24 @@ import {
   Grid,
   Checkbox,
   ListItemText,
+  DialogActions,
 } from "@material-ui/core";
 
 import Popup from "../../../components/Popup";
 import PageHeader from "../../../components/PageHeader";
-import { InsertEmoticonOutlined, PeopleOutlineTwoToneIcon } from "@material-ui/icons";
+import { PeopleAltTwoTone, PeopleOutlineTwoToneIcon } from "@material-ui/icons";
 import CustomerForm from "./CustomerForm";
 import EditOutlinedIcon from "@material-ui/icons/EditOutlined";
 import CloseIcon from "@material-ui/icons/Close";
 import Controls from "../../../components/controls/Controls";
 import useTable from "../../../components/useTable";
 import { Search } from "@material-ui/icons";
+import CheckCircleIcon from "@material-ui/icons/CheckCircle";
+import RadioButtonUncheckedRoundedIcon from "@material-ui/icons/RadioButtonUncheckedRounded";
 import AddIcon from "@material-ui/icons/Add";
 import axios from "axios";
 import api from "../../../Services/api";
+import Dialog from "../../../components/PopDialog";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -55,15 +59,16 @@ const useStyles = makeStyles((theme) => ({
 export default function index() {
   const classes = useStyles();
   const [recordForEdit, setRecordForEdit] = useState(null);
-  const [customer, setCustomer] = useState([]);
+  const [recordForRemove, setRecordForRemove] = useState(null);
+  const [listrecordData, setlistRecordData] = useState([]);
   const [filterFn, setFilterFn] = useState({
     fn: (items) => {
       return items;
     },
   });
+  const [openDialog, setOpenDialog] = useState(false);
   const [openPopup, setOpenPopup] = useState(false);
-  const [edit, isEdit] = useState(false);
-  const [checked, setchecked] = useState(false);
+  const [captionDialog, setCaptionDialog] = useState("");
   const headCells = [
     { id: "customer_code", label: "Customer Code" },
     { id: "customer_name", label: "Customer Name" },
@@ -73,27 +78,26 @@ export default function index() {
     { id: "status", label: "Status" },
     { id: "actions", label: "Actions", disableSorting: true },
   ];
-  const [form, setForm] = useState({
-    id: "",
-    customer_code: "",
-    customer_name: "",
-    status: "",
-    freshness_requirement: "",
-    freshness_unit: "",
-    customer_category: "",
-  });
-  const {
-    TblContainer,
-    TblHead,
-    TblPagination,
-    recordsAfterPagingAndSorting,
-  } = useTable(customer, headCells, filterFn);
-  const toggle = () => {
-    setchecked(!checked);
-    setForm({
-      ...form,
-      status: checked ? 0 : 1,
-    });
+
+  const { TblContainer, TblHead, TblPagination, recordsAfterPagingAndSorting } =
+    useTable(listrecordData, headCells, filterFn);
+
+  const DelopenHandlerDialog = (item) => {
+    setRecordForRemove(item);
+    setCaptionDialog(item.customer_code);
+    setOpenDialog(true);
+  };
+  const removeItem = () => {
+    api.instance
+      .delete("/wms/customer/customer-destroy/" + recordForRemove.id)
+      .then((resp) => {
+        console.log(resp.data);
+        refreshListData();
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+    setOpenDialog(false);
   };
   const handleSearch = (e) => {
     let target = e.target;
@@ -101,38 +105,29 @@ export default function index() {
       fn: (items) => {
         if (target.value == "") return items;
         else
-          return items.filter((x) =>
-            x.firstName.toLowerCase().includes(target.value)
+          return items.filter(
+            (x) =>
+              x.customer_code.toLowerCase().includes(target.value) ||
+              x.customer_name.toLowerCase().includes(target.value) ||
+              x.customer_category.toLowerCase().includes(target.value)
           );
       },
     });
   };
-  const removeItem =(item) =>{
-     api.instance
-       .delete("/wms/customer/customer-destroy/", item)
-       .then((resp) => {
-         console.log(resp.data);
-         refreshListData();
-       })
-       .catch((err) => {
-         console.log(err);
-       });
-  }
-  const addOrEdit = () => {
-    if (edit == false)
+  const onSubmit = (values, resetForm) => {
+    if (values.id == 0)
       api.instance
-        .post("/wms/customer/customer-store", form)
+        .post("/wms/customer/customer-store", values)
         .then((resp) => {
           console.log(resp.data);
           refreshListData();
-          setForm({});
         })
         .catch((err) => {
           console.log(err);
         });
-    else if (edit == true) {
+    else {
       api.instance
-        .put("/wms/customer/customer-update/" + form.id)
+        .put("/wms/customer/customer-update/" + values.id, values)
         .then((resp) => {
           console.log(resp.data);
           refreshListData();
@@ -141,10 +136,9 @@ export default function index() {
           console.log(err);
         });
     }
-    // resetForm();
-    // setRecordForEdit(null);
+    resetForm();
+    setRecordForEdit(null);
     setOpenPopup(false);
-    refreshListData();
   };
 
   const openInPopup = (item) => {
@@ -156,7 +150,7 @@ export default function index() {
       .get("/wms/customer/customer-list")
 
       .then((resp) => {
-        setCustomer(resp.data);
+        setlistRecordData(resp.data);
         console.log(resp.data);
       })
       .catch((err) => {
@@ -175,9 +169,13 @@ export default function index() {
         <Link color="inherit" href="/warehouse-management/">
           Warehouse Management
         </Link>
-        <Typography color="textPrimary">Customer List</Typography>
+        <Typography color="textPrimary">Customer Master</Typography>
       </Breadcrumbs>
-
+      {/* <PageHeader
+        title="Customer"
+        subTitle=""
+        icon={<PeopleAltTwoTone fontSize="large" />}
+      /> */}
       <Paper className={classes.pageContent}>
         <Toolbar>
           <Controls.Input
@@ -213,7 +211,13 @@ export default function index() {
                 <TableCell>{item.freshness_requirement}</TableCell>
                 <TableCell>{item.freshness_unit}</TableCell>
                 <TableCell>{item.customer_category}</TableCell>
-                <TableCell>{item.status}</TableCell>
+                <TableCell>
+                  {item.status == 1 ? (
+                    <CheckCircleIcon />
+                  ) : (
+                    <RadioButtonUncheckedRoundedIcon />
+                  )}
+                </TableCell>
 
                 <TableCell>
                   <Controls.ActionButton
@@ -224,10 +228,12 @@ export default function index() {
                   >
                     <EditOutlinedIcon fontSize="small" />
                   </Controls.ActionButton>
-                  <Controls.ActionButton color="secondary"
+                  <Controls.ActionButton
+                    color="secondary"
                     onClick={() => {
-                      removeItem(item.id);
-                  }}>
+                      DelopenHandlerDialog(item);
+                    }}
+                  >
                     <CloseIcon fontSize="small" />
                   </Controls.ActionButton>
                 </TableCell>
@@ -237,99 +243,28 @@ export default function index() {
         </TblContainer>
         <TblPagination />
       </Paper>
+      <Dialog
+        title="Delete Customer"
+        description={
+          "Are you sure do want to delete Supplier code " + captionDialog
+        }
+        openDialog={openDialog}
+        setOpenDialog={setOpenDialog}
+      >
+        <DialogActions>
+          {/* <Button color="primary">Disagree</Button> */}
+          <Button onClick={removeItem} color="primary" autoFocus>
+            Agree
+          </Button>
+        </DialogActions>
+      </Dialog>
 
       <Popup
         title="Customer Form"
         openPopup={openPopup}
         setOpenPopup={setOpenPopup}
       >
-        <CustomerForm recordForEdit={recordForEdit} />
-        {/* <CustomerForm recordForEdit={recordForEdit} addOrEdit={addOrEdit} /> */}
-        {/* <Grid container>
-          <Grid item xs={6}>
-            <TextField
-              variant="outlined"
-              label="Customer Code"
-              name={form.customer_code}
-              value={form.customer_code}
-              onChange={(e) => {
-                setForm({
-                  ...form,
-                  customer_code: e.target.value,
-                });
-              }}
-              size="small"
-            />
-
-            <TextField
-              variant="outlined"
-              label="Customer Name"
-              name={form.customer_name}
-              value={form.customer_name}
-              onChange={(e) => {
-                setForm({
-                  ...form,
-                  customer_name: e.target.value,
-                });
-              }}
-              size="small"
-            />
-            <TextField
-              variant="outlined"
-              label="freshness Requirement"
-              name={form.freshness_requirement}
-              value={form.freshness_requirement}
-              onChange={(e) => {
-                setForm({
-                  ...form,
-                  freshness_requirement: e.target.value,
-                });
-              }}
-              size="small"
-            />
-          </Grid>
-          <Grid item xs={6}>
-            <TextField
-              variant="outlined"
-              label="Freshness Unit"
-              name={form.freshness_unit}
-              value={form.freshness_unit}
-              onChange={(e) => {
-                setForm({
-                  ...form,
-                  freshness_unit: e.target.value,
-                });
-              }}
-              size="small"
-            />
-            <TextField
-              variant="outlined"
-              label="Customer Category"
-              name={form.customer_category}
-              value={form.customer_category}
-              onChange={(e) => {
-                setForm({
-                  ...form,
-                  customer_category: e.target.value,
-                });
-              }}
-              size="small"
-            />
-            <Checkbox
-              checked={checked}
-              onChange={toggle}
-              name="Status"
-              value={checked ? 1 : 0}
-              color="primary"
-              label="Status"
-            />
-          </Grid>
-        </Grid>
-        <div>
-          <Button onClick={addOrEdit} variant="contained" color="primary">
-            Submit
-          </Button>
-        </div> */}
+        <CustomerForm recordForEdit={recordForEdit} addOrEdit={onSubmit} />
       </Popup>
     </>
   );

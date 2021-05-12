@@ -12,6 +12,7 @@ const Controls = {
   Checkbox,
   Button,
   ActionButton,
+  
 };
 
 export default Controls;

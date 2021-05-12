@@ -4,7 +4,7 @@ import { makeStyles, useTheme } from "@material-ui/core/styles";
 import Drawer from "@material-ui/core/Drawer";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
-import List from "@material-ui/core/List";
+import { List, InputBase, Badge, Grid, Button } from "@material-ui/core";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import Typography from "@material-ui/core/Typography";
 import Divider from "@material-ui/core/Divider";
@@ -17,6 +17,10 @@ import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
 import InboxIcon from "@material-ui/icons/MoveToInbox";
 import MailIcon from "@material-ui/icons/Mail";
+import SearchIcon from "@material-ui/icons/Search";
+import NotificationsNoneIcon from "@material-ui/icons/NotificationsNone";
+import ChatBubbleOutlineIcon from "@material-ui/icons/ChatBubbleOutline";
+import PowerSettingsNewIcon from "@material-ui/icons/PowerSettingsNew";
 import FolderIcon from "@material-ui/icons/Folder";
 import AccountCircle from "@material-ui/icons/AccountCircle";
 import MenuItems from "@material-ui/core/MenuItem";
@@ -84,6 +88,9 @@ const useStyles = makeStyles((theme) => ({
     flexGrow: 1,
     padding: theme.spacing(3),
   },
+  title: {
+    flexGrow: 1,
+  },
 }));
 
 export default function MiniDrawer(props) {
@@ -134,9 +141,20 @@ export default function MiniDrawer(props) {
           >
             <MenuIcon />
           </IconButton>
-          <Typography variant="h6" noWrap>
+          <Typography variant="h6" className={classes.title}>
             Ours WMS
           </Typography>
+          <IconButton>
+            <Badge badgeContent={4} color="secondary">
+              <NotificationsNoneIcon fontSize="small" />
+            </Badge>
+          </IconButton>
+          <IconButton>
+            <Badge badgeContent={3} color="secondary">
+              <ChatBubbleOutlineIcon fontSize="small" />
+            </Badge>
+          </IconButton>
+
           {auth && (
             <div>
               <IconButton

@@ -2,21 +2,21 @@ import React, { useState, useEffect } from "react";
 import { Grid } from "@material-ui/core";
 import Controls from "../../../components/controls/Controls";
 import { useForm, Form } from "../../../components/useForm";
-import api from "../../../Services/api";
+
 
 const initialFValues = {
   id: "",
   customer_code: "",
   customer_name: "",
-  status: false,
+  status: "0",
   freshness_requirement: "",
   freshness_unit: "",
   customer_category: "",
 };
 
 export default function CustomerForm(props) {
-  const { recordForEdit } = props;
-  // const { addOrEdit, recordForEdit } = props;
+
+ const { addOrEdit, recordForEdit } = props;
   const validate = (fieldValues = values) => {
     let temp = { ...errors };
     if ("customer_code" in fieldValues)
@@ -50,30 +50,14 @@ export default function CustomerForm(props) {
   const { values, setValues, errors, setErrors, handleInputChange, resetForm } =
     useForm(initialFValues, true, validate);
 
+  
   const handleSubmit = (e) => {
+    
     e.preventDefault();
     if (validate()) {
-      // addOrEdit(resetForm);
-      if (recordForEdit != null) {
-         api.instance
-           .put("/wms/customer/customer-update/" + values.id)
-           .then((resp) => {
-             console.log(resp.data);
-             refreshListData();
-           })
-           .catch((err) => {
-             console.log(err);
-           });
-      } else {
-        api.instance
-          .post("/wms/customer/customer-store", values)
-          .then((resp) => {
-            console.log(resp.data);
-          })
-          .catch((err) => {
-            console.log(err);
-          });
-      }
+  
+      addOrEdit(values, resetForm);
+     
     }
   };
 
@@ -103,7 +87,8 @@ export default function CustomerForm(props) {
             error={errors.customer_name}
           />
           <Controls.Input
-            label="Freshness Requirement"
+            type="number"
+            label="Freshness Requirement %"
             name="freshness_requirement"
             value={values.freshness_requirement}
             onChange={handleInputChange}
@@ -128,7 +113,7 @@ export default function CustomerForm(props) {
           <Controls.Checkbox
             name="status"
             label="Status"
-            value={values.status}
+            value={values.status == "0" ? false : true}
             onChange={handleInputChange}
           />
         </Grid>
