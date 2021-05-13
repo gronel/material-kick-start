@@ -178,7 +178,7 @@ export default function index() {
       <Paper className={classes.pageContent}>
         <Toolbar>
           <Controls.Input
-            label="Search Supplier"
+            label="Search"
             className={classes.searchInput}
             InputProps={{
               startAdornment: (

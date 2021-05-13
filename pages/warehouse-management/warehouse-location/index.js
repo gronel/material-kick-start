@@ -71,7 +71,7 @@ export default function index() {
   const [openPopup, setOpenPopup] = useState(false);
   const [captionDialog, setCaptionDialog] = useState("");
   const headCells = [
-    { id: "warehouse_code", label: "Supplier Code" },
+    { id: "warehouse_code", label: "Warehouse Code" },
     { id: "warehouse_name", label: "Warehouse Name" },
     { id: "is_active", label: "Status" },
     { id: "actions", label: "Actions", disableSorting: true },
@@ -172,7 +172,7 @@ export default function index() {
       <Paper className={classes.pageContent}>
         <Toolbar>
           <Controls.Input
-            label="Search Supplier"
+            label="Search"
             className={classes.searchInput}
             InputProps={{
               startAdornment: (

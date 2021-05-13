@@ -18,7 +18,10 @@ import {
   Checkbox,
   ListItemText,
   DialogActions,
-
+  FormControl,
+  InputLabel,
+  Select,
+  MenuItem,
 } from "@material-ui/core";
 
 import Popup from "../../../components/Popup";
@@ -49,8 +52,16 @@ const useStyles = makeStyles((theme) => ({
     margin: theme.spacing(5),
     padding: theme.spacing(3),
   },
+  formControl: {
+    margin: theme.spacing(1),
+    minWidth: 175,
+  },
   searchInput: {
     width: "75%",
+  },
+  selectWarehouse: {
+    width: "100%",
+    float: "right",
   },
   newButton: {
     position: "absolute",
@@ -63,6 +74,8 @@ export default function index() {
   const [recordForEdit, setRecordForEdit] = useState(null);
   const [recordForRemove, setRecordForRemove] = useState(null);
   const [listrecordData, setlistRecordData] = useState([]);
+  const [listwarehouse, setlistWarehouse] = useState([]);
+  const [isfilter, setfilter] = useState("");
   const [filterFn, setFilterFn] = useState({
     fn: (items) => {
       return items;
@@ -72,12 +85,17 @@ export default function index() {
   const [openPopup, setOpenPopup] = useState(false);
   const [captionDialog, setCaptionDialog] = useState("");
   const headCells = [
-    { id: "warehouse_code", label: "Supplier Code" },
-    { id: "warehouse_name", label: "Warehouse Name" },
-    { id: "is_active", label: "Status" },
+    { id: "location_code", label: "Location Code" },
+    { id: "area_id", label: "Area ID" },
+    { id: "trace_code", label: "Trace Code" },
+    { id: "location_name", label: "Location Name" },
+    { id: "location_type", label: "Location type" },
+    { id: "is_active", label: "Active" },
     { id: "actions", label: "Actions", disableSorting: true },
   ];
-
+  const initialValues = {
+    warehouse_code: "",
+  };
   const { TblContainer, TblHead, TblPagination, recordsAfterPagingAndSorting } =
     useTable(listrecordData, headCells, filterFn);
 
@@ -88,7 +106,7 @@ export default function index() {
   };
   const removeItem = () => {
     api.instance
-      .delete("/wms/warehouse/warehouse-destroy/" + recordForRemove.id)
+      .delete("/wms/location/storage-location-destroy/" + recordForRemove.id)
       .then((resp) => {
         console.log(resp.data);
         refreshListData();
@@ -106,8 +124,10 @@ export default function index() {
         else
           return items.filter(
             (x) =>
-              x.warehouse_code.toLowerCase().includes(target.value) ||
-              x.warehouse_name.toLowerCase().includes(target.value)
+              x.location_code.toLowerCase().includes(target.value) ||
+              x.trace_code.toLowerCase().includes(target.value) ||
+              x.location_name.toLowerCase().includes(target.value) ||
+              x.location_type.toLowerCase().includes(target.value)
           );
       },
     });
@@ -115,7 +135,7 @@ export default function index() {
   const onSubmit = (values, resetForm) => {
     if (values.id == 0)
       api.instance
-        .post("/wms/warehouse/warehouse-store", values)
+        .post("/wms/location/storage-location-store", values)
         .then((resp) => {
           console.log(resp.data);
           refreshListData();
@@ -125,7 +145,7 @@ export default function index() {
         });
     else {
       api.instance
-        .put("/wms/warehouse/warehouse-update/" + values.id, values)
+        .put("/wms/location/storage-location-update/" + values.id, values)
         .then((resp) => {
           console.log(resp.data);
           refreshListData();
@@ -145,15 +165,25 @@ export default function index() {
   };
   const refreshListData = () => {
     api.instance
-      .get("/wms/warehouse/warehouse-list")
+      .get("/wms/location/storage-location-list")
 
       .then((resp) => {
-        setlistRecordData(resp.data);
+        setlistWarehouse(resp.data);
         console.log(resp.data);
       })
       .catch((err) => {
         console.log(err.data);
       });
+  };
+  const onfilter = (warehousecode) => {
+    debugger;
+    setfilter(warehousecode);
+    listwarehouse.filter((item) => {
+      if (item.warehouse_code == warehousecode) {
+        setlistRecordData(item.location);
+        initialValues.warehouse_code = item.warehousecode;
+      }
+    });
   };
   useEffect(() => {
     refreshListData();
@@ -171,9 +201,35 @@ export default function index() {
       </Breadcrumbs>
 
       <Paper className={classes.pageContent}>
+        <div className={classes.selectWarehouse}>
+          <Controls.InputSelect
+            name="warehouse_code"
+            label="Warehouse Name"
+            value={isfilter}
+            onChange={(e) => onfilter(e.currentTarget.value)}
+            options={listwarehouse}
+          />
+          {/* <FormControl variant="outlined" className={classes.formControl}>
+            <InputLabel>Warehouse Name</InputLabel>
+            <Select
+              label="Warehouse Name"
+              name={initialValues.warehouse_code}
+              value={isfilter}
+              onChange={(e) => onfilter(e.currentTarget.value)}
+            >
+              <MenuItem value="">None</MenuItem>
+
+              {listwarehouse.map((row, key) => (
+                <MenuItem key={key} value={row.warehouse_code}>
+                  {row.warehouse_name}
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl> */}
+        </div>
         <Toolbar>
           <Controls.Input
-            label="Search Supplier"
+            label="Search"
             className={classes.searchInput}
             InputProps={{
               startAdornment: (
@@ -200,8 +256,11 @@ export default function index() {
           <TableBody>
             {recordsAfterPagingAndSorting().map((item) => (
               <TableRow key={item.id}>
-                <TableCell>{item.warehouse_code}</TableCell>
-                <TableCell>{item.warehouse_name}</TableCell>
+                <TableCell>{item.location_code}</TableCell>
+                <TableCell>{item.area_id}</TableCell>
+                <TableCell>{item.trace_code}</TableCell>
+                <TableCell>{item.location_name}</TableCell>
+                <TableCell>{item.location_type}</TableCell>
                 <TableCell>
                   {item.is_active == 1 ? (
                     <CheckCircleIcon />
@@ -249,7 +308,7 @@ export default function index() {
       </PopDialog>
 
       <Popup
-        title="Warehouse Location Form"
+        title="Storage Location Form"
         openPopup={openPopup}
         setOpenPopup={setOpenPopup}
       >
