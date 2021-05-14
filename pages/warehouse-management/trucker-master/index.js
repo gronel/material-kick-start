@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 
-
 import {
   Typography,
   Breadcrumbs,
@@ -46,14 +45,16 @@ const useStyles = makeStyles((theme) => ({
   },
   pageContent: {
     margin: theme.spacing(5),
-    padding: theme.spacing(3),
+    padding: theme.spacing(2),
   },
   searchInput: {
-    width: "75%",
+    width: "50%",
+    height: 40,
   },
+
   newButton: {
     position: "absolute",
-    right: "10px",
+    right: "35px",
   },
 }));
 
@@ -61,7 +62,7 @@ export default function index() {
   const classes = useStyles();
   const [recordForEdit, setRecordForEdit] = useState(null);
   const [recordForRemove, setRecordForRemove] = useState(null);
- const [listrecordData, setlistRecordData] = useState([]);
+  const [listrecordData, setlistRecordData] = useState([]);
   const [filterFn, setFilterFn] = useState({
     fn: (items) => {
       return items;
@@ -170,28 +171,10 @@ export default function index() {
         </Link>
         <Typography color="textPrimary">Trucker Master</Typography>
       </Breadcrumbs>
-      {/* <PageHeader
-        title="New Employee"
-        subTitle="Form design with validation"
-        icon={<PeopleAltTwoTone fontSize="large" />}
-      /> */}
-      <Paper className={classes.pageContent}>
+      <div>
         <Toolbar>
-          <Controls.Input
-            label="Search"
-            className={classes.searchInput}
-            InputProps={{
-              startAdornment: (
-                <InputAdornment position="start">
-                  <Search />
-                </InputAdornment>
-              ),
-            }}
-            onChange={handleSearch}
-          />
           <Controls.Button
             text="Add New"
-            variant="outlined"
             startIcon={<AddIcon />}
             className={classes.newButton}
             onClick={() => {
@@ -200,6 +183,22 @@ export default function index() {
             }}
           />
         </Toolbar>
+      </div>
+      <Paper className={classes.pageContent}>
+        <Controls.Input
+          label="Search"
+          className={classes.searchInput}
+          InputProps={{
+            startAdornment: (
+              <InputAdornment position="start">
+                <Search />
+              </InputAdornment>
+            ),
+          }}
+          onChange={handleSearch}
+        />
+      </Paper>
+      <Paper className={classes.pageContent}>
         <TblContainer>
           <TblHead />
           <TableBody>
@@ -257,7 +256,7 @@ export default function index() {
       </PopDialog>
 
       <Popup
-        title="Supplier Form"
+        title="Trucker Master Form"
         openPopup={openPopup}
         setOpenPopup={setOpenPopup}
       >

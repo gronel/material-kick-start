@@ -4,7 +4,7 @@ import Select from "./Select";
 import Checkbox from "./Checkbox";
 import Button from "./Button";
 import ActionButton from "./ActionButton";
-import InputSelect from "./InputSelect";
+
 const Controls = {
   Input,
   RadioGroup,
@@ -12,7 +12,6 @@ const Controls = {
   Checkbox,
   Button,
   ActionButton,
-  InputSelect
 };
 
 export default Controls;

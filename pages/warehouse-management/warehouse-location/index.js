@@ -46,14 +46,16 @@ const useStyles = makeStyles((theme) => ({
   },
   pageContent: {
     margin: theme.spacing(5),
-    padding: theme.spacing(3),
+    padding: theme.spacing(2),
   },
   searchInput: {
-    width: "75%",
+    width: "50%",
+    height: 40,
   },
+
   newButton: {
     position: "absolute",
-    right: "10px",
+    right: "35px",
   },
 }));
 
@@ -168,24 +170,10 @@ export default function index() {
         </Link>
         <Typography color="textPrimary">Warehouse Location</Typography>
       </Breadcrumbs>
-
-      <Paper className={classes.pageContent}>
+      <div>
         <Toolbar>
-          <Controls.Input
-            label="Search"
-            className={classes.searchInput}
-            InputProps={{
-              startAdornment: (
-                <InputAdornment position="start">
-                  <Search />
-                </InputAdornment>
-              ),
-            }}
-            onChange={handleSearch}
-          />
           <Controls.Button
             text="Add New"
-            variant="outlined"
             startIcon={<AddIcon />}
             className={classes.newButton}
             onClick={() => {
@@ -194,6 +182,22 @@ export default function index() {
             }}
           />
         </Toolbar>
+      </div>
+      <Paper className={classes.pageContent}>
+        <Controls.Input
+          label="Search"
+          className={classes.searchInput}
+          InputProps={{
+            startAdornment: (
+              <InputAdornment position="start">
+                <Search />
+              </InputAdornment>
+            ),
+          }}
+          onChange={handleSearch}
+        />
+      </Paper>
+      <Paper className={classes.pageContent}>
         <TblContainer>
           <TblHead />
           <TableBody>

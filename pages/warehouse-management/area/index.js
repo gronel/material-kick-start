@@ -35,7 +35,7 @@ import AddIcon from "@material-ui/icons/Add";
 import axios from "axios";
 import api from "../../../Services/api";
 import PopDialog from "../../../components/PopDialog";
-import TruckerForm from "./TruckerForm";
+import AreaForm from "./AreaForm";
 import DeleteIcon from "@material-ui/icons/Delete";
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -63,7 +63,7 @@ export default function index() {
   const classes = useStyles();
   const [recordForEdit, setRecordForEdit] = useState(null);
   const [recordForRemove, setRecordForRemove] = useState(null);
-  const [customer, setCustomer] = useState([]);
+  const [listrecordData, setlistRecordData] = useState([]);
   const [filterFn, setFilterFn] = useState({
     fn: (items) => {
       return items;
@@ -73,28 +73,24 @@ export default function index() {
   const [openPopup, setOpenPopup] = useState(false);
   const [captionDialog, setCaptionDialog] = useState("");
   const headCells = [
-    { id: "supplier_code", label: "Supplier Code" },
-    { id: "supplier_name", label: "Supplier Name" },
-    { id: "supplier_category", label: "Supplier Catergory" },
-    // { id: "created_by", label: "Create by" },
-    // { id: "created_at", label: "Create at" },
-    // { id: "updated_by", label: "Update by" },
-    // { id: "updated_at", label: "Update at",},
-    { id: "status", label: "Status", disableSorting: true },
+    { id: "area_code", label: "Area Code" },
+    { id: "area_name", label: "Area Name" },
+    { id: "area_label", label: "Area Label" },
+    { id: "is_active", label: "Status" },
     { id: "actions", label: "Actions", disableSorting: true },
   ];
 
   const { TblContainer, TblHead, TblPagination, recordsAfterPagingAndSorting } =
-    useTable(customer, headCells, filterFn);
+    useTable(listrecordData, headCells, filterFn);
 
   const DelopenHandlerDialog = (item) => {
     setRecordForRemove(item);
-    setCaptionDialog(item.supplier_code);
+    setCaptionDialog(item.warehouse_code);
     setOpenDialog(true);
   };
   const removeItem = () => {
     api.instance
-      .delete("/wms/supplier/supplier-destroy/" + recordForRemove.id)
+      .delete("/wms/area/area-destroy/" + recordForRemove.id)
       .then((resp) => {
         console.log(resp.data);
         refreshListData();
@@ -112,9 +108,9 @@ export default function index() {
         else
           return items.filter(
             (x) =>
-              x.supplier_code.toLowerCase().includes(target.value) ||
-              x.supplier_name.toLowerCase().includes(target.value) ||
-              x.supplier_category.toLowerCase().includes(target.value)
+              x.area_code.toLowerCase().includes(target.value) ||
+              x.area_name.toLowerCase().includes(target.value) ||
+              x.area_label.toLowerCase().includes(target.value)
           );
       },
     });
@@ -122,7 +118,7 @@ export default function index() {
   const onSubmit = (values, resetForm) => {
     if (values.id == 0)
       api.instance
-        .post("/wms/supplier/supplier-store", values)
+        .post("/wms/area/area-store", values)
         .then((resp) => {
           console.log(resp.data);
           refreshListData();
@@ -132,7 +128,7 @@ export default function index() {
         });
     else {
       api.instance
-        .put("/wms/supplier/supplier-update/" + values.id, values)
+        .put("/wms/area/area-update/" + values.id, values)
         .then((resp) => {
           console.log(resp.data);
           refreshListData();
@@ -152,10 +148,10 @@ export default function index() {
   };
   const refreshListData = () => {
     api.instance
-      .get("/wms/supplier/supplier-list")
+      .get("/wms/area/area-list")
 
       .then((resp) => {
-        setCustomer(resp.data);
+        setlistRecordData(resp.data);
         console.log(resp.data);
       })
       .catch((err) => {
@@ -174,7 +170,7 @@ export default function index() {
         <Link color="inherit" href="/warehouse-management/">
           Warehouse Management
         </Link>
-        <Typography color="textPrimary">Trucker Type</Typography>
+        <Typography color="textPrimary">Area</Typography>
       </Breadcrumbs>
       <div>
         <Toolbar>
@@ -209,21 +205,16 @@ export default function index() {
           <TableBody>
             {recordsAfterPagingAndSorting().map((item) => (
               <TableRow key={item.id}>
-                <TableCell>{item.supplier_code}</TableCell>
-                <TableCell>{item.supplier_name}</TableCell>
-                <TableCell>{item.supplier_category}</TableCell>
-                {/* <TableCell>{item.created_by}</TableCell>
-                <TableCell>{item.created_by}</TableCell>
-                <TableCell>{item.updated_by}</TableCell>
-                <TableCell>{item.created_by}</TableCell> */}
+                <TableCell>{item.area_code}</TableCell>
+                <TableCell>{item.area_name}</TableCell>
+                <TableCell>{item.area_label}</TableCell>
                 <TableCell>
-                  {item.status == 1 ? (
+                  {item.is_active == 1 ? (
                     <CheckCircleIcon />
                   ) : (
                     <RadioButtonUncheckedRoundedIcon />
                   )}
                 </TableCell>
-
                 <TableCell>
                   <Controls.ActionButton
                     color="primary"
@@ -249,9 +240,9 @@ export default function index() {
         <TblPagination />
       </Paper>
       <PopDialog
-        title="Delete Supplier"
+        title="Delete Area"
         description={
-          "Are you sure do want to delete Supplier code " + captionDialog
+          "Are you sure do want to delete Warehouse code " + captionDialog
         }
         openDialog={openDialog}
         setOpenDialog={setOpenDialog}
@@ -264,11 +255,11 @@ export default function index() {
       </PopDialog>
 
       <Popup
-        title="Trucker Type Form"
+        title="Area Form"
         openPopup={openPopup}
         setOpenPopup={setOpenPopup}
       >
-        <TruckerForm recordForEdit={recordForEdit} addOrEdit={onSubmit} />
+        <AreaForm recordForEdit={recordForEdit} addOrEdit={onSubmit} />
       </Popup>
     </>
   );

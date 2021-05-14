@@ -46,17 +46,18 @@ const useStyles = makeStyles((theme) => ({
   },
   pageContent: {
     margin: theme.spacing(5),
-    padding: theme.spacing(3),
+    padding: theme.spacing(2),
   },
   searchInput: {
-    width: "75%",
+    width: "50%",
+    height: 40,
   },
+
   newButton: {
     position: "absolute",
-    right: "10px",
+    right: "35px",
   },
 }));
-
 export default function index() {
   const classes = useStyles();
   const [recordForEdit, setRecordForEdit] = useState(null);
@@ -105,8 +106,7 @@ export default function index() {
           return items.filter(
             (x) =>
               x.uom_code.toLowerCase().includes(target.value) ||
-              x.description.toLowerCase().includes(target.value) 
-           
+              x.description.toLowerCase().includes(target.value)
           );
       },
     });
@@ -168,28 +168,10 @@ export default function index() {
         </Link>
         <Typography color="textPrimary">Unit of Measures</Typography>
       </Breadcrumbs>
-      {/* <PageHeader
-        title="New Employee"
-        subTitle="Form design with validation"
-        icon={<PeopleAltTwoTone fontSize="large" />}
-      /> */}
-      <Paper className={classes.pageContent}>
+      <div>
         <Toolbar>
-          <Controls.Input
-            label="Search"
-            className={classes.searchInput}
-            InputProps={{
-              startAdornment: (
-                <InputAdornment position="start">
-                  <Search />
-                </InputAdornment>
-              ),
-            }}
-            onChange={handleSearch}
-          />
           <Controls.Button
             text="Add New"
-            variant="outlined"
             startIcon={<AddIcon />}
             className={classes.newButton}
             onClick={() => {
@@ -198,6 +180,22 @@ export default function index() {
             }}
           />
         </Toolbar>
+      </div>
+      <Paper className={classes.pageContent}>
+        <Controls.Input
+          label="Search"
+          className={classes.searchInput}
+          InputProps={{
+            startAdornment: (
+              <InputAdornment position="start">
+                <Search />
+              </InputAdornment>
+            ),
+          }}
+          onChange={handleSearch}
+        />
+      </Paper>
+      <Paper className={classes.pageContent}>
         <TblContainer>
           <TblHead />
           <TableBody>
@@ -232,9 +230,7 @@ export default function index() {
       </Paper>
       <PopDialog
         title="Delete UOM"
-        description={
-          "Are you sure do want to delete UOM " + captionDialog
-        }
+        description={"Are you sure do want to delete UOM " + captionDialog}
         openDialog={openDialog}
         setOpenDialog={setOpenDialog}
       >

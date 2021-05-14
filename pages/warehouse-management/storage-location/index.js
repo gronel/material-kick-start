@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { DataGrid } from "@material-ui/data-grid";
-
+import Link from "next/link";
 import {
   Typography,
   Breadcrumbs,
-  Link,
   Paper,
   makeStyles,
   TableBody,
@@ -39,7 +38,6 @@ import AddIcon from "@material-ui/icons/Add";
 import axios from "axios";
 import api from "../../../Services/api";
 import PopDialog from "../../../components/PopDialog";
-import StorageForm from "./StorageForm";
 import DeleteIcon from "@material-ui/icons/Delete";
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -50,32 +48,26 @@ const useStyles = makeStyles((theme) => ({
   },
   pageContent: {
     margin: theme.spacing(5),
-    padding: theme.spacing(3),
-  },
-  formControl: {
-    margin: theme.spacing(1),
-    minWidth: 175,
+    padding: theme.spacing(2),
   },
   searchInput: {
-    width: "75%",
+    width: "50%",
+    height: 40,
   },
-  selectWarehouse: {
-    width: "100%",
-    float: "right",
-  },
+
   newButton: {
     position: "absolute",
-    right: "10px",
+    right: "35px",
   },
 }));
 
 export default function index() {
   const classes = useStyles();
+
   const [recordForEdit, setRecordForEdit] = useState(null);
   const [recordForRemove, setRecordForRemove] = useState(null);
   const [listrecordData, setlistRecordData] = useState([]);
-  const [listwarehouse, setlistWarehouse] = useState([]);
-  const [isfilter, setfilter] = useState("");
+  const [locationList, setLocationList] = useState([]);
   const [filterFn, setFilterFn] = useState({
     fn: (items) => {
       return items;
@@ -93,11 +85,12 @@ export default function index() {
     { id: "is_active", label: "Active" },
     { id: "actions", label: "Actions", disableSorting: true },
   ];
+
   const initialValues = {
-    warehouse_code: "",
+    warehouse_id: 1,
   };
   const { TblContainer, TblHead, TblPagination, recordsAfterPagingAndSorting } =
-    useTable(listrecordData, headCells, filterFn);
+    useTable(locationList, headCells, filterFn);
 
   const DelopenHandlerDialog = (item) => {
     setRecordForRemove(item);
@@ -132,59 +125,20 @@ export default function index() {
       },
     });
   };
-  const onSubmit = (values, resetForm) => {
-    if (values.id == 0)
-      api.instance
-        .post("/wms/location/storage-location-store", values)
-        .then((resp) => {
-          console.log(resp.data);
-          refreshListData();
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    else {
-      api.instance
-        .put("/wms/location/storage-location-update/" + values.id, values)
-        .then((resp) => {
-          console.log(resp.data);
-          refreshListData();
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    }
-    resetForm();
-    setRecordForEdit(null);
-    setOpenPopup(false);
-  };
 
-  const openInPopup = (item) => {
-    setRecordForEdit(item);
-    setOpenPopup(true);
-  };
   const refreshListData = () => {
     api.instance
       .get("/wms/location/storage-location-list")
 
       .then((resp) => {
-        setlistWarehouse(resp.data);
+        setLocationList(resp.data);
         console.log(resp.data);
       })
       .catch((err) => {
         console.log(err.data);
       });
   };
-  const onfilter = (warehousecode) => {
-    debugger;
-    setfilter(warehousecode);
-    listwarehouse.filter((item) => {
-      if (item.warehouse_code == warehousecode) {
-        setlistRecordData(item.location);
-        initialValues.warehouse_code = item.warehousecode;
-      }
-    });
-  };
+
   useEffect(() => {
     refreshListData();
   }, []);
@@ -199,58 +153,35 @@ export default function index() {
         </Link>
         <Typography color="textPrimary">Storage Location</Typography>
       </Breadcrumbs>
-
-      <Paper className={classes.pageContent}>
-        <div className={classes.selectWarehouse}>
-          <Controls.InputSelect
-            name="warehouse_code"
-            label="Warehouse Name"
-            value={isfilter}
-            onChange={(e) => onfilter(e.currentTarget.value)}
-            options={listwarehouse}
-          />
-          {/* <FormControl variant="outlined" className={classes.formControl}>
-            <InputLabel>Warehouse Name</InputLabel>
-            <Select
-              label="Warehouse Name"
-              name={initialValues.warehouse_code}
-              value={isfilter}
-              onChange={(e) => onfilter(e.currentTarget.value)}
-            >
-              <MenuItem value="">None</MenuItem>
-
-              {listwarehouse.map((row, key) => (
-                <MenuItem key={key} value={row.warehouse_code}>
-                  {row.warehouse_name}
-                </MenuItem>
-              ))}
-            </Select>
-          </FormControl> */}
-        </div>
+      <div>
         <Toolbar>
-          <Controls.Input
-            label="Search"
-            className={classes.searchInput}
-            InputProps={{
-              startAdornment: (
-                <InputAdornment position="start">
-                  <Search />
-                </InputAdornment>
-              ),
-            }}
-            onChange={handleSearch}
-          />
-          <Controls.Button
-            text="Add New"
-            variant="outlined"
-            startIcon={<AddIcon />}
-            className={classes.newButton}
-            onClick={() => {
-              setOpenPopup(true);
-              setRecordForEdit(null);
-            }}
-          />
+          <Link
+            href="/warehouse-management/storage-location/[action]"
+            as="/warehouse-management/storage-location/New"
+          >
+            <Controls.Button
+              text="Add New"
+              startIcon={<AddIcon />}
+              className={classes.newButton}
+            />
+          </Link>
         </Toolbar>
+      </div>
+      <Paper className={classes.pageContent}>
+        <Controls.Input
+          label="Search"
+          className={classes.searchInput}
+          InputProps={{
+            startAdornment: (
+              <InputAdornment position="start">
+                <Search />
+              </InputAdornment>
+            ),
+          }}
+          onChange={handleSearch}
+        />
+      </Paper>
+      <Paper className={classes.pageContent}>
         <TblContainer component={Paper}>
           <TblHead />
           <TableBody>
@@ -269,14 +200,15 @@ export default function index() {
                   )}
                 </TableCell>
                 <TableCell>
-                  <Controls.ActionButton
-                    color="primary"
-                    onClick={() => {
-                      openInPopup(item);
-                    }}
+                  <Link
+                    href={"/warehouse-management/storage-location/" + item.id}
+                    key={item.id}
                   >
-                    <EditOutlinedIcon fontSize="small" />
-                  </Controls.ActionButton>
+                    <Controls.ActionButton color="primary">
+                      <EditOutlinedIcon fontSize="small" />
+                    </Controls.ActionButton>
+                  </Link>
+
                   <Controls.ActionButton
                     color="secondary"
                     onClick={() => {
@@ -306,14 +238,6 @@ export default function index() {
           </Button>
         </DialogActions>
       </PopDialog>
-
-      <Popup
-        title="Storage Location Form"
-        openPopup={openPopup}
-        setOpenPopup={setOpenPopup}
-      >
-        <StorageForm recordForEdit={recordForEdit} addOrEdit={onSubmit} />
-      </Popup>
     </>
   );
 }
