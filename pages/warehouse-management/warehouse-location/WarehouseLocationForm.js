@@ -14,7 +14,6 @@ const initialFValues = {
 };
 
 export default function WarehouseLocationForm(props) {
-
   const { addOrEdit, recordForEdit } = props;
   const validate = (fieldValues = values) => {
     let temp = { ...errors };
@@ -54,7 +53,7 @@ export default function WarehouseLocationForm(props) {
   return (
     <Form onSubmit={handleSubmit}>
       <Grid container>
-        <Grid item xs={12}>
+        <Grid item lg={12}>
           <Controls.Input
             name="warehouse_code"
             label="Warehouse Code"

@@ -73,13 +73,9 @@ export default function index() {
   const [openPopup, setOpenPopup] = useState(false);
   const [captionDialog, setCaptionDialog] = useState("");
   const headCells = [
-    { id: "supplier_code", label: "Supplier Code" },
-    { id: "supplier_name", label: "Supplier Name" },
-    { id: "supplier_category", label: "Supplier Catergory" },
-    // { id: "created_by", label: "Create by" },
-    // { id: "created_at", label: "Create at" },
-    // { id: "updated_by", label: "Update by" },
-    // { id: "updated_at", label: "Update at",},
+    { id: "trucker_code", label: "Trucker Code" },
+    { id: "trucker_name", label: "Trucker Name" },
+    { id: "trucker_category", label: "Trucker Catergory" },
     { id: "status", label: "Status", disableSorting: true },
     { id: "actions", label: "Actions", disableSorting: true },
   ];
@@ -94,7 +90,7 @@ export default function index() {
   };
   const removeItem = () => {
     api.instance
-      .delete("/wms/supplier/supplier-destroy/" + recordForRemove.id)
+      .delete("/wms/trucker/trucker-destroy" + recordForRemove.id)
       .then((resp) => {
         console.log(resp.data);
         refreshListData();
@@ -112,9 +108,9 @@ export default function index() {
         else
           return items.filter(
             (x) =>
-              x.supplier_code.toLowerCase().includes(target.value) ||
-              x.supplier_name.toLowerCase().includes(target.value) ||
-              x.supplier_category.toLowerCase().includes(target.value)
+              x.trucker_code.toLowerCase().includes(target.value) ||
+              x.trucker_name.toLowerCase().includes(target.value) ||
+              x.trucker_category.toLowerCase().includes(target.value)
           );
       },
     });
@@ -122,7 +118,7 @@ export default function index() {
   const onSubmit = (values, resetForm) => {
     if (values.id == 0)
       api.instance
-        .post("/wms/supplier/supplier-store", values)
+        .post("/wms/trucker/trucker-store", values)
         .then((resp) => {
           console.log(resp.data);
           refreshListData();
@@ -132,7 +128,7 @@ export default function index() {
         });
     else {
       api.instance
-        .put("/wms/supplier/supplier-update/" + values.id, values)
+        .put("/wms/trucker/trucker-update/" + values.id, values)
         .then((resp) => {
           console.log(resp.data);
           refreshListData();
@@ -152,7 +148,7 @@ export default function index() {
   };
   const refreshListData = () => {
     api.instance
-      .get("/wms/supplier/supplier-list")
+      .get("/wms/trucker/trucker-list")
 
       .then((resp) => {
         setCustomer(resp.data);
@@ -209,13 +205,10 @@ export default function index() {
           <TableBody>
             {recordsAfterPagingAndSorting().map((item) => (
               <TableRow key={item.id}>
-                <TableCell>{item.supplier_code}</TableCell>
-                <TableCell>{item.supplier_name}</TableCell>
-                <TableCell>{item.supplier_category}</TableCell>
-                {/* <TableCell>{item.created_by}</TableCell>
-                <TableCell>{item.created_by}</TableCell>
-                <TableCell>{item.updated_by}</TableCell>
-                <TableCell>{item.created_by}</TableCell> */}
+                <TableCell>{item.trucker_code}</TableCell>
+                <TableCell>{item.trucker_name}</TableCell>
+                <TableCell>{item.trucker_category}</TableCell>
+
                 <TableCell>
                   {item.status == 1 ? (
                     <CheckCircleIcon />

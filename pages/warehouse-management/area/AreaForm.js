@@ -60,7 +60,7 @@ export default function AreaForm(props) {
             onChange={handleInputChange}
             error={errors.area_code}
           />
-          
+
           <Controls.Input
             name="area_name"
             label="Area Name"

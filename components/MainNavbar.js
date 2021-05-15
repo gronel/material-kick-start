@@ -4,7 +4,7 @@ import { makeStyles, useTheme } from "@material-ui/core/styles";
 import Drawer from "@material-ui/core/Drawer";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
-import { List, InputBase, Badge, Grid, Button } from "@material-ui/core";
+import { List, InputBase, Grid, Button } from "@material-ui/core";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import Typography from "@material-ui/core/Typography";
 import Divider from "@material-ui/core/Divider";
@@ -18,13 +18,11 @@ import ListItemText from "@material-ui/core/ListItemText";
 import InboxIcon from "@material-ui/icons/MoveToInbox";
 import MailIcon from "@material-ui/icons/Mail";
 import SearchIcon from "@material-ui/icons/Search";
-import NotificationsNoneIcon from "@material-ui/icons/NotificationsNone";
-import ChatBubbleOutlineIcon from "@material-ui/icons/ChatBubbleOutline";
-import PowerSettingsNewIcon from "@material-ui/icons/PowerSettingsNew";
+
 import FolderIcon from "@material-ui/icons/Folder";
-import AccountCircle from "@material-ui/icons/AccountCircle";
-import MenuItems from "@material-ui/core/MenuItem";
-import Menu from "@material-ui/core/Menu";
+
+import AuthIndicator from "../components/AuthIndicator";
+
 const drawerWidth = 300;
 
 import MenuItem from "../components/MenuItem";
@@ -105,21 +103,7 @@ export default function MiniDrawer(props) {
   const handleDrawerClose = () => {
     setOpen(false);
   };
-  const [auth, setAuth] = React.useState(true);
-  const [anchorEl, setAnchorEl] = React.useState(null);
-  const openMenu = Boolean(anchorEl);
 
-  const handleChange = (event) => {
-    setAuth(event.target.checked);
-  };
-
-  const handleMenu = (event) => {
-    setAnchorEl(event.currentTarget);
-  };
-
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
   return (
     <div className={classes.root}>
       <CssBaseline />
@@ -144,48 +128,8 @@ export default function MiniDrawer(props) {
           <Typography variant="h6" className={classes.title}>
             Ours WMS
           </Typography>
-          <IconButton>
-            <Badge badgeContent={4} color="secondary">
-              <NotificationsNoneIcon fontSize="small" />
-            </Badge>
-          </IconButton>
-          <IconButton>
-            <Badge badgeContent={3} color="secondary">
-              <ChatBubbleOutlineIcon fontSize="small" />
-            </Badge>
-          </IconButton>
 
-          {auth && (
-            <div>
-              <IconButton
-                aria-label="account of current user"
-                aria-controls="menu-appbar"
-                aria-haspopup="true"
-                onClick={handleMenu}
-                color="inherit"
-              >
-                <AccountCircle />
-              </IconButton>
-              <Menu
-                id="menu-appbar"
-                anchorEl={anchorEl}
-                anchorOrigin={{
-                  vertical: "top",
-                  horizontal: "right",
-                }}
-                keepMounted
-                transformOrigin={{
-                  vertical: "top",
-                  horizontal: "right",
-                }}
-                open={openMenu}
-                onClose={handleClose}
-              >
-                <MenuItems onClick={handleClose}>Profile</MenuItems>
-                <MenuItems onClick={handleClose}>My account</MenuItems>
-              </Menu>
-            </div>
-          )}
+          <AuthIndicator />
         </Toolbar>
       </AppBar>
       <Drawer

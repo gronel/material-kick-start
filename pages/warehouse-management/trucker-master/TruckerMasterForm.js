@@ -58,7 +58,7 @@ export default function TruckerForm(props) {
   return (
     <Form onSubmit={handleSubmit}>
       <Grid container>
-        <Grid item xs={6}>
+        <Grid item lg={6} sm={6} xs={12}>
           <Controls.Input
             name="trucker_code"
             label="Trucker Code"
@@ -74,7 +74,7 @@ export default function TruckerForm(props) {
             error={errors.trucker_name}
           />
         </Grid>
-        <Grid item xs={6}>
+        <Grid item lg={6} sm={6} xs={12}>
           <Controls.Input
             label="Trucker Category"
             name="trucker_category"

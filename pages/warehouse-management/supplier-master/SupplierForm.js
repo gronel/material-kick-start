@@ -30,7 +30,6 @@ export default function SupplierForm(props) {
         ? ""
         : "This field is required.";
 
-    
     setErrors({
       ...temp,
     });
@@ -58,7 +57,7 @@ export default function SupplierForm(props) {
   return (
     <Form onSubmit={handleSubmit}>
       <Grid container>
-        <Grid item xs={6}>
+        <Grid item lg={6} sm={6} xs={12}>
           <Controls.Input
             name="supplier_code"
             label="Supplier Code"
@@ -74,7 +73,7 @@ export default function SupplierForm(props) {
             error={errors.supplier_name}
           />
         </Grid>
-        <Grid item xs={6}>
+        <Grid item lg={6} sm={6} xs={12}>
           <Controls.Input
             label="Supplier Category"
             name="supplier_category"

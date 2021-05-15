@@ -7,26 +7,15 @@ import {
   Link,
   Paper,
   makeStyles,
-  TableBody,
-  TableRow,
-  TableCell,
-  Toolbar,
-  InputAdornment,
-  Button,
-  TextField,
   Grid,
-  Checkbox,
-  ListItemText,
   DialogActions,
-  FormControl,
-  InputLabel,
-  Select,
-  MenuItem,
+  Hidden,
 } from "@material-ui/core";
 import { useForm, Form } from "../../../components/useForm";
 import Controls from "../../../components/controls/Controls";
 import api from "../../../Services/api";
 import { useRouter } from "next/router";
+import PopDialog from "../../../components/PopDialog";
 const initialFValues = {
   id: "",
   uuid: "",
@@ -92,7 +81,8 @@ const useStyles = makeStyles((theme) => ({
 export default function storageform() {
   const classes = useStyles();
   const router = useRouter();
-  const { action } = router.query;
+  const { id } = router.query;
+  const [openDialog, setOpenDialog] = useState(false);
   const [locationItem, setlocationItem] = useState([]);
   const [warehouseName, setwarehouseName] = useState([]);
   const [showlocationtype, setlocationtype] = useState([]);
@@ -143,19 +133,22 @@ export default function storageform() {
     if (validate()) {
       addOrEdit(values, resetForm);
     }
+    setOpenDialog(false);
+    resetForm();
   };
-
+  const handlerDialog = () => {
+    setOpenDialog(true);
+  };
+  const onCloseDialog = () => {
+    setOpenDialog(false);
+  };
   const getLocationId = () => {
-    debugger;
     api.instance
-      .get("/wms/location/storage-location-id/" + action)
+      .get("/wms/location/storage-location-id/" + id)
       .then((resp) => {
         console.log(resp.data);
         setlocationItem(resp.data);
-
-        setValues({
-          ...locationItem,
-        });
+        setValues(resp.data);
       })
       .catch((err) => {
         console.log(err.data);
@@ -212,7 +205,6 @@ export default function storageform() {
         .post("/wms/location/storage-location-store", values)
         .then((resp) => {
           console.log(resp.data);
-          refreshListData();
         })
         .catch((err) => {
           console.log(err);
@@ -222,13 +214,11 @@ export default function storageform() {
         .put("/wms/location/storage-location-update/" + values.id, values)
         .then((resp) => {
           console.log(resp.data);
-          refreshListData();
         })
         .catch((err) => {
           console.log(err);
         });
     }
-    resetForm();
   };
 
   useEffect(() => {
@@ -251,14 +241,14 @@ export default function storageform() {
           Storage Location
         </Link>
         <Typography color="textPrimary">
-          {action + " Storage Location"}
+          {id == "add" ? "Add Storage Location" : "Update Storage Location"}
         </Typography>
       </Breadcrumbs>
 
       <Paper className={classes.pageContent}>
-        <Form onSubmit={handleSubmit}>
+        <Form>
           <Grid container spacing={2}>
-            <Grid item xs={6}>
+            <Grid item lg={3} sm={6} xs={12}>
               <Controls.Select
                 name="warehouse_id"
                 label="Warehouse Name"
@@ -281,14 +271,6 @@ export default function storageform() {
                 onChange={handleInputChange}
                 error={errors.location_name}
               />
-              <Controls.Select
-                name="area_id"
-                label="Area"
-                value={values.area_id}
-                onChange={handleInputChange}
-                options={areaActive}
-                error={errors.area_id}
-              />
 
               <Controls.Input
                 label="Trace Code"
@@ -297,6 +279,16 @@ export default function storageform() {
                 onChange={handleInputChange}
                 error={errors.trace_code}
               />
+            </Grid>
+            <Grid item lg={3} sm={6} xs={12}>
+              <Controls.Select
+                name="area_id"
+                label="Area"
+                value={values.area_id}
+                onChange={handleInputChange}
+                options={areaActive}
+                error={errors.area_id}
+              />
               <Controls.Input
                 label="Capacity"
                 name="capacity"
@@ -304,7 +296,6 @@ export default function storageform() {
                 onChange={handleInputChange}
                 error={errors.capacity}
               />
-
               <Controls.Input
                 label="Drive zone"
                 name="drive_zone"
@@ -319,6 +310,15 @@ export default function storageform() {
                 onChange={handleInputChange}
                 error={errors.drive_sequence}
               />
+            </Grid>
+            <Grid item lg={3} sm={6} xs={12}>
+              <Controls.Select
+                name="location_type"
+                label="Location Type"
+                value={values.location_type}
+                onChange={handleInputChange}
+                options={showlocationtype}
+              />
               <Controls.Input
                 label="Size code"
                 name="size_code"
@@ -326,8 +326,6 @@ export default function storageform() {
                 onChange={handleInputChange}
                 error={errors.size_code}
               />
-            </Grid>
-            <Grid item xs={6}>
               <Controls.Input
                 label="Check digit"
                 name="check_digit"
@@ -342,6 +340,16 @@ export default function storageform() {
                 onChange={handleInputChange}
                 error={errors.pick_zone}
               />
+            </Grid>
+            <Grid item lg={3} sm={6} xs={12}>
+              <Controls.Select
+                name="abc_code"
+                label="Abc Code"
+                value={values.abc_code}
+                onChange={handleInputChange}
+                options={showAbcCode}
+              />
+
               <Controls.Input
                 label="Pick sequence"
                 name="pick_sequence"
@@ -363,31 +371,16 @@ export default function storageform() {
                 onChange={handleInputChange}
                 error={errors.fix_item_code}
               />
-              <Controls.Select
-                name="location_type"
-                label="Location Type"
-                value={values.location_type}
-                onChange={handleInputChange}
-                options={showlocationtype}
-              />
-
-              <Controls.Select
-                name="abc_code"
-                label="Abc Code"
-                value={values.abc_code}
-                onChange={handleInputChange}
-                options={showAbcCode}
-              />
             </Grid>
-            <Grid item xs={2}>
+            <Grid item lg={2} sm={3} xs>
               <Controls.Checkbox
                 name="is_block_stock"
-                label="isblockstock"
+                label="blockstock"
                 value={values.is_block_stock == "0" ? false : true}
                 onChange={handleInputChange}
               />
             </Grid>
-            <Grid item xs={2}>
+            <Grid item lg={2} sm={3} xs>
               <Controls.Checkbox
                 name="is_fix_item"
                 label="isfixitem"
@@ -395,7 +388,7 @@ export default function storageform() {
                 onChange={handleInputChange}
               />
             </Grid>
-            <Grid item xs={2}>
+            <Grid item lg={2} sm={3} xs>
               <Controls.Checkbox
                 name="is_locked"
                 label="islocked"
@@ -403,7 +396,7 @@ export default function storageform() {
                 onChange={handleInputChange}
               />
             </Grid>
-            <Grid item xs={2}>
+            <Grid item lg={2} sm={3} xs>
               <Controls.Checkbox
                 name="is_overflow"
                 label="isoverflow"
@@ -411,7 +404,7 @@ export default function storageform() {
                 onChange={handleInputChange}
               />
             </Grid>
-            <Grid item xs={2}>
+            <Grid item lg={2} sm={3} xs>
               <Controls.Checkbox
                 name="is_virtual"
                 label="isvirtual"
@@ -419,7 +412,7 @@ export default function storageform() {
                 onChange={handleInputChange}
               />
             </Grid>
-            <Grid item xs={2}>
+            <Grid item lg={2} sm={3} xs>
               <Controls.Checkbox
                 name="is_active"
                 label="isactive"
@@ -429,9 +422,33 @@ export default function storageform() {
             </Grid>
           </Grid>
           <div>
-            <Controls.Button type="submit" text="Submit" />
+            <Controls.Button onClick={handlerDialog} text="Submit" />
             <Controls.Button text="Reset" color="default" onClick={resetForm} />
           </div>
+
+          <PopDialog
+            title="Promt"
+            description={
+              "Do you want to " + id == "add"
+                ? "Add Transation?"
+                : "Update Transaction?"
+            }
+            openDialog={openDialog}
+            setOpenDialog={setOpenDialog}
+          >
+            <DialogActions>
+              <Controls.Button
+                onClick={handleSubmit}
+                color="primary"
+                text="Save"
+              />
+              <Controls.Button
+                text="Cancel"
+                color="default"
+                onClick={onCloseDialog}
+              />
+            </DialogActions>
+          </PopDialog>
         </Form>
       </Paper>
     </>

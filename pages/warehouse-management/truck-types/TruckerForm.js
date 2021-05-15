@@ -7,9 +7,9 @@ const initialFValues = {
   id: "",
   uuid: "",
   trucker_code: "",
-  supplier_name: "",
-  status: "",
-  supplier_category: "",
+  trucker_name: "",
+  trucker_category: "",
+  status: "0",
   created_by: "",
   updated_by: "",
 };
@@ -18,16 +18,16 @@ export default function TruckerForm(props) {
   const { addOrEdit, recordForEdit } = props;
   const validate = (fieldValues = values) => {
     let temp = { ...errors };
-    if ("supplier_code" in fieldValues)
-      temp.supplier_code = fieldValues.supplier_code
+    if ("trucker_code" in fieldValues)
+      temp.trucker_code = fieldValues.trucker_code
         ? ""
         : "This field is required.";
-    if ("supplier_name" in fieldValues)
-      temp.supplier_name = fieldValues.supplier_name
+    if ("trucker_name" in fieldValues)
+      temp.trucker_name = fieldValues.trucker_name
         ? ""
         : "This field is required.";
-    if ("supplier_category" in fieldValues)
-      temp.supplier_category = fieldValues.supplier_category
+    if ("trucker_category" in fieldValues)
+      temp.trucker_category = fieldValues.trucker_category
         ? ""
         : "This field is required.";
 
@@ -58,35 +58,35 @@ export default function TruckerForm(props) {
   return (
     <Form onSubmit={handleSubmit}>
       <Grid container>
-        <Grid item xs={6}>
+        <Grid item lg={6} sm={6} xs={12}>
           <Controls.Input
-            name="supplier_code"
-            label="Supplier Code"
-            value={values.supplier_code}
+            name="trucker_code"
+            label="Trucker Code"
+            value={values.trucker_code}
             onChange={handleInputChange}
-            error={errors.supplier_code}
+            error={errors.trucker_code}
           />
           <Controls.Input
-            name="supplier_name"
-            label="Supplier Name"
-            value={values.supplier_name}
+            name="trucker_name"
+            label="Trucker Name"
+            value={values.trucker_name}
             onChange={handleInputChange}
-            error={errors.supplier_name}
+            error={errors.trucker_name}
           />
         </Grid>
-        <Grid item xs={6}>
+        <Grid item lg={6} sm={6} xs={12}>
           <Controls.Input
-            label="Supplier Category"
-            name="supplier_category"
-            value={values.supplier_category}
+            label="Trucker Category"
+            name="trucker_category"
+            value={values.trucker_category}
             onChange={handleInputChange}
-            error={errors.supplier_category}
+            error={errors.trucker_category}
           />
 
           <Controls.Checkbox
             name="status"
             label="Status"
-            value={values.status}
+            value={values.status == "0" ? false : true}
             onChange={handleInputChange}
           />
         </Grid>

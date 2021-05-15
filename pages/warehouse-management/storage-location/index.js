@@ -77,8 +77,9 @@ export default function index() {
   const [openPopup, setOpenPopup] = useState(false);
   const [captionDialog, setCaptionDialog] = useState("");
   const headCells = [
+    { id: "warehouse_name", label: "Warehouse" },
     { id: "location_code", label: "Location Code" },
-    { id: "area_id", label: "Area ID" },
+    { id: "area_name", label: "Area" },
     { id: "trace_code", label: "Trace Code" },
     { id: "location_name", label: "Location Name" },
     { id: "location_type", label: "Location type" },
@@ -156,8 +157,8 @@ export default function index() {
       <div>
         <Toolbar>
           <Link
-            href="/warehouse-management/storage-location/[action]"
-            as="/warehouse-management/storage-location/New"
+            href="/warehouse-management/storage-location/[id]"
+            as="/warehouse-management/storage-location/add"
           >
             <Controls.Button
               text="Add New"
@@ -187,8 +188,9 @@ export default function index() {
           <TableBody>
             {recordsAfterPagingAndSorting().map((item) => (
               <TableRow key={item.id}>
+                <TableCell>{item.warehouse_name}</TableCell>
                 <TableCell>{item.location_code}</TableCell>
-                <TableCell>{item.area_id}</TableCell>
+                <TableCell>{item.area_name}</TableCell>
                 <TableCell>{item.trace_code}</TableCell>
                 <TableCell>{item.location_name}</TableCell>
                 <TableCell>{item.location_type}</TableCell>

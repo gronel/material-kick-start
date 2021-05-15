@@ -72,8 +72,8 @@ export default function index() {
   const [openPopup, setOpenPopup] = useState(false);
   const [captionDialog, setCaptionDialog] = useState("");
   const headCells = [
-    { id: "uom_code", label: "Supplier Code" },
-    { id: "description", label: "Supplier Name" },
+    { id: "uom_code", label: "Unit Code" },
+    { id: "description", label: "Description" },
     { id: "actions", label: "Actions", disableSorting: true },
   ];
 

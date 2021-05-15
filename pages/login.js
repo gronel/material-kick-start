@@ -71,14 +71,12 @@ export default function SignInSide() {
   });
 
   const login = () => {
-  
     axios
       .post(api.baseURL + "/login", form)
       .then((response) => {
         console.log(response.data);
-        let utoken = response.data.token
+        let utoken = response.data.token;
         localStorage.setItem("token", JSON.stringify(utoken));
-   
       })
       .catch((err) => {
         console.log(err.data);

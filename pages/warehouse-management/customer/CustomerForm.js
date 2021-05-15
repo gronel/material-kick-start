@@ -3,7 +3,6 @@ import { Grid } from "@material-ui/core";
 import Controls from "../../../components/controls/Controls";
 import { useForm, Form } from "../../../components/useForm";
 
-
 const initialFValues = {
   id: "",
   customer_code: "",
@@ -15,8 +14,7 @@ const initialFValues = {
 };
 
 export default function CustomerForm(props) {
-
- const { addOrEdit, recordForEdit } = props;
+  const { addOrEdit, recordForEdit } = props;
   const validate = (fieldValues = values) => {
     let temp = { ...errors };
     if ("customer_code" in fieldValues)
@@ -50,14 +48,10 @@ export default function CustomerForm(props) {
   const { values, setValues, errors, setErrors, handleInputChange, resetForm } =
     useForm(initialFValues, true, validate);
 
-  
   const handleSubmit = (e) => {
-    
     e.preventDefault();
     if (validate()) {
-  
       addOrEdit(values, resetForm);
-     
     }
   };
 
@@ -71,7 +65,7 @@ export default function CustomerForm(props) {
   return (
     <Form onSubmit={handleSubmit}>
       <Grid container>
-        <Grid item xs={6}>
+        <Grid item lg={6} sm={6} xs={12}>
           <Controls.Input
             name="customer_code"
             label="Customer Code"
@@ -95,7 +89,7 @@ export default function CustomerForm(props) {
             error={errors.freshness_requirement}
           />
         </Grid>
-        <Grid item xs={6}>
+        <Grid item lg={6} sm={6} xs={12}>
           <Controls.Input
             label="Freshness Unit"
             name="freshness_unit"

@@ -17,14 +17,11 @@ export default function TruckerForm(props) {
   const validate = (fieldValues = values) => {
     let temp = { ...errors };
     if ("uom_code" in fieldValues)
-      temp.uom_code = fieldValues.uom_code
-        ? ""
-        : "This field is required.";
+      temp.uom_code = fieldValues.uom_code ? "" : "This field is required.";
     if ("description" in fieldValues)
       temp.description = fieldValues.description
         ? ""
         : "This field is required.";
-
 
     setErrors({
       ...temp,
@@ -53,7 +50,7 @@ export default function TruckerForm(props) {
   return (
     <Form onSubmit={handleSubmit}>
       <Grid container>
-        <Grid item xs={6}>
+        <Grid item lg={12} sm={12} xs={12}>
           <Controls.Input
             name="uom_code"
             label="UOM Code"
@@ -61,8 +58,6 @@ export default function TruckerForm(props) {
             onChange={handleInputChange}
             error={errors.uom_code}
           />
-        </Grid>
-        <Grid item xs={6}>
           <Controls.Input
             name="description"
             label="Description"
