@@ -10,6 +10,7 @@ import {
   Grid,
   DialogActions,
   Hidden,
+  FormControlLabel,
 } from "@material-ui/core";
 import { useForm, Form } from "../../../components/useForm";
 import Controls from "../../../components/controls/Controls";
@@ -52,8 +53,8 @@ const useStyles = makeStyles((theme) => ({
       margin: theme.spacing(1),
     },
   },
-  paper: {
-    padding: theme.spacing(2),
+  GridCaption: {
+    padding: theme.spacing(1),
     textAlign: "center",
     color: theme.palette.text.secondary,
   },
@@ -77,7 +78,19 @@ const useStyles = makeStyles((theme) => ({
     right: "10px",
   },
 }));
-
+storageform.getInitialProps = async (ctx) => {
+  const { query } = ctx;
+  const response = await api.instance
+    .get("/wms/itemmaster/item-master-id/" + query.id)
+    .then((resp) => {
+      console.log(resp.data);
+    })
+    .catch((err) => {
+      console.log(err.data);
+    });
+  const dataList = await response;
+  return { dataList: dataList };
+};
 export default function storageform() {
   const classes = useStyles();
   const router = useRouter();
@@ -133,8 +146,6 @@ export default function storageform() {
     if (validate()) {
       addOrEdit(values, resetForm);
     }
-    setOpenDialog(false);
-    resetForm();
   };
   const handlerDialog = () => {
     setOpenDialog(true);
@@ -142,18 +153,21 @@ export default function storageform() {
   const onCloseDialog = () => {
     setOpenDialog(false);
   };
-  const getLocationId = () => {
-    api.instance
-      .get("/wms/location/storage-location-id/" + id)
-      .then((resp) => {
-        console.log(resp.data);
-        setlocationItem(resp.data);
-        setValues(resp.data);
-      })
-      .catch((err) => {
-        console.log(err.data);
-      });
+  const gitItemMasterList = () => {
+    if (router.query.id == "add") {
+    } else {
+      api.instance
+        .get("/wms/itemmaster/item-master-id/" + router.query.id)
+        .then((resp) => {
+          console.log(resp.data);
+          setValues(resp.data[0]);
+        })
+        .catch((err) => {
+          console.log(err.data);
+        });
+    }
   };
+
   const onSelectWarehouseName = () => {
     api.instance
       .get("/wms/warehouse/warehouse-list-active")
@@ -202,7 +216,7 @@ export default function storageform() {
   const addOrEdit = (values, resetForm) => {
     if (values.id == 0)
       api.instance
-        .post("/wms/location/storage-location-store", values)
+        .post("/wms/itemmaster/item-master-store", values)
         .then((resp) => {
           console.log(resp.data);
         })
@@ -211,7 +225,7 @@ export default function storageform() {
         });
     else {
       api.instance
-        .put("/wms/location/storage-location-update/" + values.id, values)
+        .put("/wms/itemmaster/item-master-update/" + values.id, values)
         .then((resp) => {
           console.log(resp.data);
         })
@@ -220,9 +234,517 @@ export default function storageform() {
         });
     }
   };
+  const getStepContent = (stepIndex) => {
+    switch (stepIndex) {
+      case 0:
+        return (
+          <div>
+            <Grid container spacing={2}>
+              <Grid item lg={3} sm={6} xs={12}>
+                <Controls.Input
+                  label="Item Code"
+                  name="location_code"
+                  value={values.location_code}
+                  onChange={handleInputChange}
+                  error={errors.location_code}
+                />
+                <Controls.Input
+                  label="Refresh Code"
+                  name="location_name"
+                  value={values.location_name}
+                  onChange={handleInputChange}
+                  error={errors.location_name}
+                />
 
+                <Controls.Input
+                  label="Description"
+                  name="trace_code"
+                  value={values.trace_code}
+                  onChange={handleInputChange}
+                  error={errors.trace_code}
+                />
+                <Controls.Input
+                  label="Shortdesc"
+                  name="shortdesc"
+                  value={values.shortdesc}
+                  onChange={handleInputChange}
+                  error={errors.shortdesc}
+                />
+                <Controls.Select
+                  name="abc_code"
+                  label="Abc Code"
+                  value={values.abc_code}
+                  onChange={handleInputChange}
+                  options={showAbcCode}
+                />
+                <Controls.Input
+                  label="Unit Cost"
+                  name="capacity"
+                  value={values.capacity}
+                  onChange={handleInputChange}
+                  error={errors.capacity}
+                />
+              </Grid>
+              <Grid item lg={3} sm={6} xs={12}>
+                <Controls.Input
+                  label="Salvage days"
+                  name="drive_zone"
+                  value={values.drive_zone}
+                  onChange={handleInputChange}
+                  error={errors.drive_zone}
+                />
+                <Controls.Input
+                  label="Safestocklevel"
+                  name="drive_sequence"
+                  value={values.drive_sequence}
+                  onChange={handleInputChange}
+                  error={errors.drive_sequence}
+                />
+                <Controls.Input
+                  label="Shelf life unit"
+                  name="size_code"
+                  value={values.size_code}
+                  onChange={handleInputChange}
+                  error={errors.size_code}
+                />
+                <Controls.Input
+                  label="Batch find Strategy"
+                  name="size_code"
+                  value={values.size_code}
+                  onChange={handleInputChange}
+                  error={errors.size_code}
+                />
+                <Controls.Input
+                  label="lotformatdate"
+                  name="size_code"
+                  value={values.size_code}
+                  onChange={handleInputChange}
+                  error={errors.size_code}
+                />
+              </Grid>
+
+              <Grid item lg={3} sm={6} xs={12}>
+                <Controls.Select
+                  name="location_type"
+                  label="Location Type"
+                  value={values.location_type}
+                  onChange={handleInputChange}
+                  options={showlocationtype}
+                />
+
+                <Controls.Input
+                  label="Check digit"
+                  name="check_digit"
+                  value={values.check_digit}
+                  onChange={handleInputChange}
+                  error={errors.check_digit}
+                />
+                <Controls.Input
+                  label="Pick zone"
+                  name="pick_zone"
+                  value={values.pick_zone}
+                  onChange={handleInputChange}
+                  error={errors.pick_zone}
+                />
+              </Grid>
+              <Grid item lg={3} sm={6} xs={12}>
+                <Controls.Input
+                  label="Pick sequence"
+                  name="pick_sequence"
+                  value={values.pick_sequence}
+                  onChange={handleInputChange}
+                  error={errors.pick_sequence}
+                />
+                <Controls.Input
+                  label="Lock type"
+                  name="lock_type"
+                  value={values.lock_type}
+                  onChange={handleInputChange}
+                  error={errors.lock_type}
+                />
+                <Controls.Input
+                  label="Fix item code"
+                  name="fix_item_code"
+                  value={values.fix_item_code}
+                  onChange={handleInputChange}
+                  error={errors.fix_item_code}
+                />
+              </Grid>
+            </Grid>
+          </div>
+        );
+      case 1:
+        return (
+          <div>
+            <Grid container spacing={2}>
+              <Grid item lg={3} sm={6} xs={12}>
+                <div className={classes.GridCaption}>Inventory Units</div>
+                <Controls.Input
+                  label="handlingunit"
+                  name="handlingunit"
+                  value={values.handlingunit}
+                  onChange={handleInputChange}
+                  error={errors.handlingunit}
+                />
+                <div className={classes.GridCaption}>
+                  Each Conversion based on Handling Unit.
+                </div>
+                <Controls.Input
+                  label="eachuom"
+                  name="eachuom"
+                  value={values.eachuom}
+                  onChange={handleInputChange}
+                  error={errors.eachuom}
+                />
+              </Grid>
+              <Grid item lg={3} sm={6} xs={12}>
+                <div className={classes.GridCaption}>Unit Quantity</div>
+                <Controls.Input
+                  label="Fix item code"
+                  name="fix_item_code"
+                  value={values.fix_item_code}
+                  onChange={handleInputChange}
+                  error={errors.fix_item_code}
+                />
+                <Controls.Input
+                  label="Fix item code"
+                  name="fix_item_code"
+                  value={values.fix_item_code}
+                  onChange={handleInputChange}
+                  error={errors.fix_item_code}
+                />
+              </Grid>
+              <Grid item lg={3} sm={6} xs={12}>
+                <div className={classes.GridCaption}>Packaging Barcodes</div>
+                <Controls.Input
+                  label="handlingunitbarcode"
+                  name="handlingunitbarcode"
+                  value={values.handlingunitbarcode}
+                  onChange={handleInputChange}
+                  error={errors.handlingunitbarcode}
+                />
+                <Controls.Input
+                  label="eachbarcode"
+                  name="eachbarcode"
+                  value={values.eachbarcode}
+                  onChange={handleInputChange}
+                  error={errors.eachbarcode}
+                />
+              </Grid>
+              <Grid item lg={3} sm={6} xs={12}>
+                <div className={classes.GridCaption}>Measurement Volumes</div>
+                <Controls.Input
+                  label="unitvolume"
+                  name="unitvolume"
+                  value={values.unitvolume}
+                  onChange={handleInputChange}
+                  error={errors.unitvolume}
+                />
+                <Controls.Input
+                  label="unitweight"
+                  name="unitweight"
+                  value={values.unitweight}
+                  onChange={handleInputChange}
+                  error={errors.unitweight}
+                />
+              </Grid>
+            </Grid>
+            <Grid container spacing={2}>
+              <Grid item lg={3} sm={6} xs={12}>
+                <div className={classes.GridCaption}>
+                  Pickface Replenishment level
+                </div>
+                <Controls.Input
+                  label="minreplenishmentlvl"
+                  name="minreplenishmentlvl"
+                  value={values.minreplenishmentlvl}
+                  onChange={handleInputChange}
+                  error={errors.minreplenishmentlvl}
+                />
+                <Controls.Input
+                  label="maxreplenishmentqty"
+                  name="maxreplenishmentqty"
+                  value={values.maxreplenishmentqty}
+                  onChange={handleInputChange}
+                  error={errors.maxreplenishmentqty}
+                />
+              </Grid>
+              <Grid item lg={3} sm={6} xs={12}>
+                <div className={classes.GridCaption}>Picking Location</div>
+                <Controls.Input
+                  label="Fix item code"
+                  name="fix_item_code"
+                  value={values.fix_item_code}
+                  onChange={handleInputChange}
+                  error={errors.fix_item_code}
+                />
+                <Controls.Input
+                  label="Fix item code"
+                  name="fix_item_code"
+                  value={values.fix_item_code}
+                  onChange={handleInputChange}
+                  error={errors.fix_item_code}
+                />
+              </Grid>
+            </Grid>
+          </div>
+        );
+      case 2:
+        return (
+          <div>
+            <Grid container spacing={2}>
+              <Grid item lg={3} sm={6} xs={12}>
+                <Controls.Input
+                  label="Item Code"
+                  name="location_code"
+                  value={values.location_code}
+                  onChange={handleInputChange}
+                  error={errors.location_code}
+                />
+                <Controls.Input
+                  label="Refresh Code"
+                  name="location_name"
+                  value={values.location_name}
+                  onChange={handleInputChange}
+                  error={errors.location_name}
+                />
+
+                <Controls.Input
+                  label="Description"
+                  name="trace_code"
+                  value={values.trace_code}
+                  onChange={handleInputChange}
+                  error={errors.trace_code}
+                />
+                <Controls.Input
+                  label="Shortdesc"
+                  name="shortdesc"
+                  value={values.shortdesc}
+                  onChange={handleInputChange}
+                  error={errors.shortdesc}
+                />
+                <Controls.Select
+                  name="abc_code"
+                  label="Abc Code"
+                  value={values.abc_code}
+                  onChange={handleInputChange}
+                  options={showAbcCode}
+                />
+                <Controls.Input
+                  label="Unit Cost"
+                  name="capacity"
+                  value={values.capacity}
+                  onChange={handleInputChange}
+                  error={errors.capacity}
+                />
+              </Grid>
+              <Grid item lg={3} sm={6} xs={12}>
+                <Controls.Input
+                  label="Salvage days"
+                  name="drive_zone"
+                  value={values.drive_zone}
+                  onChange={handleInputChange}
+                  error={errors.drive_zone}
+                />
+                <Controls.Input
+                  label="Safestocklevel"
+                  name="drive_sequence"
+                  value={values.drive_sequence}
+                  onChange={handleInputChange}
+                  error={errors.drive_sequence}
+                />
+                <Controls.Input
+                  label="Shelf life unit"
+                  name="size_code"
+                  value={values.size_code}
+                  onChange={handleInputChange}
+                  error={errors.size_code}
+                />
+                <Controls.Input
+                  label="Batch find Strategy"
+                  name="size_code"
+                  value={values.size_code}
+                  onChange={handleInputChange}
+                  error={errors.size_code}
+                />
+                <Controls.Input
+                  label="lotformatdate"
+                  name="size_code"
+                  value={values.size_code}
+                  onChange={handleInputChange}
+                  error={errors.size_code}
+                />
+              </Grid>
+
+              <Grid item lg={3} sm={6} xs={12}>
+                <Controls.Select
+                  name="location_type"
+                  label="Location Type"
+                  value={values.location_type}
+                  onChange={handleInputChange}
+                  options={showlocationtype}
+                />
+
+                <Controls.Input
+                  label="Check digit"
+                  name="check_digit"
+                  value={values.check_digit}
+                  onChange={handleInputChange}
+                  error={errors.check_digit}
+                />
+                <Controls.Input
+                  label="Pick zone"
+                  name="pick_zone"
+                  value={values.pick_zone}
+                  onChange={handleInputChange}
+                  error={errors.pick_zone}
+                />
+              </Grid>
+              <Grid item lg={3} sm={6} xs={12}>
+                <Controls.Input
+                  label="Pick sequence"
+                  name="pick_sequence"
+                  value={values.pick_sequence}
+                  onChange={handleInputChange}
+                  error={errors.pick_sequence}
+                />
+                <Controls.Input
+                  label="Lock type"
+                  name="lock_type"
+                  value={values.lock_type}
+                  onChange={handleInputChange}
+                  error={errors.lock_type}
+                />
+                <Controls.Input
+                  label="Fix item code"
+                  name="fix_item_code"
+                  value={values.fix_item_code}
+                  onChange={handleInputChange}
+                  error={errors.fix_item_code}
+                />
+              </Grid>
+            </Grid>
+            <Grid container spacing={2}>
+              <Grid item lg={3} sm={6} xs={12}>
+                <div className={classes.GridCaption}>Inventory Units</div>
+                <Controls.Input
+                  label="handlingunit"
+                  name="handlingunit"
+                  value={values.handlingunit}
+                  onChange={handleInputChange}
+                  error={errors.handlingunit}
+                />
+                <div className={classes.GridCaption}>
+                  Each Conversion based on Handling Unit.
+                </div>
+                <Controls.Input
+                  label="eachuom"
+                  name="eachuom"
+                  value={values.eachuom}
+                  onChange={handleInputChange}
+                  error={errors.eachuom}
+                />
+              </Grid>
+              <Grid item lg={3} sm={6} xs={12}>
+                <div className={classes.GridCaption}>Unit Quantity</div>
+                <Controls.Input
+                  label="Fix item code"
+                  name="fix_item_code"
+                  value={values.fix_item_code}
+                  onChange={handleInputChange}
+                  error={errors.fix_item_code}
+                />
+                <Controls.Input
+                  label="Fix item code"
+                  name="fix_item_code"
+                  value={values.fix_item_code}
+                  onChange={handleInputChange}
+                  error={errors.fix_item_code}
+                />
+              </Grid>
+              <Grid item lg={3} sm={6} xs={12}>
+                <div className={classes.GridCaption}>Packaging Barcodes</div>
+                <Controls.Input
+                  label="handlingunitbarcode"
+                  name="handlingunitbarcode"
+                  value={values.handlingunitbarcode}
+                  onChange={handleInputChange}
+                  error={errors.handlingunitbarcode}
+                />
+                <Controls.Input
+                  label="eachbarcode"
+                  name="eachbarcode"
+                  value={values.eachbarcode}
+                  onChange={handleInputChange}
+                  error={errors.eachbarcode}
+                />
+              </Grid>
+              <Grid item lg={3} sm={6} xs={12}>
+                <div className={classes.GridCaption}>Measurement Volumes</div>
+                <Controls.Input
+                  label="unitvolume"
+                  name="unitvolume"
+                  value={values.unitvolume}
+                  onChange={handleInputChange}
+                  error={errors.unitvolume}
+                />
+                <Controls.Input
+                  label="unitweight"
+                  name="unitweight"
+                  value={values.unitweight}
+                  onChange={handleInputChange}
+                  error={errors.unitweight}
+                />
+              </Grid>
+            </Grid>
+            <Grid container spacing={2}>
+              <Grid item lg={3} sm={6} xs={12}>
+                <div className={classes.GridCaption}>
+                  Pickface Replenishment level
+                </div>
+                <Controls.Input
+                  label="minreplenishmentlvl"
+                  name="minreplenishmentlvl"
+                  value={values.minreplenishmentlvl}
+                  onChange={handleInputChange}
+                  error={errors.minreplenishmentlvl}
+                />
+                <Controls.Input
+                  label="maxreplenishmentqty"
+                  name="maxreplenishmentqty"
+                  value={values.maxreplenishmentqty}
+                  onChange={handleInputChange}
+                  error={errors.maxreplenishmentqty}
+                />
+              </Grid>
+              <Grid item lg={3} sm={6} xs={12}>
+                <div className={classes.GridCaption}>Picking Location</div>
+                <Controls.Input
+                  label="Fix item code"
+                  name="fix_item_code"
+                  value={values.fix_item_code}
+                  onChange={handleInputChange}
+                  error={errors.fix_item_code}
+                />
+                <Controls.Input
+                  label="Fix item code"
+                  name="fix_item_code"
+                  value={values.fix_item_code}
+                  onChange={handleInputChange}
+                  error={errors.fix_item_code}
+                />
+              </Grid>
+            </Grid>
+            <Controls.Button type="submit" text="Submit" />
+            <Controls.Button text="Reset" color="default" onClick={resetForm} />
+          </div>
+        );
+      default:
+        return "Transaction Successfully Save..";
+    }
+  };
   useEffect(() => {
-    getLocationId();
+    gitItemMasterList();
     onSelectWarehouseName();
     onSelectAreaActive();
     onSelectLocationType();
@@ -246,209 +768,8 @@ export default function storageform() {
       </Breadcrumbs>
 
       <Paper className={classes.pageContent}>
-        <Form>
-          <Grid container spacing={2}>
-            <Grid item lg={3} sm={6} xs={12}>
-              <Controls.Select
-                name="warehouse_id"
-                label="Warehouse Name"
-                value={values.warehouse_id}
-                onChange={handleInputChange}
-                options={warehouseName}
-                error={errors.area_id}
-              />
-              <Controls.Input
-                label="Location Code"
-                name="location_code"
-                value={values.location_code}
-                onChange={handleInputChange}
-                error={errors.location_code}
-              />
-              <Controls.Input
-                label="Location Name"
-                name="location_name"
-                value={values.location_name}
-                onChange={handleInputChange}
-                error={errors.location_name}
-              />
-
-              <Controls.Input
-                label="Trace Code"
-                name="trace_code"
-                value={values.trace_code}
-                onChange={handleInputChange}
-                error={errors.trace_code}
-              />
-            </Grid>
-            <Grid item lg={3} sm={6} xs={12}>
-              <Controls.Select
-                name="area_id"
-                label="Area"
-                value={values.area_id}
-                onChange={handleInputChange}
-                options={areaActive}
-                error={errors.area_id}
-              />
-              <Controls.Input
-                label="Capacity"
-                name="capacity"
-                value={values.capacity}
-                onChange={handleInputChange}
-                error={errors.capacity}
-              />
-              <Controls.Input
-                label="Drive zone"
-                name="drive_zone"
-                value={values.drive_zone}
-                onChange={handleInputChange}
-                error={errors.drive_zone}
-              />
-              <Controls.Input
-                label="Drive sequence"
-                name="drive_sequence"
-                value={values.drive_sequence}
-                onChange={handleInputChange}
-                error={errors.drive_sequence}
-              />
-            </Grid>
-            <Grid item lg={3} sm={6} xs={12}>
-              <Controls.Select
-                name="location_type"
-                label="Location Type"
-                value={values.location_type}
-                onChange={handleInputChange}
-                options={showlocationtype}
-              />
-              <Controls.Input
-                label="Size code"
-                name="size_code"
-                value={values.size_code}
-                onChange={handleInputChange}
-                error={errors.size_code}
-              />
-              <Controls.Input
-                label="Check digit"
-                name="check_digit"
-                value={values.check_digit}
-                onChange={handleInputChange}
-                error={errors.check_digit}
-              />
-              <Controls.Input
-                label="Pick zone"
-                name="pick_zone"
-                value={values.pick_zone}
-                onChange={handleInputChange}
-                error={errors.pick_zone}
-              />
-            </Grid>
-            <Grid item lg={3} sm={6} xs={12}>
-              <Controls.Select
-                name="abc_code"
-                label="Abc Code"
-                value={values.abc_code}
-                onChange={handleInputChange}
-                options={showAbcCode}
-              />
-
-              <Controls.Input
-                label="Pick sequence"
-                name="pick_sequence"
-                value={values.pick_sequence}
-                onChange={handleInputChange}
-                error={errors.pick_sequence}
-              />
-              <Controls.Input
-                label="Lock type"
-                name="lock_type"
-                value={values.lock_type}
-                onChange={handleInputChange}
-                error={errors.lock_type}
-              />
-              <Controls.Input
-                label="Fix item code"
-                name="fix_item_code"
-                value={values.fix_item_code}
-                onChange={handleInputChange}
-                error={errors.fix_item_code}
-              />
-            </Grid>
-            <Grid item lg={2} sm={3} xs>
-              <Controls.Checkbox
-                name="is_block_stock"
-                label="blockstock"
-                value={values.is_block_stock == "0" ? false : true}
-                onChange={handleInputChange}
-              />
-            </Grid>
-            <Grid item lg={2} sm={3} xs>
-              <Controls.Checkbox
-                name="is_fix_item"
-                label="isfixitem"
-                value={values.is_fix_item == 0 ? false : true}
-                onChange={handleInputChange}
-              />
-            </Grid>
-            <Grid item lg={2} sm={3} xs>
-              <Controls.Checkbox
-                name="is_locked"
-                label="islocked"
-                value={values.is_locked == 0 ? false : true}
-                onChange={handleInputChange}
-              />
-            </Grid>
-            <Grid item lg={2} sm={3} xs>
-              <Controls.Checkbox
-                name="is_overflow"
-                label="isoverflow"
-                value={values.is_overflow == 0 ? false : true}
-                onChange={handleInputChange}
-              />
-            </Grid>
-            <Grid item lg={2} sm={3} xs>
-              <Controls.Checkbox
-                name="is_virtual"
-                label="isvirtual"
-                value={values.is_virtual == 0 ? false : true}
-                onChange={handleInputChange}
-              />
-            </Grid>
-            <Grid item lg={2} sm={3} xs>
-              <Controls.Checkbox
-                name="is_active"
-                label="isactive"
-                value={values.is_active == 0 ? false : true}
-                onChange={handleInputChange}
-              />
-            </Grid>
-          </Grid>
-          <div>
-            <Controls.Button onClick={handlerDialog} text="Submit" />
-            <Controls.Button text="Reset" color="default" onClick={resetForm} />
-          </div>
-
-          <PopDialog
-            title="Promt"
-            description={
-              "Do you want to " + id == "add"
-                ? "Add Transation?"
-                : "Update Transaction?"
-            }
-            openDialog={openDialog}
-            setOpenDialog={setOpenDialog}
-          >
-            <DialogActions>
-              <Controls.Button
-                onClick={handleSubmit}
-                color="primary"
-                text="Save"
-              />
-              <Controls.Button
-                text="Cancel"
-                color="default"
-                onClick={onCloseDialog}
-              />
-            </DialogActions>
-          </PopDialog>
+        <Form onSubmit={handleSubmit}>
+          <Controls.Stepper stepContent={getStepContent} />
         </Form>
       </Paper>
     </>

@@ -78,10 +78,22 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function storageform() {
+storageform.getInitialProps = async (ctx) => {
+  const { query } = ctx;
+  const response = await api.instance
+    .get("/wms/location/storage-location-id/" + query.id)
+    .then((resp) => {
+      console.log(resp.data);
+    })
+    .catch((err) => {
+      console.log(err.data);
+    });
+  const dataList = await response;
+  return { dataList: dataList };
+};
+export default function storageform({ dataList }) {
   const classes = useStyles();
   const router = useRouter();
-  const { id } = router.query;
   const [openDialog, setOpenDialog] = useState(false);
   const [locationItem, setlocationItem] = useState([]);
   const [warehouseName, setwarehouseName] = useState([]);
@@ -90,34 +102,40 @@ export default function storageform() {
   const [areaActive, setAreaActive] = useState([]);
   const validate = (fieldValues = values) => {
     let temp = { ...errors };
-    if ("customer_code" in fieldValues)
-      temp.customer_code = fieldValues.customer_code
+    if ("warehouse_id" in fieldValues)
+      temp.warehouse_id = fieldValues.warehouse_id
         ? ""
         : "This field is required.";
-    if ("customer_name" in fieldValues)
-      temp.customer_name = fieldValues.customer_name
+    if ("location_code" in fieldValues)
+      temp.location_code = fieldValues.location_code
         ? ""
         : "This field is required.";
-    if ("freshness_requirement" in fieldValues)
-      temp.freshness_requirement = fieldValues.freshness_requirement
+    if ("location_name" in fieldValues)
+      temp.location_name = fieldValues.location_name
         ? ""
         : "This field is required.";
 
-    if ("freshness_unit" in fieldValues)
-      temp.freshness_unit = fieldValues.freshness_unit
+    if ("area_id" in fieldValues)
+      temp.area_id = fieldValues.area_id ? "" : "This field is required.";
+    if ("capacity" in fieldValues)
+      temp.capacity = fieldValues.capacity ? "" : "This field is required.";
+    if ("lock_type" in fieldValues)
+      temp.lock_type = fieldValues.lock_type ? "" : "This field is required.";
+    if ("pick_sequence" in fieldValues)
+      temp.pick_sequence = fieldValues.pick_sequence
         ? ""
         : "This field is required.";
-    if ("customer_category" in fieldValues)
-      temp.customer_category = fieldValues.customer_category
+    if ("drive_sequence" in fieldValues)
+      temp.drive_sequence = fieldValues.drive_sequence
         ? ""
         : "This field is required.";
+    if ("abc_code" in fieldValues)
+      temp.abc_code =
+        fieldValues.abc_code.length != 0 ? "" : "This field is required.";
     if ("location_type" in fieldValues)
       temp.location_type =
         fieldValues.location_type.length != 0 ? "" : "This field is required.";
 
-    if ("abc_code" in fieldValues)
-      temp.abc_code =
-        fieldValues.abc_code.length != 0 ? "" : "This field is required.";
     setErrors({
       ...temp,
     });
@@ -133,8 +151,8 @@ export default function storageform() {
     if (validate()) {
       addOrEdit(values, resetForm);
     }
-    setOpenDialog(false);
-    resetForm();
+    // setOpenDialog(false);
+    // resetForm();
   };
   const handlerDialog = () => {
     setOpenDialog(true);
@@ -143,16 +161,19 @@ export default function storageform() {
     setOpenDialog(false);
   };
   const getLocationId = () => {
-    api.instance
-      .get("/wms/location/storage-location-id/" + id)
-      .then((resp) => {
-        console.log(resp.data);
-        setlocationItem(resp.data);
-        setValues(resp.data);
-      })
-      .catch((err) => {
-        console.log(err.data);
-      });
+    if (router.query.id == "add") {
+    } else {
+      api.instance
+        .get("/wms/location/storage-location-id/" + router.query.id)
+        .then((resp) => {
+          console.log(resp.data);
+          setlocationItem(resp.data);
+          setValues(resp.data[0]);
+        })
+        .catch((err) => {
+          console.log(err.data);
+        });
+    }
   };
   const onSelectWarehouseName = () => {
     api.instance
@@ -214,6 +235,9 @@ export default function storageform() {
         .put("/wms/location/storage-location-update/" + values.id, values)
         .then((resp) => {
           console.log(resp.data);
+          router.push("/warehouse-management/storage-location/", null, {
+            shallow: true,
+          });
         })
         .catch((err) => {
           console.log(err);
@@ -241,12 +265,14 @@ export default function storageform() {
           Storage Location
         </Link>
         <Typography color="textPrimary">
-          {id == "add" ? "Add Storage Location" : "Update Storage Location"}
+          {router.query.id == "add"
+            ? "Add Storage Location"
+            : "Update Storage Location"}
         </Typography>
       </Breadcrumbs>
 
       <Paper className={classes.pageContent}>
-        <Form>
+        <Form onSubmit={handleSubmit}>
           <Grid container spacing={2}>
             <Grid item lg={3} sm={6} xs={12}>
               <Controls.Select
@@ -255,7 +281,7 @@ export default function storageform() {
                 value={values.warehouse_id}
                 onChange={handleInputChange}
                 options={warehouseName}
-                error={errors.area_id}
+                error={errors.warehouse_id}
               />
               <Controls.Input
                 label="Location Code"
@@ -277,7 +303,6 @@ export default function storageform() {
                 name="trace_code"
                 value={values.trace_code}
                 onChange={handleInputChange}
-                error={errors.trace_code}
               />
             </Grid>
             <Grid item lg={3} sm={6} xs={12}>
@@ -318,13 +343,13 @@ export default function storageform() {
                 value={values.location_type}
                 onChange={handleInputChange}
                 options={showlocationtype}
+                error={errors.location_type}
               />
               <Controls.Input
                 label="Size code"
                 name="size_code"
                 value={values.size_code}
                 onChange={handleInputChange}
-                error={errors.size_code}
               />
               <Controls.Input
                 label="Check digit"
@@ -338,7 +363,6 @@ export default function storageform() {
                 name="pick_zone"
                 value={values.pick_zone}
                 onChange={handleInputChange}
-                error={errors.pick_zone}
               />
             </Grid>
             <Grid item lg={3} sm={6} xs={12}>
@@ -348,6 +372,7 @@ export default function storageform() {
                 value={values.abc_code}
                 onChange={handleInputChange}
                 options={showAbcCode}
+                error={errors.abc_code}
               />
 
               <Controls.Input
@@ -369,7 +394,6 @@ export default function storageform() {
                 name="fix_item_code"
                 value={values.fix_item_code}
                 onChange={handleInputChange}
-                error={errors.fix_item_code}
               />
             </Grid>
             <Grid item lg={2} sm={3} xs>
@@ -422,16 +446,16 @@ export default function storageform() {
             </Grid>
           </Grid>
           <div>
-            <Controls.Button onClick={handlerDialog} text="Submit" />
+            <Controls.Button type="submit" text="Submit" />
             <Controls.Button text="Reset" color="default" onClick={resetForm} />
           </div>
 
-          <PopDialog
-            title="Promt"
+          {/* <PopDialog
+            title="Promt message"
             description={
-              "Do you want to " + id == "add"
-                ? "Add Transation?"
-                : "Update Transaction?"
+              router.query.id == "add"
+                ? "Do you want to Add this Transation?"
+                : "Do you want to Add this Update Transaction?"
             }
             openDialog={openDialog}
             setOpenDialog={setOpenDialog}
@@ -448,7 +472,7 @@ export default function storageform() {
                 onClick={onCloseDialog}
               />
             </DialogActions>
-          </PopDialog>
+          </PopDialog> */}
         </Form>
       </Paper>
     </>

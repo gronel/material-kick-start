@@ -77,8 +77,8 @@ export default function index() {
   const [openPopup, setOpenPopup] = useState(false);
   const [captionDialog, setCaptionDialog] = useState("");
   const headCells = [
-    { id: "warehouse_name", label: "Warehouse" },
     { id: "location_code", label: "Location Code" },
+    { id: "warehouse_name", label: "Warehouse" },
     { id: "area_name", label: "Area" },
     { id: "trace_code", label: "Trace Code" },
     { id: "location_name", label: "Location Name" },
@@ -95,7 +95,7 @@ export default function index() {
 
   const DelopenHandlerDialog = (item) => {
     setRecordForRemove(item);
-    setCaptionDialog(item.warehouse_code);
+    setCaptionDialog(item.location_code);
     setOpenDialog(true);
   };
   const removeItem = () => {
@@ -188,8 +188,8 @@ export default function index() {
           <TableBody>
             {recordsAfterPagingAndSorting().map((item) => (
               <TableRow key={item.id}>
-                <TableCell>{item.warehouse_name}</TableCell>
                 <TableCell>{item.location_code}</TableCell>
+                <TableCell>{item.warehouse_name}</TableCell>
                 <TableCell>{item.area_name}</TableCell>
                 <TableCell>{item.trace_code}</TableCell>
                 <TableCell>{item.location_name}</TableCell>
@@ -203,7 +203,7 @@ export default function index() {
                 </TableCell>
                 <TableCell>
                   <Link
-                    href={"/warehouse-management/storage-location/" + item.id}
+                    href={"/warehouse-management/storage-location/" + item.uuid}
                     key={item.id}
                   >
                     <Controls.ActionButton color="primary">

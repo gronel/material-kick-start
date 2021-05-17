@@ -5,6 +5,7 @@ import Checkbox from "./Checkbox";
 import Button from "./Button";
 import ActionButton from "./ActionButton";
 import Link from "./Link";
+import Stepper from "./Stepper";
 const Controls = {
   Input,
   RadioGroup,
@@ -13,6 +14,7 @@ const Controls = {
   Button,
   ActionButton,
   Link,
+  Stepper,
 };
 
 export default Controls;

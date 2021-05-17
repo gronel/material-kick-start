@@ -95,12 +95,12 @@ export default function index() {
 
   const DelopenHandlerDialog = (item) => {
     setRecordForRemove(item);
-    setCaptionDialog(item.warehouse_code);
+    setCaptionDialog(item.itemcode);
     setOpenDialog(true);
   };
   const removeItem = () => {
     api.instance
-      .delete("/wms/location/storage-location-destroy/" + recordForRemove.id)
+      .delete("/wms/itemmaster/item-master-destroy/" + recordForRemove.id)
       .then((resp) => {
         console.log(resp.data);
         refreshListData();
@@ -129,7 +129,7 @@ export default function index() {
 
   const refreshListData = () => {
     api.instance
-      .get("/wms/location/storage-location-list")
+      .get("/wms/itemmaster/item-master-list")
 
       .then((resp) => {
         setLocationList(resp.data);
@@ -203,7 +203,7 @@ export default function index() {
                 </TableCell>
                 <TableCell>
                   <Link
-                    href={"/warehouse-management/item-master/" + item.id}
+                    href={"/warehouse-management/item-master/" + item.uuid}
                     key={item.id}
                   >
                     <Controls.ActionButton color="primary">
