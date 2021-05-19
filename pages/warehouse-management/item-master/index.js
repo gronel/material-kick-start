@@ -63,7 +63,6 @@ const useStyles = makeStyles((theme) => ({
 
 export default function index() {
   const classes = useStyles();
-
   const [recordForEdit, setRecordForEdit] = useState(null);
   const [recordForRemove, setRecordForRemove] = useState(null);
   const [listrecordData, setlistRecordData] = useState([]);
@@ -143,6 +142,7 @@ export default function index() {
   useEffect(() => {
     refreshListData();
   }, []);
+
   return (
     <>
       <Breadcrumbs aria-label="breadcrumb">

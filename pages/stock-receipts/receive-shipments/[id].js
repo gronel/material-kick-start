@@ -10,7 +10,10 @@ import {
   Grid,
   DialogActions,
   Hidden,
+  InputAdornment,
+  IconButton,
 } from "@material-ui/core";
+import PageviewIcon from "@material-ui/icons/Pageview";
 import { useForm, Form } from "../../../components/useForm";
 import Controls from "../../../components/controls/Controls";
 import api from "../../../Services/api";
@@ -261,16 +264,16 @@ export default function storageform({ dataList }) {
         <Link color="inherit" href="/">
           Home
         </Link>
-        <Link color="inherit" href="/warehouse-management/">
-          Warehouse Management
+        <Link color="inherit" href="/stock-receipts/">
+          Stock Receipts
         </Link>
-        <Link color="inherit" href="/warehouse-management/storage-location/">
-          Storage Location
+        <Link color="inherit" href="/stock-receipts/receive-shipments/">
+          Receive Shipments
         </Link>
         <Typography color="textPrimary">
           {router.query.id == "add"
-            ? "Add Storage Location"
-            : "Update Storage Location"}
+            ? "Update Receive Shipments"
+            : "Update Receive Shipments"}
         </Typography>
       </Breadcrumbs>
 
@@ -278,23 +281,22 @@ export default function storageform({ dataList }) {
         <Form onSubmit={handleSubmit}>
           <Grid container spacing={2}>
             <Grid item lg={3} sm={6} xs={12}>
-              <Controls.Select
-                name="warehouse_id"
-                label="Warehouse Name *"
-                value={values.warehouse_id}
-                onChange={handleInputChange}
-                options={warehouseName}
-                error={errors.warehouse_id}
-              />
               <Controls.Input
-                label="Location Code *"
+                label="Receipt No*"
                 name="location_code"
                 value={values.location_code}
                 onChange={handleInputChange}
                 error={errors.location_code}
               />
               <Controls.Input
-                label="Location Name *"
+                label="Reference No*"
+                name="location_code"
+                value={values.location_code}
+                onChange={handleInputChange}
+                error={errors.location_code}
+              />
+              <Controls.DatePicker
+                label="Receive Date *"
                 name="location_name"
                 value={values.location_name}
                 onChange={handleInputChange}
@@ -302,8 +304,34 @@ export default function storageform({ dataList }) {
               />
 
               <Controls.Input
-                label="Trace Code"
+                label="PO Number"
                 name="trace_code"
+                value={values.trace_code}
+                onChange={handleInputChange}
+              />
+              <Controls.Input
+                label="Supplier"
+                name="trace_code"
+                value={values.trace_code}
+                onChange={handleInputChange}
+                // endAdornment={
+                //   <InputAdornment position="end">
+                //     <IconButton
+                //       aria-label="toggle password visibility"
+                //   onClick={ }
+                //   onMouseDown={handleMouseDownPassword}
+                // >
+                //       <PageviewIcon />
+                //       {/* {values.showPassword ? <Visibility /> : <VisibilityOff />} */}
+                //     </IconButton>
+                //   </InputAdornment>
+                // }
+              />
+              <Controls.Input
+                label="Remarks"
+                name="trace_code"
+                multiline
+                rows={4}
                 value={values.trace_code}
                 onChange={handleInputChange}
               />
@@ -369,92 +397,13 @@ export default function storageform({ dataList }) {
                 onChange={handleInputChange}
               />
             </Grid>
-            <Grid item lg={3} sm={6} xs={12}>
-              <Controls.Select
-                name="abc_code"
-                label="Abc Code *"
-                value={values.abc_code}
-                onChange={handleInputChange}
-                options={showAbcCode}
-                error={errors.abc_code}
-              />
-
-              <Controls.Input
-                label="Pick sequence *"
-                name="pick_sequence"
-                value={values.pick_sequence}
-                onChange={handleInputChange}
-                error={errors.pick_sequence}
-              />
-              <Controls.Input
-                label="Lock type *"
-                name="lock_type"
-                value={values.lock_type}
-                onChange={handleInputChange}
-                error={errors.lock_type}
-              />
-              <Controls.Input
-                label="Fix item code"
-                name="fix_item_code"
-                value={values.fix_item_code}
-                onChange={handleInputChange}
-              />
-            </Grid>
-            <Grid item lg={2} sm={3} xs>
-              <Controls.Checkbox
-                name="is_block_stock"
-                label="blockstock"
-                value={values.is_block_stock == "0" ? false : true}
-                onChange={handleInputChange}
-              />
-            </Grid>
-            <Grid item lg={2} sm={3} xs>
-              <Controls.Checkbox
-                name="is_fix_item"
-                label="isfixitem"
-                value={values.is_fix_item == 0 ? false : true}
-                onChange={handleInputChange}
-              />
-            </Grid>
-            <Grid item lg={2} sm={3} xs>
-              <Controls.Checkbox
-                name="is_locked"
-                label="islocked"
-                value={values.is_locked == 0 ? false : true}
-                onChange={handleInputChange}
-              />
-            </Grid>
-            <Grid item lg={2} sm={3} xs>
-              <Controls.Checkbox
-                name="is_overflow"
-                label="isoverflow"
-                value={values.is_overflow == 0 ? false : true}
-                onChange={handleInputChange}
-              />
-            </Grid>
-            <Grid item lg={2} sm={3} xs>
-              <Controls.Checkbox
-                name="is_virtual"
-                label="isvirtual"
-                value={values.is_virtual == 0 ? false : true}
-                onChange={handleInputChange}
-              />
-            </Grid>
-            <Grid item lg={2} sm={3} xs>
-              <Controls.Checkbox
-                name="is_active"
-                label="isactive"
-                value={values.is_active == 0 ? false : true}
-                onChange={handleInputChange}
-              />
-            </Grid>
           </Grid>
           <div>
             <Controls.Button type="submit" text="Submit" />
             <Controls.Button text="Reset" color="default" onClick={resetForm} />
           </div>
 
-          {/* <PopDialog
+          <PopDialog
             title="Promt message"
             description={
               router.query.id == "add"
@@ -476,7 +425,7 @@ export default function storageform({ dataList }) {
                 onClick={onCloseDialog}
               />
             </DialogActions>
-          </PopDialog> */}
+          </PopDialog>
         </Form>
       </Paper>
     </>

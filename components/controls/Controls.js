@@ -6,6 +6,8 @@ import Button from "./Button";
 import ActionButton from "./ActionButton";
 import Link from "./Link";
 import Stepper from "./Stepper";
+import DatePicker from "./DatePicker";
+
 const Controls = {
   Input,
   RadioGroup,
@@ -15,6 +17,7 @@ const Controls = {
   ActionButton,
   Link,
   Stepper,
+  DatePicker,
 };
 
 export default Controls;
