@@ -169,8 +169,8 @@ export default function storageform({ dataList }) {
         <Link color="inherit" href="/stock-receipts/">
           Stock Receipts
         </Link>
-        <Link color="inherit" href="/stock-receipts/receive-shipments/">
-          Receive Shipments
+        <Link color="inherit" href="/stock-receipts/batch-label-cancellation/">
+         Batch Label Cancellation
         </Link>
         <Typography color="textPrimary">
           {router.query.id == "add"

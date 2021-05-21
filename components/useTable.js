@@ -7,6 +7,8 @@ import {
   makeStyles,
   TablePagination,
   TableSortLabel,
+  TableContainer,
+  Paper,
 } from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
@@ -37,7 +39,11 @@ export default function useTable(records, headCells, filterFn) {
   const [orderBy, setOrderBy] = useState();
 
   const TblContainer = (props) => (
-    <Table className={classes.table}>{props.children}</Table>
+    <TableContainer component={Paper}>
+      <Table className={classes.table} size="small" aria-label="a dense table">
+        {props.children}
+      </Table>
+    </TableContainer>
   );
 
   const TblHead = (props) => {
