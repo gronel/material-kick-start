@@ -19,7 +19,7 @@ import Controls from "../../../components/controls/Controls";
 import api from "../../../Services/api";
 import { useRouter } from "next/router";
 import PopDialog from "../../../components/PopDialog";
-import style from "./style.module.css";
+
 const initialFValues = {
   id: "",
   uuid: "",
@@ -170,7 +170,7 @@ export default function storageform({ dataList }) {
           Stock Receipts
         </Link>
         <Link color="inherit" href="/stock-receipts/batch-label-cancellation/">
-         Batch Label Cancellation
+          Batch Label Cancellation
         </Link>
         <Typography color="textPrimary">
           {router.query.id == "add"
@@ -270,7 +270,7 @@ export default function storageform({ dataList }) {
                 error={errors.cv_no}
               />
             </Grid>
-            <Grid item lg={5} sm={6} xs={12}>
+            <Grid item lg={5} sm={12} xs={12}>
               <Controls.Input
                 label="Trucker No. *"
                 name="trucker"
@@ -310,7 +310,7 @@ export default function storageform({ dataList }) {
               </Grid>
             </Grid>
           </Grid>
-          <div className={style.button}>
+          <div>
             <Controls.Button type="submit" text="Submit" />
             <Controls.Button text="Reset" color="default" onClick={resetForm} />
           </div>

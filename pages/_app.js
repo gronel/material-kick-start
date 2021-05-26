@@ -37,7 +37,7 @@ export default function MyApp(props) {
         />
       </Head>
       <ThemeProvider theme={theme}>
-        {islogin ? <MainNavbar {...props} /> : <AuthLayout {...props} />}
+        {islogin ? <AuthLayout {...props} /> : <MainNavbar {...props} />}
       </ThemeProvider>
     </React.Fragment>
   );

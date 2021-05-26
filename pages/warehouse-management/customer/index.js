@@ -146,7 +146,7 @@ export default function index() {
     setRecordForEdit(item);
     setOpenPopup(true);
   };
-  const refreshListData = () => {
+  const  refreshListData = () => {
     api.instance
       .get("/wms/customer/customer-list")
 

@@ -39,6 +39,7 @@ import axios from "axios";
 import api from "../../../Services/api";
 import PopDialog from "../../../components/PopDialog";
 import DeleteIcon from "@material-ui/icons/Delete";
+import style from "./style.module.css";
 const useStyles = makeStyles((theme) => ({
   root: {
     "& .MuiFormControl-root": {
@@ -146,7 +147,7 @@ export default function index() {
   return (
     <>
       <Breadcrumbs aria-label="breadcrumb">
-        <Link color="inherit" href="/">
+        <Link className={style.link} color="inherit" href="/">
           Home
         </Link>
         <Link color="inherit" href="/stock-receipts/">

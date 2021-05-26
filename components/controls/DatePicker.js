@@ -13,31 +13,23 @@ const useStyles = makeStyles((theme) => ({
     width: 200,
   },
 }));
-export default function DatePicker(props) {
+
+export default function DatePickers(props) {
   const classes = useStyles();
   const { name, label, value, error = null, onChange, ...other } = props;
-  const convertToDefEventPara = (name, value) => ({
-    target: {
-      name,
-      value,
-    },
-  });
-
   return (
-    <div className={classes.container} noValidate>
+    <div className={classes.container}>
       <TextField
         name={name}
+        variant="outlined"
         id="date"
+        size="small"
         label={label}
         type="date"
-        value={value}
-        onChange={onChange}
-        size="small"
         className={classes.textField}
         InputLabelProps={{
           shrink: true,
         }}
-        variant="outlined"
         {...other}
         {...(error && { error: true, helperText: error })}
       />
