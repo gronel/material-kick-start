@@ -114,6 +114,7 @@ export default function storageform({ dataList }) {
 
   const { TblContainer, TblHead, TblPagination, recordsAfterPagingAndSorting } =
     useTable(listrecordData, headCells, filterFn);
+  
   const validate = (fieldValues = values) => {
     let temp = { ...errors };
     if ("warehouse_id" in fieldValues)

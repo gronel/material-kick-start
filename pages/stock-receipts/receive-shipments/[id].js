@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { classnames, DataGrid } from "@material-ui/data-grid";
-
+import ItemMasterList from "./item-masterlist";
+import Popup from "../../../components/Popup";
+import SearchItemMaster from "./search-item-masterForm";
 import {
   Typography,
   Breadcrumbs,
@@ -12,14 +14,20 @@ import {
   Hidden,
   InputAdornment,
   IconButton,
+  TableBody,
+  TableRow,
+  TableCell,
+  Button,
 } from "@material-ui/core";
+import { Search } from "@material-ui/icons";
 import PageviewIcon from "@material-ui/icons/Pageview";
+import useTable from "../../../components/useTable";
 import { useForm, Form } from "../../../components/useForm";
 import Controls from "../../../components/controls/Controls";
 import api from "../../../Services/api";
 import { useRouter } from "next/router";
 import PopDialog from "../../../components/PopDialog";
-import style from "./style.module.css";
+
 const initialFValues = {
   id: "",
   uuid: "",
@@ -46,38 +54,38 @@ const initialFValues = {
   updated_by: "",
 };
 
-const useStyles = makeStyles((theme) => ({
-  root: {
-    "& .MuiFormControl-root": {
-      width: "80%",
-      margin: theme.spacing(1),
+  const useStyles = makeStyles((theme) => ({
+    root: {
+      "& .MuiFormControl-root": {
+        width: "80%",
+        margin: theme.spacing(1),
+      },
     },
-  },
-  paper: {
-    padding: theme.spacing(2),
-    textAlign: "center",
-    color: theme.palette.text.secondary,
-  },
-  pageContent: {
-    margin: theme.spacing(5),
-    padding: theme.spacing(3),
-  },
-  formControl: {
-    margin: theme.spacing(1),
-    minWidth: 175,
-  },
-  searchInput: {
-    width: "75%",
-  },
-  selectWarehouse: {
-    width: "100%",
-    float: "right",
-  },
+    paper: {
+      padding: theme.spacing(2),
+      textAlign: "center",
+      color: theme.palette.text.secondary,
+    },
+    pageContent: {
+      margin: theme.spacing(5),
+      padding: theme.spacing(3),
+    },
+    formControl: {
+      margin: theme.spacing(1),
+      minWidth: 175,
+    },
+    searchInput: {
+      width: "75%",
+    },
+    selectWarehouse: {
+      width: "100%",
+      float: "right",
+    },
 
-  inputView: {
-    color: "red",
-  },
-}));
+    inputView: {
+      color: "red",
+    },
+  }));
 
 storageform.getInitialProps = async (ctx) => {
   const { query } = ctx;
@@ -93,9 +101,27 @@ storageform.getInitialProps = async (ctx) => {
   return { dataList: dataList };
 };
 export default function storageform({ dataList }) {
+  const [openPopup, setOpenPopup] = useState(false);
+  const [openPopupItemMaster, setOpenPopupItemMaster] = useState(false);
   const classes = useStyles();
   const router = useRouter();
   const [openDialog, setOpenDialog] = useState(false);
+  const [listrecordData, setlistRecordData] = useState([]);
+
+  const [filterFn, setFilterFn] = useState({
+    fn: (items) => {
+      return items;
+    },
+  });
+  const headCells = [
+    { id: "supplier_code", label: "Code" },
+    { id: "supplier_name", label: "Name" },
+    { id: "actions", label: "Actions", disableSorting: true },
+  ];
+
+  const { TblContainer, TblHead, TblPagination, recordsAfterPagingAndSorting } =
+    useTable(listrecordData, headCells, filterFn);
+
   const validate = (fieldValues = values) => {
     let temp = { ...errors };
     if ("warehouse_id" in fieldValues)
@@ -130,35 +156,42 @@ export default function storageform({ dataList }) {
   const handlerDialog = () => {
     setOpenDialog(true);
   };
+  async function additem() {}
+  const addOrEdit = (values, resetForm) => {};
+
+  function onSearchItemMaster() {
+     setOpenPopupItemMaster(true);
+   // alert("hellows")
+  }
+  async function onSearchSupplier() {
+    const data = await api.instance
+      .get("/wms/supplier/supplier-search")
+      .then((resp) => {
+        setlistRecordData(resp.data);
+        console.log(resp.data);
+        setOpenPopup(true);
+      })
+      .catch((err) => {
+        console.log(err.data);
+      });
+  }
   const onCloseDialog = () => {
     setOpenDialog(false);
   };
-
-  const addOrEdit = (values, resetForm) => {
-    // if (values.id == 0)
-    //   api.instance
-    //     .post("/wms/location/storage-location-store", values)
-    //     .then((resp) => {
-    //       console.log(resp.data);
-    //     })
-    //     .catch((err) => {
-    //       console.log(err);
-    //     });
-    // else {
-    //   api.instance
-    //     .put("/wms/location/storage-location-update/" + values.id, values)
-    //     .then((resp) => {
-    //       console.log(resp.data);
-    //       router.push("/warehouse-management/storage-location/", null, {
-    //         shallow: true,
-    //       });
-    //     })
-    //     .catch((err) => {
-    //       console.log(err);
-    //     });
-    // }
+  const handleSearch = (e) => {
+    let target = e.target;
+    setFilterFn({
+      fn: (items) => {
+        if (target.value == "") return items;
+        else
+          return items.filter(
+            (x) =>
+              x.supplier_code.toLowerCase().includes(target.value) ||
+              x.supplier_name.toLowerCase().includes(target.value)
+          );
+      },
+    });
   };
-
   useEffect(() => {}, []);
   return (
     <>
@@ -212,10 +245,19 @@ export default function storageform({ dataList }) {
                 onChange={handleInputChange}
               />
               <Controls.Input
+                id="standard-adornment-weight"
                 label="Supplier"
-                name="trace_code"
-                value={values.trace_code}
+                name="order_no"
                 onChange={handleInputChange}
+                InputProps={{
+                  endAdornment: (
+                    <InputAdornment position="end">
+                      <IconButton onClick={onSearchSupplier}>
+                        <Search />
+                      </IconButton>
+                    </InputAdornment>
+                  ),
+                }}
               />
               <Controls.Input
                 label="Remarks"
@@ -310,11 +352,74 @@ export default function storageform({ dataList }) {
               </Grid>
             </Grid>
           </Grid>
-          <div className={style.button}>
+          <ItemMasterList onSearch={onSearchItemMaster} />
+          <div>
             <Controls.Button type="submit" text="Submit" />
             <Controls.Button text="Reset" color="default" onClick={resetForm} />
           </div>
+          {/* modal supplier */}
+          <Popup
+            title="Search Supplier"
+            openPopup={openPopup}
+            setOpenPopup={setOpenPopup}
+          >
+            <Controls.Input
+              label="Search"
+              className={classes.searchInput}
+              InputProps={{
+                startAdornment: (
+                  <InputAdornment position="start">
+                    <Search />
+                  </InputAdornment>
+                ),
+              }}
+              onChange={handleSearch}
+            />
+            <TblContainer>
+              <TblHead />
+              <TableBody>
+                {recordsAfterPagingAndSorting().map((item) => (
+                  <TableRow key={item.id}>
+                    <TableCell>{item.supplier_name}</TableCell>
+                    <TableCell>{item.supplier_code}</TableCell>
 
+                    <TableCell>
+                      <Controls.Checkbox
+                        name="supplierid"
+                        label=""
+                        value={values.supplierid}
+                        onChange={handleInputChange}
+                      />
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </TblContainer>
+            <TblPagination />
+
+            <DialogActions>
+              <Button onClick={additem} color="primary" autoFocus>
+                Ok
+              </Button>
+            </DialogActions>
+          </Popup>
+          {/* end modal supplier */}
+
+          {/* modal item master */}
+          <Popup
+            title="Search Item Master"
+            openPopup={openPopupItemMaster}
+            setOpenPopup={setOpenPopupItemMaster}
+          >
+            <SearchItemMaster />
+
+            <DialogActions>
+              <Button onClick={additem} color="primary" autoFocus>
+                Ok
+              </Button>
+            </DialogActions>
+          </Popup>
+          {/* end modal item master */}
           <PopDialog
             title="Promt message"
             description={
