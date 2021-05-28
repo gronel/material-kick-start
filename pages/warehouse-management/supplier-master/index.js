@@ -186,6 +186,7 @@ export default function index() {
           />
         </Toolbar>
       </div>
+
       <Paper className={classes.pageContent}>
         <Controls.Input
           label="Search"
@@ -199,8 +200,6 @@ export default function index() {
           }}
           onChange={handleSearch}
         />
-      </Paper>
-      <Paper className={classes.pageContent}>
         <TblContainer>
           <TblHead />
           <TableBody>

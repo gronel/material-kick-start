@@ -1,28 +1,36 @@
 import axios from "axios";
 
 const baseURL = "http://codesafe.org/api"; //local development
-const accessToken = "7|C0wTL0TOja8S0X6VkgPwPm12MrlXNn52PRMkT8qV";
+const accessToken = "11|pW7M5hGHPyVAOFPwmgGe5F7rrJCSrTRzfM0iUozn";
 
 const instance = axios.create({
   baseURL: baseURL,
   headers: {
+    // "Content-Type": "application/json",
     Accept: "application/json",
-   
+    // Authorization: "Bearer <token_here>",
   },
 });
 
-instance.interceptors.request.use(
-  async (config) => {
-      const userToken = await localStorage.getItem("token");
+instance.interceptors.request.use(function (config) {
+  const userToken = localStorage.getItem("token");
+  //config.headers.Authorization = userToken;
 
-    if (userToken != null) {
-      config.headers.token = userToken;
-    }
+  return config;
+});
+// instance.interceptors.request.use(
+//   async (config) => {
+//     const userToken = await localStorage.getItem("token");
 
-    return config;
-  },
-  (error) => Promise.reject(error)
-);
+//     if (userToken != null) {
+//       config.headers.token = userToken;
+
+//     }
+
+//     return config;
+//   },
+//   (error) => Promise.reject(error)
+// );
 
 function httpMsg(obj, statuscode, msg) {
   if (statuscode === 401) {

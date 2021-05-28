@@ -15,7 +15,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import IconButton from "@material-ui/core/IconButton";
 import api from "../Services/api";
 import axios from "axios";
-
+import { useRouter } from "next/router";
 function Copyright() {
   return (
     <Typography variant="body2" color="textSecondary" align="center">
@@ -63,13 +63,22 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function SignInSide() {
+  const router = useRouter();
   const classes = useStyles();
 
   const [form, setForm] = useState({
     email: "",
     password: "",
   });
-
+  function isLoggin() {
+    const token = window.sessionStorage.getItem("token");
+    if (token == null) {
+      //setLogin(false);
+    } else {
+      //setLogin(true);
+      router.push("./");
+    }
+  }
   const login = () => {
     axios
       .post(api.baseURL + "/login", form)
@@ -82,6 +91,9 @@ export default function SignInSide() {
         console.log(err.data);
       });
   };
+  useEffect(() => {
+    isLoggin();
+  }, []);
   return (
     <Grid container component="main" className={classes.root}>
       <CssBaseline />

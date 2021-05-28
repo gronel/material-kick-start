@@ -184,20 +184,19 @@ export default function index() {
           />
         </Toolbar>
       </div>
-      <Paper className={classes.pageContent}>
-        <Controls.Input
-          label="Search"
-          className={classes.searchInput}
-          InputProps={{
-            startAdornment: (
-              <InputAdornment position="start">
-                <Search />
-              </InputAdornment>
-            ),
-          }}
-          onChange={handleSearch}
-        />
-      </Paper>
+    
+      <Controls.Input
+        label="Search"
+        className={classes.searchInput}
+        InputProps={{
+          startAdornment: (
+            <InputAdornment position="start">
+              <Search />
+            </InputAdornment>
+          ),
+        }}
+        onChange={handleSearch}
+      />
       <Paper className={classes.pageContent}>
         <TblContainer>
           <TblHead />

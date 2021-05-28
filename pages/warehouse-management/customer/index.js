@@ -146,9 +146,15 @@ export default function index() {
     setRecordForEdit(item);
     setOpenPopup(true);
   };
-  const  refreshListData = () => {
+  const refreshListData = () => {
+    const utoken = localStorage.getItem("token");
     api.instance
-      .get("/wms/customer/customer-list")
+      .get("/wms/customer/customer-list", {
+        headers: {
+          Authorization: `Bearer ${utoken}`,
+          Accept: "application/json",
+        },
+      })
 
       .then((resp) => {
         setlistRecordData(resp.data);
@@ -186,6 +192,7 @@ export default function index() {
           />
         </Toolbar>
       </div>
+     
       <Paper className={classes.pageContent}>
         <Controls.Input
           label="Search"
@@ -199,8 +206,6 @@ export default function index() {
           }}
           onChange={handleSearch}
         />
-      </Paper>
-      <Paper className={classes.pageContent}>
         <TblContainer>
           <TblHead />
           <TableBody>

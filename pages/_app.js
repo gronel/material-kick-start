@@ -6,7 +6,9 @@ import CssBaseline from "@material-ui/core/CssBaseline";
 import theme from "../src/theme";
 import MainNavbar from "../components/MainNavbar";
 import AuthLayout from "../components/AuthLayout";
+import { useRouter } from "next/router";
 export default function MyApp(props) {
+  const router = useRouter();
   const [islogin, setLogin] = useState(false);
   React.useEffect(() => {
     // Remove the server-side injected CSS.
@@ -19,7 +21,8 @@ export default function MyApp(props) {
   function isLoggin() {
     const token = window.localStorage.getItem("token");
     if (token == null) {
-      setLogin(false);
+      //setLogin(false);
+      router.push("./login");
     } else {
       setLogin(true);
     }
@@ -37,7 +40,7 @@ export default function MyApp(props) {
         />
       </Head>
       <ThemeProvider theme={theme}>
-        {islogin ? <AuthLayout {...props} /> : <MainNavbar {...props} />}
+        {islogin ? <MainNavbar {...props} /> : <AuthLayout {...props} />}
       </ThemeProvider>
     </React.Fragment>
   );
