@@ -6,6 +6,11 @@ import Typography from "@material-ui/core/Typography";
 import Breadcrumbs from "@material-ui/core/Breadcrumbs";
 import Link from "@material-ui/core/Link";
 import Image from "next/image";
+import FolderSharedIcon from "@material-ui/icons/FolderShared";
+import LandscapeRoundedIcon from "@material-ui/icons/LandscapeRounded";
+import HomeWorkRoundedIcon from "@material-ui/icons/HomeWorkRounded";
+import LocalShippingRoundedIcon from "@material-ui/icons/LocalShippingRounded";
+import SquareFootRoundedIcon from "@material-ui/icons/SquareFootRounded";
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
@@ -24,7 +29,10 @@ const useStyles = makeStyles((theme) => ({
     bottom: 0,
     left: 0,
   },
-
+  fonticon: {
+    fontSize: 50,
+    color: theme.palette.text.primary,
+  },
   control: {
     padding: theme.spacing(2),
   },
@@ -46,12 +54,7 @@ export default function index() {
           <Grid item>
             <Link color="inherit" href="/warehouse-management/customer/">
               <Paper className={classes.paper}>
-                <Image
-                  src="/images/icons8-customer-50.png"
-                  alt="me"
-                  width="50"
-                  height="50"
-                />
+                <FolderSharedIcon className={classes.fonticon} />
                 Customer Master
               </Paper>
             </Link>
@@ -73,45 +76,47 @@ export default function index() {
           <Grid item>
             <Link color="inherit" href="/warehouse-management/trucker-master/">
               <Paper className={classes.paper}>
-                <Image
-                  src="/images/icons8-van-50.png"
-                  alt="me"
-                  width="50"
-                  height="50"
-                />{" "}
+                <LocalShippingRoundedIcon className={classes.fonticon} />
                 Trucker Master
               </Paper>
             </Link>
           </Grid>
           <Grid item>
-            <Link color="inherit" href="/warehouse-management/unit-of-measures/">
+            <Link
+              color="inherit"
+              href="/warehouse-management/unit-of-measures/"
+            >
               <Paper className={classes.paper}>
-                <Image
-                  src="/images/icons8-tape-measure-50.png"
-                  alt="me"
-                  width="50"
-                  height="50"
-                />{" "}
+                <SquareFootRoundedIcon className={classes.fonticon} />
+                {" "}
                 Unit of Measures
               </Paper>
             </Link>
           </Grid>
           <Grid item>
-            <Link color="inherit" href="/warehouse-management/warehouse-location/">
+            <Link
+              color="inherit"
+              href="/warehouse-management/warehouse-location/"
+            >
               <Paper className={classes.paper}>
-                {" "}
-                <Image
-                  src="/images/icons8-warehouse-50.png"
-                  alt="me"
-                  width="50"
-                  height="50"
-                />
+                <HomeWorkRoundedIcon className={classes.fonticon} />
                 Warehouse Location
               </Paper>
             </Link>
           </Grid>
           <Grid item>
-            <Link color="inherit" href="/warehouse-management/storage-location/">
+            <Link color="inherit" href="/warehouse-management/area/">
+              <Paper className={classes.paper}>
+                <LandscapeRoundedIcon className={classes.fonticon} />
+                Area
+              </Paper>
+            </Link>
+          </Grid>
+          <Grid item>
+            <Link
+              color="inherit"
+              href="/warehouse-management/storage-location/"
+            >
               <Paper className={classes.paper}>
                 {" "}
                 <Image

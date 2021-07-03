@@ -1,42 +1,165 @@
-import * as React from 'react';
-import { DataGrid } from '@material-ui/data-grid';
-import Typography from '@material-ui/core/Typography';
-import Breadcrumbs from '@material-ui/core/Breadcrumbs';
-import Link from '@material-ui/core/Link';
-const columns = [
-  { field: 'id', headerName: 'ID', width: 70 },
-  { field: 'firstName', headerName: 'First name', width: 130 },
-  { field: 'lastName', headerName: 'Last name', width: 130 },
-  {
-    field: 'age',
-    headerName: 'Age',
-    type: 'number',
-    width: 90,
-  },
-  {
-    field: 'fullName',
-    headerName: 'Full name',
-    description: 'This column has a value getter and is not sortable.',
-    sortable: false,
-    width: 160,
-    valueGetter: (params) =>
-      `${params.getValue('firstName') || ''} ${params.getValue('lastName') || ''}`,
-  },
-];
+import React, { useState, useEffect } from "react";
 
-const rows = [
-  { id: 1, lastName: 'Snow', firstName: 'Jon', age: 35 },
-  { id: 2, lastName: 'Lannister', firstName: 'Cersei', age: 42 },
-  { id: 3, lastName: 'Lannister', firstName: 'Jaime', age: 45 },
-  { id: 4, lastName: 'Stark', firstName: 'Arya', age: 16 },
-  { id: 5, lastName: 'Targaryen', firstName: 'Daenerys', age: null },
-  { id: 6, lastName: 'Melisandre', firstName: null, age: 150 },
-  { id: 7, lastName: 'Clifford', firstName: 'Ferrara', age: 44 },
-  { id: 8, lastName: 'Frances', firstName: 'Rossini', age: 36 },
-  { id: 9, lastName: 'Roxie', firstName: 'Harvey', age: 65 },
-];
+import {
+  Typography,
+  Breadcrumbs,
+  Link,
+  Paper,
+  makeStyles,
+  TableBody,
+  TableRow,
+  TableCell,
+  Toolbar,
+  InputAdornment,
+  Button,
+  TextField,
+  Grid,
+  Checkbox,
+  ListItemText,
+  DialogActions,
+} from "@material-ui/core";
+
+import Popup from "../../../components/Popup";
+import PageHeader from "../../../components/PageHeader";
+import InsertEmoticonOutlined from "@material-ui/icons";
+import PeopleAltTwoTone from "@material-ui/icons/PeopleAltTwoTone";
+import EditOutlinedIcon from "@material-ui/icons/EditOutlined";
+import CloseIcon from "@material-ui/icons/Close";
+import Controls from "../../../components/controls/Controls";
+import useTable from "../../../components/useTable";
+import { Search } from "@material-ui/icons";
+import CheckCircleIcon from "@material-ui/icons/CheckCircle";
+import RadioButtonUncheckedRoundedIcon from "@material-ui/icons/RadioButtonUncheckedRounded";
+import AddIcon from "@material-ui/icons/Add";
+import axios from "axios";
+import api from "../../../Services/api";
+import PopDialog from "../../../components/PopDialog";
+import TruckerMasterForm from "./TruckerMasterForm";
+import DeleteIcon from "@material-ui/icons/Delete";
+const useStyles = makeStyles((theme) => ({
+  root: {
+    "& .MuiFormControl-root": {
+      width: "80%",
+      margin: theme.spacing(1),
+    },
+  },
+  pageContent: {
+    margin: theme.spacing(5),
+    padding: theme.spacing(2),
+  },
+  searchInput: {
+    width: "50%",
+    height: 40,
+  },
+
+  newButton: {
+    position: "absolute",
+    right: "35px",
+  },
+}));
 
 export default function index() {
+  const classes = useStyles();
+  const [recordForEdit, setRecordForEdit] = useState(null);
+  const [recordForRemove, setRecordForRemove] = useState(null);
+  const [listrecordData, setlistRecordData] = useState([]);
+  const [filterFn, setFilterFn] = useState({
+    fn: (items) => {
+      return items;
+    },
+  });
+  const [openDialog, setOpenDialog] = useState(false);
+  const [openPopup, setOpenPopup] = useState(false);
+  const [captionDialog, setCaptionDialog] = useState("");
+  const headCells = [
+    { id: "trucker_code", label: "Supplier Code" },
+    { id: "trucker_name", label: "Supplier Name" },
+    { id: "trucker_category", label: "Supplier Catergory" },
+    { id: "status", label: "Status", disableSorting: true },
+    { id: "actions", label: "Actions", disableSorting: true },
+  ];
+
+  const { TblContainer, TblHead, TblPagination, recordsAfterPagingAndSorting } =
+    useTable(listrecordData, headCells, filterFn);
+
+  const DelopenHandlerDialog = (item) => {
+    setRecordForRemove(item);
+    setCaptionDialog(item.trucker_code);
+    setOpenDialog(true);
+  };
+  const removeItem = () => {
+    api.instance
+      .delete("/wms/trucker/trucker-master-destroy/" + recordForRemove.id)
+      .then((resp) => {
+        console.log(resp.data);
+        refreshListData();
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+    setOpenDialog(false);
+  };
+  const handleSearch = (e) => {
+    let target = e.target;
+    setFilterFn({
+      fn: (items) => {
+        if (target.value == "") return items;
+        else
+          return items.filter(
+            (x) =>
+              x.trucker_code.toLowerCase().includes(target.value) ||
+              x.trucker_name.toLowerCase().includes(target.value) ||
+              x.trucker_category.toLowerCase().includes(target.value)
+          );
+      },
+    });
+  };
+  const onSubmit = (values, resetForm) => {
+    if (values.id == 0)
+      api.instance
+        .post("/wms/trucker/trucker-master-store", values)
+        .then((resp) => {
+          console.log(resp.data);
+          refreshListData();
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    else {
+      api.instance
+        .put("/wms/trucker/trucker-master-update/" + values.id, values)
+        .then((resp) => {
+          console.log(resp.data);
+          refreshListData();
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
+    resetForm();
+    setRecordForEdit(null);
+    setOpenPopup(false);
+  };
+
+  const openInPopup = (item) => {
+    setRecordForEdit(item);
+    setOpenPopup(true);
+  };
+  const refreshListData = () => {
+    api.instance
+      .get("/wms/trucker/trucker-master-list")
+
+      .then((resp) => {
+        setlistRecordData(resp.data);
+        console.log(resp.data);
+      })
+      .catch((err) => {
+        console.log(err.data);
+      });
+  };
+  useEffect(() => {
+    refreshListData();
+  }, []);
   return (
     <>
       <Breadcrumbs aria-label="breadcrumb">
@@ -46,16 +169,98 @@ export default function index() {
         <Link color="inherit" href="/warehouse-management/">
           Warehouse Management
         </Link>
-        <Typography color="textPrimary"> Trucker Master</Typography>
+        <Typography color="textPrimary">Trucker Master</Typography>
       </Breadcrumbs>
-      <div style={{ height: 400, width: "100%" }}>
-        <DataGrid
-          rows={rows}
-          columns={columns}
-          pageSize={5}
-          checkboxSelection
-        />
+      <div>
+        <Toolbar>
+          <Controls.Button
+            text="Add New"
+            startIcon={<AddIcon />}
+            className={classes.newButton}
+            onClick={() => {
+              setOpenPopup(true);
+              setRecordForEdit(null);
+            }}
+          />
+        </Toolbar>
       </div>
+
+      <Paper className={classes.pageContent}>
+        <Controls.Input
+          label="Search"
+          className={classes.searchInput}
+          InputProps={{
+            startAdornment: (
+              <InputAdornment position="start">
+                <Search />
+              </InputAdornment>
+            ),
+          }}
+          onChange={handleSearch}
+        />
+        <TblContainer>
+          <TblHead />
+          <TableBody>
+            {recordsAfterPagingAndSorting().map((item) => (
+              <TableRow key={item.id}>
+                <TableCell>{item.trucker_code}</TableCell>
+                <TableCell>{item.trucker_name}</TableCell>
+                <TableCell>{item.trucker_category}</TableCell>
+
+                <TableCell>
+                  {item.status == 1 ? (
+                    <CheckCircleIcon />
+                  ) : (
+                    <RadioButtonUncheckedRoundedIcon />
+                  )}
+                </TableCell>
+
+                <TableCell>
+                  <Controls.ActionButton
+                    color="primary"
+                    onClick={() => {
+                      openInPopup(item);
+                    }}
+                  >
+                    <EditOutlinedIcon fontSize="small" />
+                  </Controls.ActionButton>
+                  <Controls.ActionButton
+                    color="secondary"
+                    onClick={() => {
+                      DelopenHandlerDialog(item);
+                    }}
+                  >
+                    <DeleteIcon fontSize="small" />
+                  </Controls.ActionButton>
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </TblContainer>
+        <TblPagination />
+      </Paper>
+      <PopDialog
+        title="Delete Trucker"
+        description={
+          "Are you sure do want to delete Trucker code " + captionDialog
+        }
+        openDialog={openDialog}
+        setOpenDialog={setOpenDialog}
+      >
+        <DialogActions>
+          <Button onClick={removeItem} color="primary" autoFocus>
+            Agree
+          </Button>
+        </DialogActions>
+      </PopDialog>
+
+      <Popup
+        title="Trucker Master Form"
+        openPopup={openPopup}
+        setOpenPopup={setOpenPopup}
+      >
+        <TruckerMasterForm recordForEdit={recordForEdit} addOrEdit={onSubmit} />
+      </Popup>
     </>
   );
 }
