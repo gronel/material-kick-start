@@ -54,7 +54,7 @@ const useStyles = makeStyles((theme) => ({
 
   newButton: {
     position: "absolute",
-    right: "35px",
+    right: "36px",
   },
 }));
 export default function index() {
@@ -192,7 +192,7 @@ export default function index() {
           />
         </Toolbar>
       </div>
-     
+
       <Paper className={classes.pageContent}>
         <Controls.Input
           label="Search"
